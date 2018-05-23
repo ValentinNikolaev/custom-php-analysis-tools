@@ -15,16 +15,25 @@ A curated list of static analysis tools for PHP. Without not-popular or old tool
 
 ### Editors' Choice
 
-* [Phan](https://github.com/etsy/phan) - The static analyzer by Rasmus, PHP Creator.
-* [PHP SA](https://github.com/ovr/phpsa) - A development tool aimed at bringing complex analysis for PHP applications and libraries.
+##### Bugs finders
 
-* [PHPCodeFixer](https://github.com/wapmorgan/PhpCodeFixer) -  Finds usage of deprecated functions, variables and ini directives.
+* [Psalm](https://getpsalm.org/) - Vimeo анализатор кода. Ошибки,phpdoc. Выглядит весьма прилично
+* [Phan](https://github.com/etsy/phan) - The static analyzer by Rasmus, PHP Creator. Анализирует разные штуки, в т.ч. аннотации. Не понимает переопределение аннотаций родительских классов в дочерних. Сильный проект.
+* [PHP SA](https://github.com/ovr/phpsa) - A development tool aimed at bringing complex analysis for PHP applications and libraries. Проверяет синтаксические ошибки, phpdoc, алиасы, пропущенные свойства
+и т.д. Не работает с php-parser 4ой версии.     
+* [PHP Stan](https://github.com/phpstan/phpstan) - Focuses on finding errors in code without actually running it.
+* [PHPCodeFixer](https://github.com/wapmorgan/PhpCodeFixer) -  Finds usage of deprecated functions, variables and ini directives. Использовать при переезде на новую версию PHP
 * [PHPCPD](https://github.com/sebastianbergmann/phpcpd) - Spots copy/pasted code, and help enforcing DRY rule.
-* [PHP Magic Number Detector](https://github.com/povils/phpmnd) - PHP Magic Number Detector
-* [PHP Mess Detector](http://phpmd.org/) - Look for several potential problems within source code.
+* [PHP Magic Number Detector](https://github.com/povils/phpmnd) - Ищет куски кода, где вместо констант с числами используются числа.
+* [PHP Mess Detector](http://phpmd.org/) - Находит проблемы с Cyclomatic и NPath complexity, дает рекомендации по улучшению кода
 
+### Coding standards
+* [PHP Code Sniffer](https://github.com/squizlabs/PHP_CodeSniffer) - PHPCS checks the code for a large range of coding standard.
+ [EasyCodingStandard](https://github.com/Symplify/EasyCodingStandard) - An easy to use tool, that allows to use CodeSniffer and PHP-CS-Fixer in simple way.
 
-### Bugs finders
+### Whole list
+
+##### Bugs finders
 
 Tools to report issues in code that are or lead to bugs.
 
@@ -45,21 +54,9 @@ Tools to report issues in code that are or lead to bugs.
 * [PHP Mess Detector](http://phpmd.org/) - Look for several potential problems within source code.
 * [PHP SA](https://github.com/ovr/phpsa) - A development tool aimed at bringing complex analysis for PHP applications and libraries.
 * [PHP Stan](https://github.com/phpstan/phpstan) - Focuses on finding errors in code without actually running it.
-* [PHP testability](https://github.com/edsonmedina/php_testability) - Analyses and produces a report with testability issues of a php codebase.
-
---> start from here <--
-
-* [PHP vuln hunter](https://github.com/OneSourceCat/phpvulhunter) - Scan PHP vulnerabilities automatically using static analysis methods.
-* [Progpilot](https://github.com/designsecurity/progpilot) - A static analysis tool for security purposes.
-* [Psalm](https://getpsalm.org/) - A static analysis tool for finding errors in PHP applications.
-* [psecio:parse](https://github.com/psecio/parse.git) - Parse : A PHP Security Scanner.
+* [PHP testability](https://github.com/edsonmedina/php_testability) - Analyses and produces a report with testability issues of a php codebase. 
+* [psecio:parse](https://github.com/psecio/parse.git) - Parse : A PHP Security Scanner. Не работает с php-parser 4ой версии.  
 * [SonarQube](http://www.sonarqube.org/) - An open platform to manage code quality. It covers PHP code.
-* [Side Channel Analyzer](https://github.com/olivo/side-channel-analyzer) - Search for side-channel vulnerable code.
-* [TaintPHP](https://github.com/olivo/TaintPHP.git) - Static Taint Analyzer.
-* [Taint'em All](http://taint.spro.ink/) - A taint analysis tool for the PHP language, it makes use of Static Taint Analysis + Symbolic Execution.
-* [Tuli](https://github.com/ircmaxell/Tuli) - A static analysis engine.
-* [17eyes](https://github.com/17eyes/17eyes) - PHP static analyzer written in Haskell.
-* [WAP](https://www.owasp.org/index.php/OWASP_WAP-Web_Application_Protection) - Tool to detect and correct input validation vulnerabilities in PHP (4.0 or higher) web applications and predicts false positives. 
 
 ### Coding standards
 
@@ -67,9 +64,8 @@ Tools to review the way PHP code was written and more.
 
 * [PHP Code Sniffer](https://github.com/squizlabs/PHP_CodeSniffer) - PHPCS checks the code for a large range of coding standard.
 * [EasyCodingStandard](https://github.com/Symplify/EasyCodingStandard) - An easy to use tool, that allows to use CodeSniffer and PHP-CS-Fixer in simple way.
-* [PHPCheckstyle](https://github.com/PHPCheckstyle/phpcheckstyle) - A tool to help adhere to certain coding conventions.
 * [PHP formatter](https://github.com/mmoreram/php-formatter) - This PHP formatter aims to provide you some bulk actions for you PHP projects to ensure their consistency.
-* [Pahout](https://github.com/wata727/pahout) - A pair programming partner for writing better PHP.
+* [Pahout](https://github.com/wata727/pahout) - A pair programming partner for writing better PHP. PHP 7.1+ php-ast v0.1.4+
 
 ### DIY
 
