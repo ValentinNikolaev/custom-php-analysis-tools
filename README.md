@@ -1,6 +1,8 @@
-# Static analysis tools for PHP, based on https://github.com/exakat/php-static-analysis-tools
+# Static analysis tools for PHP
 
-A curated list of static analysis tools for PHP. Without not-popular or old tools.
+Based on https://github.com/exakat/php-static-analysis-tools
+
+A list of static analysis tools for PHP. Without not-popular or old tools.
 
 ## Table of Contents
 
