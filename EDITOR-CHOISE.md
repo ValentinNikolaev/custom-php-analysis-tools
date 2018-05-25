@@ -15,6 +15,7 @@ A list of static analysis tools for PHP. Without not-popular or old tools.
 * [PHPCPD](https://github.com/sebastianbergmann/phpcpd) - Spots copy/pasted code, and help enforcing DRY rule.
 * [PHP Magic Number Detector](https://github.com/povils/phpmnd) - Ищет куски кода, где вместо констант с числами используются числа.
 * [PHP Mess Detector](http://phpmd.org/) - Находит проблемы с Cyclomatic и NPath complexity, дает рекомендации по улучшению кода
+* [PHP Inspection](https://plugins.jetbrains.com/plugin/7622?pr=idea) - Static analysis plugin for PHPStorm.
 
 ## Coding standards
 * [PHP Code Sniffer](https://github.com/squizlabs/PHP_CodeSniffer) - PHPCS checks the code for a large range of coding standard.
