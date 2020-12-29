@@ -1,3 +1,6 @@
+![GitHub last commit](https://img.shields.io/github/last-commit/ValentinNikolaev/custom-php-analysis-tools)
+![visitors](https://visitor-badge.laobi.icu/badge?page_id=ValentinNikolaev.custom-php-analysis-tools)
+
 # Static analysis tools for PHP
 
 Based on https://github.com/exakat/php-static-analysis-tools
