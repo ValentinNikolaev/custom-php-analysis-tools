@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from datetime import datetime, timezone
+
 from catalog_lib import CATEGORY_ORDER, ROOT, category_rank, load_catalog, read_editor_choice_slugs
 
 
@@ -15,8 +17,28 @@ def stars_value(tool: dict) -> int:
     return int(tool.get("stars") or 0)
 
 
-def sorted_by_stars(tools: list[dict]) -> list[dict]:
-    return sorted(tools, key=lambda item: (-stars_value(item), item.get("name", "").lower()))
+def parse_date(value: str | None) -> datetime | None:
+    if not value:
+        return None
+    return datetime.fromisoformat(value.replace("Z", "+00:00"))
+
+
+def lifecycle(tool: dict) -> tuple[int, str]:
+    updated = parse_date(tool.get("repo_updated_at"))
+    if not updated:
+        return (4, "![Unknown](https://img.shields.io/badge/status-unknown-lightgrey)")
+    days = max((datetime.now(timezone.utc) - updated).days, 0)
+    if days >= 365:
+        return (3, "![Dead](https://img.shields.io/badge/status-dead-red)")
+    if days >= 183:
+        return (2, "![Almost dead](https://img.shields.io/badge/status-almost_dead-orange)")
+    if days >= 90:
+        return (1, "![Dying](https://img.shields.io/badge/status-dying-yellow)")
+    return (0, "![Alive](https://img.shields.io/badge/status-alive-brightgreen)")
+
+
+def sorted_for_table(tools: list[dict]) -> list[dict]:
+    return sorted(tools, key=lambda item: (lifecycle(item)[0], -stars_value(item), item.get("name", "").lower()))
 
 
 def tool_line(tool: dict, include_stats: bool = True) -> str:
@@ -42,6 +64,7 @@ def tool_row(tool: dict) -> str:
     name = f"[{md_escape(tool['name'])}]({link_for(tool)})"
     description = md_escape(tool.get("description") or "No description available.")
     stars = f"{stars_value(tool):,}" if stars_value(tool) else "-"
+    status = lifecycle(tool)[1]
     updated = (tool.get("repo_updated_at") or "")[:10] or "-"
     latest = md_escape(tool.get("latest_version") or "-")
     links = []
@@ -51,7 +74,7 @@ def tool_row(tool: dict) -> str:
         links.append(f"[Packagist]({tool['packagist']})")
     if tool.get("website_status") == "unavailable":
         links.append("Site unavailable")
-    return f"| {name} | {description} | {stars} | {updated} | {latest} | {'<br>'.join(links) or '-'} |"
+    return f"| {name} | {description} | {status} | {stars} | {updated} | {latest} | {'<br>'.join(links) or '-'} |"
 
 
 def section(title: str, tools: list[dict], level: int = 5) -> str:
@@ -59,10 +82,11 @@ def section(title: str, tools: list[dict], level: int = 5) -> str:
     lines.extend(
         [
             "| Tool | Description | Stars | Updated | Latest | Links |",
-            "|---|---|---:|---|---|---|",
+            "|---|---|---|---:|---|---|---|",
         ]
     )
-    lines.extend(tool_row(tool) for tool in sorted_by_stars(tools))
+    lines[-2] = "| Tool | Description | Status | ⭐ Stars | Updated | Latest | Links |"
+    lines.extend(tool_row(tool) for tool in sorted_for_table(tools))
     lines.append("")
     return "\n".join(lines)
 
