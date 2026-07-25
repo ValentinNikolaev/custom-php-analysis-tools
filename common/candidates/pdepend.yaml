@@ -1,0 +1,16 @@
+slug: "pdepend"
+name: "pdepend"
+category: "Bugs finders"
+description: "PHP_Depend is an adaptation of the established Java development tool JDepend. This tool shows you the quality of your design in terms of extensibility, reusability and maintainability."
+website: "https://pdepend.org/"
+repository: "https://github.com/pdepend/pdepend"
+packagist: null
+stars: 958
+repo_updated_at: "2026-07-13T00:53:36Z"
+metadata_updated_at: "2026-07-25T18:31:41Z"
+editor_choice: false
+quality_tags:
+  - "code-quality"
+  - "php"
+source: "github-search"
+notes: "Review category and description before promoting."
