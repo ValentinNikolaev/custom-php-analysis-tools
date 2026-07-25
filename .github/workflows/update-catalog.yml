@@ -49,13 +49,15 @@ jobs:
             echo "--- ${file}"
             sed -n '1,12p' "${file}"
           done
-      - name: Commit changes
+      - name: Commit as Valentin
         run: |
           if [ -n "$(git status --porcelain)" ]; then
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add README.md EDITOR-CHOISE.md common scripts .github .codex .gitignore
-            git commit -m "Update PHP analysis catalog"
+            git config user.name "Valentin Nikolaev"
+            git config user.email "435393+ValentinNikolaev@users.noreply.github.com"
+
+            git add .
+            git diff --cached --quiet && exit 0
+            git commit -m "chore: update generated files"
             git push
           else
             echo "No catalog changes"
