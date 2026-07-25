@@ -16,16 +16,43 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Refresh catalog
+      - name: Show catalog baseline
+        run: |
+          echo "Catalog entries:"
+          find common/catalog -name '*.yaml' | sort | wc -l
+          echo "Existing discovery candidates:"
+          find common/candidates -name '*.yaml' 2>/dev/null | sort || true
+      - name: Refresh repository and package metadata
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: python scripts/full_workflow.py
+        run: python scripts/update_catalog.py
+      - name: Discover candidate tools
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python scripts/discover_tools.py --write --limit 10
+      - name: Generate editor choice
+        run: python scripts/generate_editor_choice.py
+      - name: Generate README
+        run: python scripts/generate_readme.py
+      - name: Show generated change summary
+        run: |
+          echo "Changed files:"
+          git status --short
+          echo ""
+          echo "Diff summary:"
+          git diff --stat
+          echo ""
+          echo "Discovery candidates:"
+          find common/candidates -maxdepth 1 -name '*.yaml' -print | sort | while read file; do
+            echo "--- ${file}"
+            sed -n '1,12p' "${file}"
+          done
       - name: Commit changes
         run: |
           if [ -n "$(git status --porcelain)" ]; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add README.md EDITOR-CHOISE.md common scripts .github
+            git add README.md EDITOR-CHOISE.md common scripts .github .codex .gitignore
             git commit -m "Update PHP analysis catalog"
             git push
           else

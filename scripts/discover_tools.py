@@ -32,22 +32,33 @@ def main() -> None:
     known.discard(None)
     token = cli_token()
     candidates = []
+    skipped_known = 0
     for query in QUERIES:
+        print(f"Searching GitHub: {query}")
         url = "https://api.github.com/search/repositories?q=" + query.replace(" ", "+") + "&sort=stars&order=desc&per_page=10"
         search = http_json(url, token=token)
+        print(f"  GitHub reported {search.get('total_count', 0)} matches; inspecting top {len(search.get('items', []))}")
         for repo in search.get("items", []):
             repo_key = repo.get("full_name")
             if repo_key in known:
+                skipped_known += 1
+                print(f"  known: {repo_key}")
                 continue
             candidates.append(repo)
             known.add(repo_key)
+            print(
+                "  found: "
+                f"{repo_key} | stars={repo.get('stargazers_count') or 0} | "
+                f"updated={repo.get('pushed_at') or repo.get('updated_at')} | "
+                f"topics={','.join(repo.get('topics') or [])}"
+            )
             if len(candidates) >= args.limit:
                 break
         if len(candidates) >= args.limit:
             break
 
     if not candidates:
-        print("No new candidates found")
+        print(f"No new candidates found; skipped {skipped_known} already-known repositories")
         return
 
     output_dir = ROOT / "common" / ("catalog" if args.promote else "candidates")
@@ -73,7 +84,11 @@ def main() -> None:
             from catalog_lib import dump_yaml
 
             (output_dir / f"{tool['slug']}.yaml").write_text(dump_yaml(tool), encoding="utf-8")
-        print(f"{'wrote' if args.write or args.promote else 'candidate'}: {tool['name']} - {tool['repository']}")
+        print(
+            f"{'wrote' if args.write or args.promote else 'candidate'}: "
+            f"{tool['name']} | {tool['repository']} | stars={tool['stars']} | file={output_dir / (tool['slug'] + '.yaml')}"
+        )
+    print(f"Discovery summary: {len(candidates)} candidates, {skipped_known} already-known repositories skipped")
 
 
 if __name__ == "__main__":
