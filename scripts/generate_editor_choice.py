@@ -3,7 +3,7 @@ from __future__ import annotations
 from datetime import datetime, timezone
 
 from catalog_lib import CATEGORY_ORDER, ROOT, load_catalog, write_editor_choice_slugs
-from generate_readme import tool_line
+from generate_readme import section
 
 
 TARGETS = {
@@ -61,13 +61,10 @@ def main() -> None:
         grouped = [tool for tool in selected if tool.get("category") == category]
         if not grouped:
             continue
-        lines.extend([f"### {category}", ""])
-        lines.extend(tool_line(tool) for tool in grouped)
-        lines.append("")
+        lines.append(section(category, grouped, level=3))
     (ROOT / "EDITOR-CHOISE.md").write_text("\n".join(lines).rstrip() + "\n", encoding="utf-8")
     print(f"Generated EDITOR-CHOISE.md with {len(selected)} tools")
 
 
 if __name__ == "__main__":
     main()
-

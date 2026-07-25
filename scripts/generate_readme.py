@@ -3,8 +3,20 @@ from __future__ import annotations
 from catalog_lib import CATEGORY_ORDER, ROOT, category_rank, load_catalog, read_editor_choice_slugs
 
 
+def md_escape(value: str) -> str:
+    return value.replace("|", "\\|").replace("\n", " ")
+
+
 def link_for(tool: dict) -> str:
     return tool.get("public_url") or tool.get("website") or tool.get("repository") or tool.get("packagist") or "#"
+
+
+def stars_value(tool: dict) -> int:
+    return int(tool.get("stars") or 0)
+
+
+def sorted_by_stars(tools: list[dict]) -> list[dict]:
+    return sorted(tools, key=lambda item: (-stars_value(item), item.get("name", "").lower()))
 
 
 def tool_line(tool: dict, include_stats: bool = True) -> str:
@@ -26,9 +38,31 @@ def tool_line(tool: dict, include_stats: bool = True) -> str:
     return f"* [{tool['name']}]({link_for(tool)}) - {description}{suffix}"
 
 
-def section(title: str, tools: list[dict]) -> str:
-    lines = [f"##### {title}", ""]
-    lines.extend(tool_line(tool) for tool in tools)
+def tool_row(tool: dict) -> str:
+    name = f"[{md_escape(tool['name'])}]({link_for(tool)})"
+    description = md_escape(tool.get("description") or "No description available.")
+    stars = f"{stars_value(tool):,}" if stars_value(tool) else "-"
+    updated = (tool.get("repo_updated_at") or "")[:10] or "-"
+    latest = md_escape(tool.get("latest_version") or "-")
+    links = []
+    if tool.get("repository"):
+        links.append(f"[GitHub]({tool['repository']})")
+    if tool.get("packagist"):
+        links.append(f"[Packagist]({tool['packagist']})")
+    if tool.get("website_status") == "unavailable":
+        links.append("Site unavailable")
+    return f"| {name} | {description} | {stars} | {updated} | {latest} | {'<br>'.join(links) or '-'} |"
+
+
+def section(title: str, tools: list[dict], level: int = 5) -> str:
+    lines = [f"{'#' * level} {title}", ""]
+    lines.extend(
+        [
+            "| Tool | Description | Stars | Updated | Latest | Links |",
+            "|---|---|---:|---|---|---|",
+        ]
+    )
+    lines.extend(tool_row(tool) for tool in sorted_by_stars(tools))
     lines.append("")
     return "\n".join(lines)
 
