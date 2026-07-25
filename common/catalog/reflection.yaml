@@ -3,11 +3,18 @@ name: "Reflection"
 category: "DIY"
 description: "Reflection library to do Static Analysis for PHP Projects"
 website: "https://github.com/phpDocumentor/Reflection.git"
+public_url: "https://github.com/phpDocumentor/Reflection.git"
+website_status: "available"
+website_status_code: 200
+website_checked_at: "2026-07-25T18:36:59Z"
+website_error: ""
 repository: "https://github.com/phpDocumentor/Reflection"
 packagist: "https://packagist.org/packages/phpdocumentor/reflection"
+latest_version: "7.0.0"
+latest_version_released_at: "2026-05-28T19:54:52+00:00"
 stars: 125
 repo_updated_at: "2026-07-06T08:44:53Z"
-metadata_updated_at: "2026-07-25T18:07:41Z"
+metadata_updated_at: "2026-07-25T18:36:59Z"
 editor_choice: false
 quality_tags:
 source: "README.md"

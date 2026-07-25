@@ -3,11 +3,16 @@ name: "devbug"
 category: "Misc"
 description: "Ongoing work on PHP Analysis in Rascal (PHP AiR)"
 website: "http://www.devbug.co.uk/"
+public_url: "http://www.devbug.co.uk/"
+website_status: "unavailable"
+website_status_code: 0
+website_checked_at: "2026-07-25T18:37:21Z"
+website_error: "[Errno 11001] getaddrinfo failed"
 repository: null
 packagist: null
 stars: 0
 repo_updated_at: null
-metadata_updated_at: null
+metadata_updated_at: "2026-07-25T18:37:21Z"
 editor_choice: true
 quality_tags:
 source: "README.md"

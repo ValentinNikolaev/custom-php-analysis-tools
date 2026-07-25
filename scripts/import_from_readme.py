@@ -44,8 +44,15 @@ def parse_markdown_list(path, *, start_after_whole_list: bool) -> list[dict]:
                 "category": category,
                 "description": description,
                 "website": url.strip(),
+                "public_url": url.strip(),
                 "repository": normalize_github_url(url.strip()),
+                "website_status": "unknown",
+                "website_status_code": 0,
+                "website_checked_at": None,
+                "website_error": "",
                 "packagist": None,
+                "latest_version": "",
+                "latest_version_released_at": None,
                 "stars": 0,
                 "repo_updated_at": None,
                 "metadata_updated_at": None,
@@ -75,4 +82,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

@@ -3,11 +3,16 @@ name: "Bliss"
 category: "SaaS"
 description: "Automatically reviews code in real-time and shows how much it's worth in lines of code"
 website: "https://blissai.com/index.html"
+public_url: "https://blissai.com/index.html"
+website_status: "available"
+website_status_code: 200
+website_checked_at: "2026-07-25T18:37:14Z"
+website_error: ""
 repository: null
 packagist: null
 stars: 0
 repo_updated_at: null
-metadata_updated_at: null
+metadata_updated_at: "2026-07-25T18:37:14Z"
 editor_choice: false
 quality_tags:
 source: "README.md"

@@ -3,11 +3,16 @@ name: "Insight"
 category: "SaaS"
 description: "A SensioLabs tool to analyzes source code to find problems that degrade the overall quality of your projects"
 website: "https://insight.sensiolabs.com/"
+public_url: "https://insight.sensiolabs.com/"
+website_status: "unavailable"
+website_status_code: 0
+website_checked_at: "2026-07-25T18:37:17Z"
+website_error: "[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1082)"
 repository: null
 packagist: null
 stars: 0
 repo_updated_at: null
-metadata_updated_at: null
+metadata_updated_at: "2026-07-25T18:37:17Z"
 editor_choice: false
 quality_tags:
 source: "README.md"

@@ -133,8 +133,15 @@ def save_tool(tool: dict[str, Any]) -> None:
         "category",
         "description",
         "website",
+        "public_url",
+        "website_status",
+        "website_status_code",
+        "website_checked_at",
+        "website_error",
         "repository",
         "packagist",
+        "latest_version",
+        "latest_version_released_at",
         "stars",
         "repo_updated_at",
         "metadata_updated_at",
@@ -205,6 +212,10 @@ def packagist_search_url(query: str) -> str:
     return "https://packagist.org/search.json?" + urllib.parse.urlencode({"q": query})
 
 
+def packagist_package_url(package_name: str) -> str:
+    return f"https://repo.packagist.org/p2/{package_name}.json"
+
+
 def read_editor_choice_slugs() -> set[str]:
     if not EDITOR_CHOICE_FILE.exists():
         return set()
@@ -226,4 +237,3 @@ def positive_int(value: str) -> int:
     if number < 0:
         raise argparse.ArgumentTypeError("must be non-negative")
     return number
-

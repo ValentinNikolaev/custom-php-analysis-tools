@@ -3,11 +3,16 @@ name: "EasyCodingStandard"
 category: "Coding standards"
 description: "ECS runs PHP-CS-Fixer and PHP_CodeSniffer as a single, parallel fast tool with zero dependencies. Run on PHP 7.2+"
 website: "https://github.com/Symplify/EasyCodingStandard"
+public_url: "https://github.com/Symplify/EasyCodingStandard"
+website_status: "available"
+website_status_code: 200
+website_checked_at: "2026-07-25T18:36:52Z"
+website_error: ""
 repository: "https://github.com/ecsphp/ecs"
 packagist: null
 stars: 1618
 repo_updated_at: "2026-07-22T20:02:46Z"
-metadata_updated_at: "2026-07-25T18:07:37Z"
+metadata_updated_at: "2026-07-25T18:36:52Z"
 editor_choice: true
 quality_tags:
   - "php"

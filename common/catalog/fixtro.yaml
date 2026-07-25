@@ -3,11 +3,18 @@ name: "Fixtro"
 category: "Misc"
 description: "A QA static analysis code, with a different approach"
 website: "https://github.com/karlosagudo/fixtro"
+public_url: "https://github.com/karlosagudo/fixtro"
+website_status: "available"
+website_status_code: 200
+website_checked_at: "2026-07-25T18:37:22Z"
+website_error: ""
 repository: "https://github.com/karlosagudo/fixtro"
 packagist: "https://packagist.org/packages/karlosagudo/fixtro"
+latest_version: "1.0.11"
+latest_version_released_at: "2019-03-02T11:29:00+00:00"
 stars: 23
 repo_updated_at: "2019-03-02T11:30:19Z"
-metadata_updated_at: "2026-07-25T18:07:55Z"
+metadata_updated_at: "2026-07-25T18:38:12Z"
 editor_choice: true
 quality_tags:
   - "php"

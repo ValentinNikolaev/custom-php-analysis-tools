@@ -3,11 +3,16 @@ name: "Laravelshift"
 category: "SaaS"
 description: "the automated way to upgrade Laravel applications. Upgrade Laravel applications all the way from Laravel 4.2 to the latest version of Laravel"
 website: "https://laravelshift.com/"
+public_url: "https://laravelshift.com/"
+website_status: "available"
+website_status_code: 200
+website_checked_at: "2026-07-25T18:37:17Z"
+website_error: ""
 repository: null
 packagist: null
 stars: 0
 repo_updated_at: null
-metadata_updated_at: null
+metadata_updated_at: "2026-07-25T18:37:17Z"
 editor_choice: false
 quality_tags:
 source: "README.md"

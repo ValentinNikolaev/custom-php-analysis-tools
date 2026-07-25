@@ -3,11 +3,16 @@ name: "PHPCodeFixer"
 category: "Bugs finders"
 description: "Analyzer of PHP code to search issues with deprecated functionality in newer interpreter versions."
 website: "https://github.com/wapmorgan/PhpCodeFixer"
+public_url: "https://github.com/wapmorgan/PhpCodeFixer"
+website_status: "available"
+website_status_code: 200
+website_checked_at: "2026-07-25T18:36:41Z"
+website_error: ""
 repository: "https://github.com/wapmorgan/PhpDeprecationDetector"
 packagist: null
 stars: 367
 repo_updated_at: "2024-02-14T12:40:26Z"
-metadata_updated_at: "2026-07-25T18:07:34Z"
+metadata_updated_at: "2026-07-25T18:36:41Z"
 editor_choice: true
 quality_tags:
   - "static-analysis"

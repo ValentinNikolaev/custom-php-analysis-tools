@@ -3,11 +3,16 @@ name: "RIPS"
 category: "SaaS"
 description: "The superior security software for PHP applications. Source code static analyser for vulnerabilities"
 website: "https://www.ripstech.com/"
+public_url: "https://www.ripstech.com/"
+website_status: "available"
+website_status_code: 200
+website_checked_at: "2026-07-25T18:37:18Z"
+website_error: ""
 repository: null
 packagist: null
 stars: 0
 repo_updated_at: null
-metadata_updated_at: null
+metadata_updated_at: "2026-07-25T18:37:18Z"
 editor_choice: false
 quality_tags:
 source: "README.md"

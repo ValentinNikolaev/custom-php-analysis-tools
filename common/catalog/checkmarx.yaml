@@ -3,11 +3,16 @@ name: "Checkmarx"
 category: "SaaS"
 description: "Get a full PHP static security code analysis and prevent security vulnerabilities"
 website: "http://lp.checkmarx.com/php-code-analysis/"
+public_url: "http://lp.checkmarx.com/php-code-analysis/"
+website_status: "unavailable"
+website_status_code: 0
+website_checked_at: "2026-07-25T18:37:15Z"
+website_error: "[Errno 11001] getaddrinfo failed"
 repository: null
 packagist: null
 stars: 0
 repo_updated_at: null
-metadata_updated_at: null
+metadata_updated_at: "2026-07-25T18:37:15Z"
 editor_choice: false
 quality_tags:
 source: "README.md"

@@ -14,7 +14,7 @@ from catalog_lib import (
 
 
 QUERIES = [
-    "topic:php topic:static-analysis stars:>100",
+    "topic:php topic:static-analysis stars:>50",
     "topic:php topic:code-quality stars:>100",
     "php static analysis language:PHP stars:>100",
     "php code quality language:PHP stars:>100",
@@ -70,8 +70,15 @@ def main() -> None:
             "category": "Bugs finders",
             "description": repo.get("description") or "Discovered PHP analysis candidate.",
             "website": repo.get("homepage") or repo["html_url"],
+            "public_url": repo.get("homepage") or repo["html_url"],
+            "website_status": "unknown",
+            "website_status_code": 0,
+            "website_checked_at": None,
+            "website_error": "",
             "repository": repo["html_url"],
             "packagist": None,
+            "latest_version": "",
+            "latest_version_released_at": None,
             "stars": repo.get("stargazers_count") or 0,
             "repo_updated_at": repo.get("pushed_at") or repo.get("updated_at"),
             "metadata_updated_at": now_iso(),

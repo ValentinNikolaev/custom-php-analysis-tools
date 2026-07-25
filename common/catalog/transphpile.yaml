@@ -3,11 +3,16 @@ name: "Transphpile"
 category: "Fixers"
 description: "PHP 7 to PHP 5.6 Transpiler"
 website: "https://github.com/jaytaph/Transphpile"
+public_url: "https://github.com/jaytaph/Transphpile"
+website_status: "available"
+website_status_code: 200
+website_checked_at: "2026-07-25T18:37:06Z"
+website_error: ""
 repository: "https://github.com/jaytaph/Transphpile"
 packagist: null
 stars: 178
 repo_updated_at: "2017-09-02T00:24:19Z"
-metadata_updated_at: "2026-07-25T18:07:47Z"
+metadata_updated_at: "2026-07-25T18:37:06Z"
 editor_choice: false
 quality_tags:
 source: "README.md"

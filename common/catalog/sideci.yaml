@@ -3,11 +3,16 @@ name: "SideCI"
 category: "SaaS"
 description: "CI for automated code review by code analysis"
 website: "https://sideci.com/"
+public_url: "https://sideci.com/"
+website_status: "unavailable"
+website_status_code: 0
+website_checked_at: "2026-07-25T18:37:19Z"
+website_error: "[Errno 11001] getaddrinfo failed"
 repository: null
 packagist: null
 stars: 0
 repo_updated_at: null
-metadata_updated_at: null
+metadata_updated_at: "2026-07-25T18:37:19Z"
 editor_choice: false
 quality_tags:
 source: "README.md"

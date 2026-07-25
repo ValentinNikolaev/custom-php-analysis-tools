@@ -4,7 +4,7 @@ from catalog_lib import CATEGORY_ORDER, ROOT, category_rank, load_catalog, read_
 
 
 def link_for(tool: dict) -> str:
-    return tool.get("website") or tool.get("repository") or tool.get("packagist") or "#"
+    return tool.get("public_url") or tool.get("website") or tool.get("repository") or tool.get("packagist") or "#"
 
 
 def tool_line(tool: dict, include_stats: bool = True) -> str:
@@ -13,6 +13,10 @@ def tool_line(tool: dict, include_stats: bool = True) -> str:
         stats.append(f"{tool['stars']:,} stars")
     if include_stats and tool.get("repo_updated_at"):
         stats.append(f"updated {tool['repo_updated_at'][:10]}")
+    if tool.get("latest_version"):
+        stats.append(f"latest {tool['latest_version']}")
+    if tool.get("website_status") == "unavailable":
+        stats.append("site unavailable")
     if tool.get("repository"):
         stats.append(f"[repo]({tool['repository']})")
     if tool.get("packagist"):
