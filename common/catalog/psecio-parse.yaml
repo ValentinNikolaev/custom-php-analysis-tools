@@ -1,0 +1,16 @@
+slug: "psecio-parse"
+name: "psecio:parse"
+category: "Bugs finders"
+description: "Parse: A Static Security Scanner"
+website: "https://github.com/psecio/parse.git"
+repository: "https://github.com/psecio/parse"
+packagist: "https://packagist.org/packages/psecio/parse"
+stars: 381
+repo_updated_at: "2018-08-07T08:33:28Z"
+metadata_updated_at: "2026-07-25T18:07:35Z"
+editor_choice: false
+quality_tags:
+  - "php"
+  - "security"
+source: "README.md"
+notes: ""

@@ -1,0 +1,14 @@
+slug: "exakat"
+name: "Exakat"
+category: "Bugs finders"
+description: "Smart static analysis"
+website: "http://www.exakat.io/"
+repository: null
+packagist: null
+stars: 0
+repo_updated_at: null
+metadata_updated_at: null
+editor_choice: false
+quality_tags:
+source: "README.md"
+notes: ""

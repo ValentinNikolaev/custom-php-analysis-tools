@@ -1,0 +1,16 @@
+slug: "php-cs-fixer"
+name: "PHP CS Fixer"
+category: "Fixers"
+description: "A tool to automatically fix PHP Coding Standards issues"
+website: "https://github.com/FriendsOfPHP/PHP-CS-Fixer"
+repository: "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer"
+packagist: "https://packagist.org/packages/composer-phar/php-cs-fixer"
+stars: 13547
+repo_updated_at: "2026-07-24T13:54:58Z"
+metadata_updated_at: "2026-07-25T18:07:43Z"
+editor_choice: true
+quality_tags:
+  - "php"
+  - "static-analysis"
+source: "README.md"
+notes: ""

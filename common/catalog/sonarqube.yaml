@@ -1,0 +1,14 @@
+slug: "sonarqube"
+name: "SonarQube"
+category: "Bugs finders"
+description: "An open platform to manage code quality. It covers PHP code"
+website: "http://www.sonarqube.org/"
+repository: null
+packagist: null
+stars: 0
+repo_updated_at: null
+metadata_updated_at: null
+editor_choice: false
+quality_tags:
+source: "README.md"
+notes: ""

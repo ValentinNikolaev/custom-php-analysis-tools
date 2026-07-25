@@ -1,0 +1,14 @@
+slug: "bliss"
+name: "Bliss"
+category: "SaaS"
+description: "Automatically reviews code in real-time and shows how much it's worth in lines of code"
+website: "https://blissai.com/index.html"
+repository: null
+packagist: null
+stars: 0
+repo_updated_at: null
+metadata_updated_at: null
+editor_choice: false
+quality_tags:
+source: "README.md"
+notes: ""

@@ -1,0 +1,16 @@
+slug: "php-mess-detector"
+name: "PHP Mess Detector"
+category: "Bugs finders"
+description: "PHPMD is a spin-off project of PHP Depend and aims to be a PHP equivalent of the well known Java tool PMD. PHPMD can be seen as an user friendly frontend application for the raw metrics stream measured by PHP Depend."
+website: "https://phpmd.org"
+repository: "https://github.com/phpmd/phpmd"
+packagist: "https://packagist.org/packages/phpmd/phpmd"
+stars: 2443
+repo_updated_at: "2026-06-29T15:28:22Z"
+metadata_updated_at: "2026-07-25T18:09:23Z"
+editor_choice: true
+quality_tags:
+  - "php"
+  - "static-analysis"
+source: "README.md"
+notes: "Repository metadata merged from GitHub discovery."

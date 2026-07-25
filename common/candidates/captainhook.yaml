@@ -1,0 +1,16 @@
+slug: "captainhook"
+name: "captainhook"
+category: "Bugs finders"
+description: "CaptainHook is a very flexible git hook manager for software developers that makes sharing git hooks with your team a breeze."
+website: "http://captainhook.info"
+repository: "https://github.com/captainhook-git/captainhook"
+packagist: null
+stars: 1113
+repo_updated_at: "2026-03-25T21:46:58Z"
+metadata_updated_at: "2026-07-25T18:15:55Z"
+editor_choice: false
+quality_tags:
+  - "code-quality"
+  - "php"
+source: "github-search"
+notes: "Review category and description before promoting."

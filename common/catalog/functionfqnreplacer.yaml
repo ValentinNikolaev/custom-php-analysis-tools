@@ -1,0 +1,15 @@
+slug: "functionfqnreplacer"
+name: "FunctionFQNReplacer"
+category: "Fixers"
+description: "provides a way to replace relative references of functions in function calls with absolute references"
+website: "https://github.com/Roave/FunctionFQNReplacer"
+repository: "https://github.com/Roave/FunctionFQNReplacer"
+packagist: null
+stars: 158
+repo_updated_at: "2017-07-05T06:04:52Z"
+metadata_updated_at: "2026-07-25T18:07:42Z"
+editor_choice: false
+quality_tags:
+  - "archived"
+source: "README.md"
+notes: ""

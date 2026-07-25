@@ -1,0 +1,14 @@
+slug: "insight"
+name: "Insight"
+category: "SaaS"
+description: "A SensioLabs tool to analyzes source code to find problems that degrade the overall quality of your projects"
+website: "https://insight.sensiolabs.com/"
+repository: null
+packagist: null
+stars: 0
+repo_updated_at: null
+metadata_updated_at: null
+editor_choice: false
+quality_tags:
+source: "README.md"
+notes: ""

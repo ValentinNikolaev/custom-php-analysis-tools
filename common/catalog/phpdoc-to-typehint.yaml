@@ -1,0 +1,16 @@
+slug: "phpdoc-to-typehint"
+name: "phpdoc to typehint"
+category: "Fixers"
+description: "Add scalar type hints and return types to existing PHP projects using PHPDoc annotations"
+website: "https://github.com/dunglas/phpdoc-to-typehint"
+repository: "https://github.com/dunglas/phpdoc-to-typehint"
+packagist: "https://packagist.org/packages/dunglas/phpdoc-to-typehint"
+stars: 225
+repo_updated_at: "2020-12-28T22:25:46Z"
+metadata_updated_at: "2026-07-25T18:07:45Z"
+editor_choice: false
+quality_tags:
+  - "archived"
+  - "php"
+source: "README.md"
+notes: ""

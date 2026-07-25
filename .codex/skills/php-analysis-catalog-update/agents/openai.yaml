@@ -1,0 +1,4 @@
+interface:
+  display_name: "PHP Catalog Update"
+  short_description: "Refresh PHP tool catalog metadata"
+  default_prompt: "Use -analysis-catalog-update to refresh PHP analysis catalog metadata."

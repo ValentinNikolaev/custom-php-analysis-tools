@@ -1,0 +1,17 @@
+slug: "php-testability"
+name: "PHP testability"
+category: "Bugs finders"
+description: "Analyses and reports testability issues of a php codebase"
+website: "https://github.com/edsonmedina/php_testability"
+repository: "https://github.com/edsonmedina/php_testability"
+packagist: "https://packagist.org/packages/edsonmedina/php_testability"
+stars: 130
+repo_updated_at: "2022-01-27T15:18:07Z"
+metadata_updated_at: "2026-07-25T18:07:31Z"
+editor_choice: false
+quality_tags:
+  - "archived"
+  - "php"
+  - "static-analysis"
+source: "README.md"
+notes: ""

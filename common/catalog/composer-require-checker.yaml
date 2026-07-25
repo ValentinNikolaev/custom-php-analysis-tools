@@ -1,0 +1,15 @@
+slug: "composer-require-checker"
+name: "Composer Require Checker"
+category: "Misc"
+description: "A CLI tool to check whether a specific composer package uses imported symbols that aren't part of its direct composer dependencies"
+website: "https://github.com/maglnet/ComposerRequireChecker"
+repository: "https://github.com/maglnet/ComposerRequireChecker"
+packagist: "https://packagist.org/packages/maglnet/composer-require-checker"
+stars: 1005
+repo_updated_at: "2026-07-25T10:26:32Z"
+metadata_updated_at: "2026-07-25T18:07:53Z"
+editor_choice: true
+quality_tags:
+  - "code-quality"
+source: "README.md"
+notes: ""

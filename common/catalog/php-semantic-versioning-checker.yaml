@@ -1,0 +1,15 @@
+slug: "php-semantic-versioning-checker"
+name: "PHP Semantic Versioning Checker"
+category: "Metrics"
+description: "Compares two source sets and determines the appropriate semantic versioning to apply."
+website: "https://github.com/tomzx/php-semver-checker"
+repository: "https://github.com/tomzx/php-semver-checker"
+packagist: "https://packagist.org/packages/tomzx/php-semver-checker"
+stars: 436
+repo_updated_at: "2026-02-05T06:59:48Z"
+metadata_updated_at: "2026-07-25T18:07:49Z"
+editor_choice: false
+quality_tags:
+  - "php"
+source: "README.md"
+notes: ""

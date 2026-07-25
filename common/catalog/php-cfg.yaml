@@ -1,0 +1,14 @@
+slug: "php-cfg"
+name: "PHP-cfg"
+category: "DIY"
+description: "A Control Flow Graph implementation in PHP"
+website: "https://github.com/ircmaxell/php-cfg"
+repository: "https://github.com/ircmaxell/php-cfg"
+packagist: "https://packagist.org/packages/ircmaxell/php-cfg"
+stars: 247
+repo_updated_at: "2026-07-11T17:40:40Z"
+metadata_updated_at: "2026-07-25T18:07:41Z"
+editor_choice: false
+quality_tags:
+source: "README.md"
+notes: ""

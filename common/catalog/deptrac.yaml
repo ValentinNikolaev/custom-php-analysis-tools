@@ -1,0 +1,15 @@
+slug: "deptrac"
+name: "Deptrac"
+category: "DIY"
+description: "Keep your architecture clean."
+website: "https://github.com/sensiolabs-de/deptrac.git"
+repository: "https://github.com/deptrac/deptrac"
+packagist: "https://packagist.org/packages/deptrac/deptrac"
+stars: 2979
+repo_updated_at: "2026-07-23T20:51:34Z"
+metadata_updated_at: "2026-07-25T18:07:40Z"
+editor_choice: false
+quality_tags:
+  - "php"
+source: "README.md"
+notes: ""

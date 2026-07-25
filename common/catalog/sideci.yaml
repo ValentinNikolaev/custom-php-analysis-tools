@@ -1,0 +1,14 @@
+slug: "sideci"
+name: "SideCI"
+category: "SaaS"
+description: "CI for automated code review by code analysis"
+website: "https://sideci.com/"
+repository: null
+packagist: null
+stars: 0
+repo_updated_at: null
+metadata_updated_at: null
+editor_choice: false
+quality_tags:
+source: "README.md"
+notes: ""

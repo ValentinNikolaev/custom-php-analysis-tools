@@ -1,0 +1,14 @@
+slug: "php-manipulator"
+name: "PHP Manipulator"
+category: "Misc"
+description: "Library for Analyzing and Modifying PHP Source Code"
+website: "https://github.com/schmittjoh/php-manipulator"
+repository: "https://github.com/schmittjoh/php-manipulator"
+packagist: "https://packagist.org/packages/jms/php-manipulator"
+stars: 105
+repo_updated_at: "2014-09-27T18:10:16Z"
+metadata_updated_at: "2026-07-25T18:07:56Z"
+editor_choice: true
+quality_tags:
+source: "README.md"
+notes: ""

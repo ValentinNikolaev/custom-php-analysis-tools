@@ -1,0 +1,15 @@
+slug: "rector"
+name: "Rector"
+category: "Fixers"
+description: "Instant Upgrades and Automated Refactoring of any PHP 5.3+ code"
+website: "https://github.com/rectorphp/rector"
+repository: "https://github.com/rectorphp/rector"
+packagist: "https://packagist.org/packages/rector/rector"
+stars: 10380
+repo_updated_at: "2026-07-25T06:25:15Z"
+metadata_updated_at: "2026-07-25T18:07:46Z"
+editor_choice: false
+quality_tags:
+  - "php"
+source: "README.md"
+notes: ""

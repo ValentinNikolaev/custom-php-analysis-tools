@@ -1,0 +1,14 @@
+slug: "rips"
+name: "RIPS"
+category: "SaaS"
+description: "The superior security software for PHP applications. Source code static analyser for vulnerabilities"
+website: "https://www.ripstech.com/"
+repository: null
+packagist: null
+stars: 0
+repo_updated_at: null
+metadata_updated_at: null
+editor_choice: false
+quality_tags:
+source: "README.md"
+notes: ""

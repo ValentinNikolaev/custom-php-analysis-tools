@@ -1,0 +1,16 @@
+slug: "phpdependencyanalysis"
+name: "PhpDependencyAnalysis"
+category: "Metrics"
+description: "Static code analysis to find violations in a dependency graph"
+website: "https://github.com/mamuz/PhpDependencyAnalysis"
+repository: "https://github.com/mamuz/PhpDependencyAnalysis"
+packagist: "https://packagist.org/packages/agratushniy/php-dependency-analysis"
+stars: 575
+repo_updated_at: "2023-12-03T20:43:10Z"
+metadata_updated_at: "2026-07-25T18:07:50Z"
+editor_choice: true
+quality_tags:
+  - "code-quality"
+  - "php"
+source: "README.md"
+notes: ""

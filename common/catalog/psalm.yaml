@@ -1,0 +1,16 @@
+slug: "psalm"
+name: "psalm"
+category: "Bugs finders"
+description: "A PHP static analysis tool for finding errors and security vulnerabilities in PHP applications"
+website: "https://psalm.dev"
+repository: "https://github.com/vimeo/psalm"
+packagist: "https://packagist.org/packages/vimeo/psalm"
+stars: 5869
+repo_updated_at: "2026-07-13T07:42:30Z"
+metadata_updated_at: "2026-07-25T18:10:38Z"
+editor_choice: false
+quality_tags:
+  - "php"
+  - "static-analysis"
+source: "github-search"
+notes: "Review category and description before promoting."

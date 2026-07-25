@@ -1,0 +1,14 @@
+slug: "better-reflection"
+name: "Better Reflection"
+category: "DIY"
+description: ":crystal_ball: Better Reflection is a reflection API that aims to improve and provide more features than PHP's built-in reflection API."
+website: "https://github.com/Roave/BetterReflection"
+repository: "https://github.com/Roave/BetterReflection"
+packagist: "https://packagist.org/packages/roave/better-reflection"
+stars: 1245
+repo_updated_at: "2026-07-25T14:00:29Z"
+metadata_updated_at: "2026-07-25T18:07:39Z"
+editor_choice: true
+quality_tags:
+source: "README.md"
+notes: ""

@@ -1,0 +1,4 @@
+interface:
+  display_name: "PHP Catalog Workflow"
+  short_description: "Run the full PHP catalog workflow"
+  default_prompt: "Use -analysis-catalog-workflow to refresh metadata, discover candidates, and regenerate docs."

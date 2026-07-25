@@ -1,0 +1,16 @@
+slug: "php-sa"
+name: "PHP SA"
+category: "Bugs finders"
+description: "Smart/Static Analyzer(sis) for PHP :bowtie::neckbeard:"
+website: "https://github.com/ovr/phpsa"
+repository: "https://github.com/ovr/phpsa"
+packagist: "https://packagist.org/packages/ovr/phpsa"
+stars: 635
+repo_updated_at: "2019-02-27T06:40:47Z"
+metadata_updated_at: "2026-07-25T18:07:30Z"
+editor_choice: true
+quality_tags:
+  - "archived"
+  - "php"
+source: "README.md"
+notes: ""

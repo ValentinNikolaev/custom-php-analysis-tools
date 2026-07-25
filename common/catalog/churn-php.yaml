@@ -1,0 +1,15 @@
+slug: "churn-php"
+name: "churn-php"
+category: "Metrics"
+description: "Discover files in need of refactoring."
+website: "https://github.com/bmitch/churn-php"
+repository: "https://github.com/bmitch/churn-php"
+packagist: "https://packagist.org/packages/bmitch/churn-php"
+stars: 1376
+repo_updated_at: "2025-12-31T12:03:13Z"
+metadata_updated_at: "2026-07-25T18:07:47Z"
+editor_choice: true
+quality_tags:
+  - "php"
+source: "README.md"
+notes: ""

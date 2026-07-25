@@ -1,0 +1,16 @@
+slug: "pahout"
+name: "Pahout"
+category: "Coding standards"
+description: "A pair programming partner for writing better PHP. Pahout means PHP mahout :elephant:"
+website: "https://github.com/wata727/pahout"
+repository: "https://github.com/wata727/pahout"
+packagist: "https://packagist.org/packages/wata727/pahout"
+stars: 48
+repo_updated_at: "2020-06-26T11:13:16Z"
+metadata_updated_at: "2026-07-25T18:07:37Z"
+editor_choice: false
+quality_tags:
+  - "php"
+  - "static-analysis"
+source: "README.md"
+notes: ""

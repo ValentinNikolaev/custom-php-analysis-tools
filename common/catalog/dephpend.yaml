@@ -1,0 +1,15 @@
+slug: "dephpend"
+name: "dePHPend"
+category: "Metrics"
+description: "Detect flaws in your architecture, before they drag you down into the depths of dependency hell ..."
+website: "https://github.com/mihaeu/dephpend"
+repository: "https://github.com/mihaeu/dephpend"
+packagist: "https://packagist.org/packages/mihaeu/dephpend-tests"
+stars: 533
+repo_updated_at: "2026-01-28T21:41:06Z"
+metadata_updated_at: "2026-07-25T18:07:48Z"
+editor_choice: true
+quality_tags:
+  - "php"
+source: "README.md"
+notes: ""

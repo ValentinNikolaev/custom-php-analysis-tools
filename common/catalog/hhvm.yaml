@@ -1,0 +1,14 @@
+slug: "hhvm"
+name: "HHVM"
+category: "Misc"
+description: "Hack Language from Facebook. Add a SCA until version 3.3.8, newer version doesn't have anymore"
+website: "http://hhvm.com/"
+repository: null
+packagist: null
+stars: 0
+repo_updated_at: null
+metadata_updated_at: null
+editor_choice: true
+quality_tags:
+source: "README.md"
+notes: ""

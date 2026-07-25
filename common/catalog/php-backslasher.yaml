@@ -1,0 +1,15 @@
+slug: "php-backslasher"
+name: "PHP BackSlasher"
+category: "Fixers"
+description: "[Git hook] Tool to add all PHP internal functions and constants to its namespace by adding backslash to them."
+website: "https://github.com/nilportugues/php-backslasher"
+repository: "https://github.com/nilportugues/php-backslasher"
+packagist: "https://packagist.org/packages/nilportugues/php_backslasher"
+stars: 88
+repo_updated_at: "2020-04-21T20:40:00Z"
+metadata_updated_at: "2026-07-25T18:07:43Z"
+editor_choice: false
+quality_tags:
+  - "php"
+source: "README.md"
+notes: ""

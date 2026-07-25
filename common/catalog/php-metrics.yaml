@@ -1,0 +1,15 @@
+slug: "php-metrics"
+name: "PHP Metrics"
+category: "Metrics"
+description: "Beautiful and understandable static analysis tool for PHP"
+website: "https://github.com/Halleck45/PhpMetrics"
+repository: "https://github.com/phpmetrics/PhpMetrics"
+packagist: "https://packagist.org/packages/phpmetrics/phpmetrics"
+stars: 2602
+repo_updated_at: "2026-07-22T11:54:04Z"
+metadata_updated_at: "2026-07-25T18:07:49Z"
+editor_choice: true
+quality_tags:
+  - "php"
+source: "README.md"
+notes: ""

@@ -1,0 +1,14 @@
+slug: "checkmarx"
+name: "Checkmarx"
+category: "SaaS"
+description: "Get a full PHP static security code analysis and prevent security vulnerabilities"
+website: "http://lp.checkmarx.com/php-code-analysis/"
+repository: null
+packagist: null
+stars: 0
+repo_updated_at: null
+metadata_updated_at: null
+editor_choice: false
+quality_tags:
+source: "README.md"
+notes: ""

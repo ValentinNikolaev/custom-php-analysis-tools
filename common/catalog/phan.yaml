@@ -1,0 +1,16 @@
+slug: "phan"
+name: "Phan"
+category: "Bugs finders"
+description: "Phan is a static analyzer for PHP. Phan prefers to avoid false-positives and attempts to prove incorrectness rather than correctness."
+website: "https://github.com/etsy/phan"
+repository: "https://github.com/phan/phan"
+packagist: "https://packagist.org/packages/phan/phan"
+stars: 5619
+repo_updated_at: "2026-07-20T21:21:07Z"
+metadata_updated_at: "2026-07-25T18:07:27Z"
+editor_choice: true
+quality_tags:
+  - "php"
+  - "static-analysis"
+source: "README.md"
+notes: ""

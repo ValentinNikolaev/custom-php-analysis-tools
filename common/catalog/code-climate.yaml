@@ -1,0 +1,14 @@
+slug: "code-climate"
+name: "Code Climate"
+category: "SaaS"
+description: "Hosted static analysis for Ruby, PHP and JavaScript source code"
+website: "https://codeclimate.com"
+repository: null
+packagist: null
+stars: 0
+repo_updated_at: null
+metadata_updated_at: null
+editor_choice: false
+quality_tags:
+source: "README.md"
+notes: ""

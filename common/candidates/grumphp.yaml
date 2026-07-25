@@ -1,0 +1,16 @@
+slug: "grumphp"
+name: "grumphp"
+category: "Bugs finders"
+description: "A PHP code-quality tool"
+website: "https://github.com/phpro/grumphp"
+repository: "https://github.com/phpro/grumphp"
+packagist: null
+stars: 4304
+repo_updated_at: "2026-07-22T11:37:34Z"
+metadata_updated_at: "2026-07-25T18:15:55Z"
+editor_choice: false
+quality_tags:
+  - "code-quality"
+  - "php"
+source: "github-search"
+notes: "Review category and description before promoting."

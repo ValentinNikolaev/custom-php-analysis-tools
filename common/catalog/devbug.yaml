@@ -1,0 +1,14 @@
+slug: "devbug"
+name: "devbug"
+category: "Misc"
+description: "Ongoing work on PHP Analysis in Rascal (PHP AiR)"
+website: "http://www.devbug.co.uk/"
+repository: null
+packagist: null
+stars: 0
+repo_updated_at: null
+metadata_updated_at: null
+editor_choice: true
+quality_tags:
+source: "README.md"
+notes: ""

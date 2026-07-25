@@ -1,0 +1,15 @@
+slug: "php-refactoring-browser"
+name: "php-refactoring-browser"
+category: "Fixers"
+description: "A command line refactoring tool for PHP"
+website: "https://github.com/QafooLabs/php-refactoring-browser"
+repository: "https://github.com/QafooLabs/php-refactoring-browser"
+packagist: "https://packagist.org/packages/qafoolabs/php-refactoring-browser"
+stars: 548
+repo_updated_at: "2017-11-15T22:30:57Z"
+metadata_updated_at: "2026-07-25T18:07:45Z"
+editor_choice: false
+quality_tags:
+  - "archived"
+source: "README.md"
+notes: ""

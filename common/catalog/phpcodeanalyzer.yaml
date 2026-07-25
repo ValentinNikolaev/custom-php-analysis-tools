@@ -1,0 +1,15 @@
+slug: "phpcodeanalyzer"
+name: "PhpCodeAnalyzer"
+category: "Bugs finders"
+description: "Really, it's \"php extensions usage analyzer\". It scans codebase and analyzes which non-built-in php extensions used"
+website: "https://github.com/wapmorgan/PhpCodeAnalyzer.git"
+repository: "https://github.com/wapmorgan/PhpCodeAnalyzer"
+packagist: null
+stars: 96
+repo_updated_at: "2023-01-17T00:23:31Z"
+metadata_updated_at: "2026-07-25T18:07:33Z"
+editor_choice: false
+quality_tags:
+  - "static-analysis"
+source: "README.md"
+notes: ""

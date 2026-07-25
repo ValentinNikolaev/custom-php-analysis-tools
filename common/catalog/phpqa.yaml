@@ -1,0 +1,14 @@
+slug: "phpqa"
+name: "PHPQA"
+category: "Misc"
+description: "A Wrapper to a lot of PHP tools reported into a single HTML file"
+website: "https://edgedesigncz.github.io/phpqa/"
+repository: null
+packagist: null
+stars: 0
+repo_updated_at: null
+metadata_updated_at: null
+editor_choice: true
+quality_tags:
+source: "README.md"
+notes: ""

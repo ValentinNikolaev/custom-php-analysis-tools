@@ -1,0 +1,16 @@
+slug: "php-formatter"
+name: "PHP formatter"
+category: "Coding standards"
+description: "PHP Formatter is a PHP developer friendly set of tools"
+website: "https://github.com/mmoreram/php-formatter"
+repository: "https://github.com/mmoreram/php-formatter"
+packagist: "https://packagist.org/packages/mmoreram/php-formatter"
+stars: 168
+repo_updated_at: "2021-06-24T08:15:48Z"
+metadata_updated_at: "2026-07-25T18:07:38Z"
+editor_choice: false
+quality_tags:
+  - "archived"
+  - "php"
+source: "README.md"
+notes: ""

@@ -1,0 +1,16 @@
+slug: "php-parser"
+name: "PHP Parser"
+category: "DIY"
+description: "A PHP parser written in PHP"
+website: "https://github.com/nikic/PHP-Parser"
+repository: "https://github.com/nikic/PHP-Parser"
+packagist: "https://packagist.org/packages/nikic/php-parser"
+stars: 17452
+repo_updated_at: "2026-07-11T16:03:14Z"
+metadata_updated_at: "2026-07-25T18:07:40Z"
+editor_choice: true
+quality_tags:
+  - "php"
+  - "static-analysis"
+source: "README.md"
+notes: ""

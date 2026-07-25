@@ -1,0 +1,15 @@
+slug: "phpcpd"
+name: "PHPCPD"
+category: "Bugs finders"
+description: "Copy/Paste Detector (CPD) for PHP code."
+website: "https://github.com/sebastianbergmann/phpcpd"
+repository: "https://github.com/sebastianbergmann/phpcpd"
+packagist: "https://packagist.org/packages/phpcpd-next/phpcpd"
+stars: 2211
+repo_updated_at: "2023-01-10T12:50:42Z"
+metadata_updated_at: "2026-07-25T18:07:35Z"
+editor_choice: true
+quality_tags:
+  - "archived"
+source: "README.md"
+notes: ""

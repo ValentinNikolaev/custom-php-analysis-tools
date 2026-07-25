@@ -1,0 +1,15 @@
+slug: "jscpd"
+name: "jscpd"
+category: "Bugs finders"
+description: "Copy/paste detector for programming source code, supports 223 formats. AI-ready with token-efficient reporter, skill and MCP server."
+website: "https://github.com/kucherenko/jscpd"
+repository: "https://github.com/kucherenko/jscpd"
+packagist: null
+stars: 5932
+repo_updated_at: "2026-07-24T10:24:30Z"
+metadata_updated_at: "2026-07-25T18:08:45Z"
+editor_choice: false
+quality_tags:
+  - "code-quality"
+source: "README.md"
+notes: ""

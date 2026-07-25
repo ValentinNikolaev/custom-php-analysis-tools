@@ -1,0 +1,14 @@
+slug: "php-assumption"
+name: "PHP Assumption"
+category: "Bugs finders"
+description: "Tool to detect assumptions"
+website: "https://github.com/rskuipers/php-assumptions.git"
+repository: "https://github.com/rskuipers/php-assumptions"
+packagist: "https://packagist.org/packages/rskuipers/php-assumptions"
+stars: 164
+repo_updated_at: "2025-03-22T15:16:44Z"
+metadata_updated_at: "2026-07-25T18:07:28Z"
+editor_choice: false
+quality_tags:
+source: "README.md"
+notes: ""

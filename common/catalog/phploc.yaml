@@ -1,0 +1,15 @@
+slug: "phploc"
+name: "PHPLOC"
+category: "Metrics"
+description: "A tool for quickly measuring the size of a PHP project."
+website: "https://github.com/sebastianbergmann/phploc"
+repository: "https://github.com/sebastianbergmann/phploc"
+packagist: "https://packagist.org/packages/phploc/phploc"
+stars: 2344
+repo_updated_at: "2025-04-12T05:04:58Z"
+metadata_updated_at: "2026-07-25T18:07:50Z"
+editor_choice: true
+quality_tags:
+  - "archived"
+source: "README.md"
+notes: ""

@@ -1,0 +1,16 @@
+slug: "php-code-sniffer"
+name: "PHP Code Sniffer"
+category: "Coding standards"
+description: "PHP_CodeSniffer tokenizes PHP files and detects violations of a defined set of coding standards."
+website: "https://github.com/squizlabs/PHP_CodeSniffer"
+repository: "https://github.com/squizlabs/PHP_CodeSniffer"
+packagist: "https://packagist.org/packages/squizlabs/php_codesniffer"
+stars: 10774
+repo_updated_at: "2024-04-01T20:37:32Z"
+metadata_updated_at: "2026-07-25T18:07:38Z"
+editor_choice: true
+quality_tags:
+  - "php"
+  - "static-analysis"
+source: "README.md"
+notes: ""

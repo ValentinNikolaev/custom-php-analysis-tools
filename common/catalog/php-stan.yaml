@@ -1,0 +1,17 @@
+slug: "php-stan"
+name: "PHP Stan"
+category: "Bugs finders"
+description: "PHP Static Analysis Tool - discover bugs in your code without running it!"
+website: "https://github.com/phpstan/phpstan"
+repository: "https://github.com/phpstan/phpstan"
+packagist: "https://packagist.org/packages/phpstan/phpstan"
+stars: 14042
+repo_updated_at: "2026-07-25T16:48:45Z"
+metadata_updated_at: "2026-07-25T18:07:30Z"
+editor_choice: true
+quality_tags:
+  - "php"
+  - "phpstan"
+  - "static-analysis"
+source: "README.md"
+notes: ""

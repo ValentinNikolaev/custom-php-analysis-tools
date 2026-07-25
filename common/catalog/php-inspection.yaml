@@ -1,0 +1,14 @@
+slug: "php-inspection"
+name: "PHP Inspection"
+category: "Bugs finders"
+description: "Static analysis plugin for PHPStorm"
+website: "https://plugins.jetbrains.com/plugin/7622?pr=idea"
+repository: null
+packagist: null
+stars: 0
+repo_updated_at: null
+metadata_updated_at: null
+editor_choice: true
+quality_tags:
+source: "README.md"
+notes: ""

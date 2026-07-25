@@ -1,0 +1,14 @@
+slug: "scrutinizer"
+name: "Scrutinizer"
+category: "SaaS"
+description: "Improve code quality and find bugs before they hit production with our continuous inspection platform"
+website: "https://scrutinizer-ci.com/"
+repository: null
+packagist: null
+stars: 0
+repo_updated_at: null
+metadata_updated_at: null
+editor_choice: false
+quality_tags:
+source: "README.md"
+notes: ""

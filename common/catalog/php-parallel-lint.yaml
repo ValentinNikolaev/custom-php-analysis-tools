@@ -1,0 +1,16 @@
+slug: "php-parallel-lint"
+name: "PHP-Parallel-Lint"
+category: "Bugs finders"
+description: "This tool check syntax of PHP files faster than serial check with fancier output."
+website: "https://github.com/JakubOnderka/PHP-Parallel-Lint"
+repository: "https://github.com/JakubOnderka/PHP-Parallel-Lint"
+packagist: "https://packagist.org/packages/jakub-onderka/php-parallel-lint"
+stars: 641
+repo_updated_at: "2021-03-13T09:57:43Z"
+metadata_updated_at: "2026-07-25T18:07:32Z"
+editor_choice: false
+quality_tags:
+  - "archived"
+  - "php"
+source: "README.md"
+notes: ""
