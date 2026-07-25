@@ -3,7 +3,7 @@ from __future__ import annotations
 from datetime import datetime, timezone
 
 from catalog_lib import CATEGORY_ORDER, ROOT, load_catalog, write_editor_choice_slugs
-from generate_readme import section
+from generate_readme import lifecycle, section
 
 
 TARGETS = {
@@ -38,12 +38,16 @@ def score(tool: dict) -> float:
     return stars ** 0.5 + age_bonus * 10 + tag_bonus
 
 
+def is_alive(tool: dict) -> bool:
+    return lifecycle(tool)[0] == 0
+
+
 def main() -> None:
     tools = load_catalog()
     selected: list[dict] = []
     for category in CATEGORY_ORDER:
         ranked = sorted(
-            [tool for tool in tools if tool.get("category") == category],
+            [tool for tool in tools if tool.get("category") == category and is_alive(tool)],
             key=lambda item: (-score(item), item.get("name", "").lower()),
         )
         selected.extend(ranked[: TARGETS.get(category, 0)])
@@ -54,7 +58,7 @@ def main() -> None:
         "# Static analysis tools for PHP",
         "",
         "This file is generated from `common/catalog/*.yaml` by `scripts/generate_editor_choice.py`.",
-        "Selection is deterministic: category quota, stars, repository freshness, and archive signals.",
+        "Selection is deterministic and limited to alive projects only, then ranked by category quota, stars, repository freshness, and archive signals.",
         "",
     ]
     for category in CATEGORY_ORDER:

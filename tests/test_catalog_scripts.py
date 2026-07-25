@@ -10,6 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
 import discover_tools
+import generate_editor_choice
 from catalog_lib import dump_yaml, load_yaml
 from generate_readme import lifecycle, sorted_for_table, tool_row
 
@@ -54,6 +55,12 @@ class CatalogScriptTests(unittest.TestCase):
             [tool["name"] for tool in sorted_for_table(tools)],
             ["Alive High Stars", "Alive Low Stars", "Dead High Stars"],
         )
+
+    def test_editor_choice_allows_only_alive_projects(self) -> None:
+        self.assertTrue(generate_editor_choice.is_alive({"repo_updated_at": "2026-07-01T00:00:00Z"}))
+        self.assertFalse(generate_editor_choice.is_alive({"repo_updated_at": "2026-03-01T00:00:00Z"}))
+        self.assertFalse(generate_editor_choice.is_alive({"repo_updated_at": "2024-01-01T00:00:00Z"}))
+        self.assertFalse(generate_editor_choice.is_alive({}))
 
     def test_tool_row_contains_status_star_and_links(self) -> None:
         row = tool_row(
