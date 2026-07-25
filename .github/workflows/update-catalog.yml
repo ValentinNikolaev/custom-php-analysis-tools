@@ -57,7 +57,7 @@ jobs:
 
             git add .
             git diff --cached --quiet && exit 0
-            git commit -m "chore: update generated files"
+            git commit -m "chore: update generated files $(date -u +%Y-%m-%d)"
             git push
           else
             echo "No catalog changes"
