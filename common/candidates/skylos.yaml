@@ -3,11 +3,18 @@ name: "skylos"
 category: "Bugs finders"
 description: "Open source local-first PR scanner that finds dead code, security bugs, secrets, quality regressions, and AI-code mistakes before merge. For first timers refer to https://duriantaco.github.io/skylos/repo-map/"
 website: "https://skylos.dev/"
+public_url: "https://skylos.dev/"
+website_status: "unknown"
+website_status_code: 0
+website_checked_at: null
+website_error: ""
 repository: "https://github.com/duriantaco/skylos"
 packagist: null
+latest_version: ""
+latest_version_released_at: null
 stars: 479
 repo_updated_at: "2026-07-25T16:41:06Z"
-metadata_updated_at: "2026-07-25T18:31:41Z"
+metadata_updated_at: "2026-07-25T18:42:19Z"
 editor_choice: false
 quality_tags:
   - "code-quality"

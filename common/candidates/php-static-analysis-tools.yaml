@@ -3,11 +3,18 @@ name: "php-static-analysis-tools"
 category: "Bugs finders"
 description: "A reviewed list of useful PHP static analysis tools"
 website: "https://github.com/exakat/php-static-analysis-tools"
+public_url: "https://github.com/exakat/php-static-analysis-tools"
+website_status: "unknown"
+website_status_code: 0
+website_checked_at: null
+website_error: ""
 repository: "https://github.com/exakat/php-static-analysis-tools"
 packagist: null
+latest_version: ""
+latest_version_released_at: null
 stars: 2879
 repo_updated_at: "2026-05-07T05:43:52Z"
-metadata_updated_at: "2026-07-25T18:31:41Z"
+metadata_updated_at: "2026-07-25T18:42:19Z"
 editor_choice: false
 quality_tags:
   - "php"

@@ -3,11 +3,18 @@ name: "phpqa"
 category: "Bugs finders"
 description: "Docker image that provides static analysis tools for PHP"
 website: "https://hub.docker.com/r/jakzal/phpqa/"
+public_url: "https://hub.docker.com/r/jakzal/phpqa/"
+website_status: "unknown"
+website_status_code: 0
+website_checked_at: null
+website_error: ""
 repository: "https://github.com/jakzal/phpqa"
 packagist: null
+latest_version: ""
+latest_version_released_at: null
 stars: 1318
 repo_updated_at: "2026-07-22T22:40:06Z"
-metadata_updated_at: "2026-07-25T18:31:41Z"
+metadata_updated_at: "2026-07-25T18:42:19Z"
 editor_choice: false
 quality_tags:
   - "code-quality"

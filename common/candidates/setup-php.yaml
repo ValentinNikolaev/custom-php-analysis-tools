@@ -3,11 +3,18 @@ name: "setup-php"
 category: "Bugs finders"
 description: "GitHub action to set up PHP with extensions, php.ini configuration, coverage drivers, and various tools."
 website: "https://setup-php.com"
+public_url: "https://setup-php.com"
+website_status: "unknown"
+website_status_code: 0
+website_checked_at: null
+website_error: ""
 repository: "https://github.com/shivammathur/setup-php"
 packagist: null
+latest_version: ""
+latest_version_released_at: null
 stars: 3242
 repo_updated_at: "2026-07-25T13:23:29Z"
-metadata_updated_at: "2026-07-25T18:31:41Z"
+metadata_updated_at: "2026-07-25T18:42:19Z"
 editor_choice: false
 quality_tags:
   - "php"
