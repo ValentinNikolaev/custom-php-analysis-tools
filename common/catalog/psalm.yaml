@@ -6,15 +6,15 @@ website: "https://psalm.dev"
 public_url: "https://psalm.dev"
 website_status: "available"
 website_status_code: 200
-website_checked_at: "2026-07-25T18:36:48Z"
+website_checked_at: "2026-07-26T15:39:26Z"
 website_error: ""
 repository: "https://github.com/vimeo/psalm"
 packagist: "https://packagist.org/packages/vimeo/psalm"
 latest_version: "6.16.1"
 latest_version_released_at: "2026-03-19T10:56:09+00:00"
-stars: 5869
+stars: 5870
 repo_updated_at: "2026-07-13T07:42:30Z"
-metadata_updated_at: "2026-07-25T18:38:08Z"
+metadata_updated_at: "2026-07-26T15:39:26Z"
 editor_choice: false
 quality_tags:
   - "php"

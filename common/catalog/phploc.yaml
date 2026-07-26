@@ -6,15 +6,15 @@ website: "https://github.com/sebastianbergmann/phploc"
 public_url: "https://github.com/sebastianbergmann/phploc"
 website_status: "available"
 website_status_code: 200
-website_checked_at: "2026-07-25T18:37:11Z"
+website_checked_at: "2026-07-26T15:39:54Z"
 website_error: ""
 repository: "https://github.com/sebastianbergmann/phploc"
 packagist: "https://packagist.org/packages/phploc/phploc"
 latest_version: "7.0.2"
 latest_version_released_at: "2020-12-07T05:51:20+00:00"
-stars: 2344
+stars: 2345
 repo_updated_at: "2025-04-12T05:04:58Z"
-metadata_updated_at: "2026-07-25T18:37:11Z"
+metadata_updated_at: "2026-07-26T15:39:54Z"
 editor_choice: true
 quality_tags:
   - "archived"

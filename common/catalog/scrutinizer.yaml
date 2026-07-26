@@ -4,15 +4,15 @@ category: "SaaS"
 description: "Improve code quality and find bugs before they hit production with our continuous inspection platform"
 website: "https://scrutinizer-ci.com/"
 public_url: "https://scrutinizer-ci.com/"
-website_status: "unavailable"
-website_status_code: 0
-website_checked_at: "2026-07-25T18:37:19Z"
-website_error: "[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1082)"
+website_status: "available"
+website_status_code: 200
+website_checked_at: "2026-07-26T15:40:00Z"
+website_error: ""
 repository: null
 packagist: null
 stars: 0
 repo_updated_at: null
-metadata_updated_at: "2026-07-25T18:37:19Z"
+metadata_updated_at: "2026-07-26T15:40:00Z"
 editor_choice: false
 quality_tags:
 source: "README.md"

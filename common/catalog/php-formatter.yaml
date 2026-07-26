@@ -6,7 +6,7 @@ website: "https://github.com/mmoreram/php-formatter"
 public_url: "https://github.com/mmoreram/php-formatter"
 website_status: "available"
 website_status_code: 200
-website_checked_at: "2026-07-25T18:36:54Z"
+website_checked_at: "2026-07-26T15:39:33Z"
 website_error: ""
 repository: "https://github.com/mmoreram/php-formatter"
 packagist: "https://packagist.org/packages/mmoreram/php-formatter"
@@ -14,7 +14,7 @@ latest_version: "v1.3.3"
 latest_version_released_at: "2017-12-04T14:18:04+00:00"
 stars: 168
 repo_updated_at: "2021-06-24T08:15:48Z"
-metadata_updated_at: "2026-07-25T18:36:54Z"
+metadata_updated_at: "2026-07-26T15:39:33Z"
 editor_choice: false
 quality_tags:
   - "archived"

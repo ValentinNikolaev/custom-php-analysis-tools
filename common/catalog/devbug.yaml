@@ -6,13 +6,13 @@ website: "http://www.devbug.co.uk/"
 public_url: "http://www.devbug.co.uk/"
 website_status: "unavailable"
 website_status_code: 0
-website_checked_at: "2026-07-25T18:37:21Z"
-website_error: "[Errno 11001] getaddrinfo failed"
+website_checked_at: "2026-07-26T15:40:03Z"
+website_error: "[Errno -2] Name or service not known"
 repository: null
 packagist: null
 stars: 0
 repo_updated_at: null
-metadata_updated_at: "2026-07-25T18:37:21Z"
+metadata_updated_at: "2026-07-26T15:40:03Z"
 editor_choice: true
 quality_tags:
 source: "README.md"
