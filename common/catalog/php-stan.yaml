@@ -10,11 +10,11 @@ website_checked_at: "2026-07-26T15:39:17Z"
 website_error: ""
 repository: "https://github.com/phpstan/phpstan"
 packagist: "https://packagist.org/packages/phpstan/phpstan"
-latest_version: "2.2.5"
-latest_version_released_at: "2026-07-05T06:31:06+00:00"
+latest_version: "2.2.6"
+latest_version_released_at: "2026-07-26T21:22:49+00:00"
 stars: 14044
 repo_updated_at: "2026-07-26T14:53:04Z"
-metadata_updated_at: "2026-07-26T15:39:17Z"
+metadata_updated_at: "2026-07-27T04:27:57Z"
 editor_choice: true
 quality_tags:
   - "php"
