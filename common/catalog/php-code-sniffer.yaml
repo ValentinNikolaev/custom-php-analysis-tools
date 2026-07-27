@@ -6,15 +6,15 @@ website: "https://github.com/squizlabs/PHP_CodeSniffer"
 public_url: "https://github.com/squizlabs/PHP_CodeSniffer"
 website_status: "available"
 website_status_code: 200
-website_checked_at: "2026-07-26T15:39:32Z"
+website_checked_at: "2026-07-27T16:03:24Z"
 website_error: ""
 repository: "https://github.com/squizlabs/PHP_CodeSniffer"
 packagist: "https://packagist.org/packages/squizlabs/php_codesniffer"
 latest_version: "4.0.1"
 latest_version_released_at: "2025-11-10T16:43:36+00:00"
-stars: 10775
+stars: 10774
 repo_updated_at: "2024-04-01T20:37:32Z"
-metadata_updated_at: "2026-07-26T15:39:32Z"
+metadata_updated_at: "2026-07-27T16:03:24Z"
 editor_choice: true
 quality_tags:
   - "php"

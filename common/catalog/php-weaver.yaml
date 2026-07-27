@@ -6,13 +6,13 @@ website: "https://github.com/troelskn/phpweaver"
 public_url: "https://github.com/troelskn/phpweaver"
 website_status: "available"
 website_status_code: 200
-website_checked_at: "2026-07-26T15:39:44Z"
+website_checked_at: "2026-07-27T16:03:38Z"
 website_error: ""
 repository: "https://github.com/troelskn/phpweaver"
 packagist: null
 stars: 85
 repo_updated_at: "2026-01-28T01:01:37Z"
-metadata_updated_at: "2026-07-26T15:39:44Z"
+metadata_updated_at: "2026-07-27T16:03:38Z"
 editor_choice: false
 quality_tags:
 source: "README.md"

@@ -6,7 +6,7 @@ website: "https://github.com/nilportugues/php-backslasher"
 public_url: "https://github.com/nilportugues/php-backslasher"
 website_status: "available"
 website_status_code: 200
-website_checked_at: "2026-07-26T15:39:41Z"
+website_checked_at: "2026-07-27T16:03:35Z"
 website_error: ""
 repository: "https://github.com/nilportugues/php-backslasher"
 packagist: "https://packagist.org/packages/nilportugues/php_backslasher"
@@ -14,7 +14,7 @@ latest_version: "1.1.4"
 latest_version_released_at: "2020-04-21T20:39:34+00:00"
 stars: 88
 repo_updated_at: "2020-04-21T20:40:00Z"
-metadata_updated_at: "2026-07-26T15:39:41Z"
+metadata_updated_at: "2026-07-27T16:03:35Z"
 editor_choice: false
 quality_tags:
   - "php"
