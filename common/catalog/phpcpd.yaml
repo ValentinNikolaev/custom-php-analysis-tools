@@ -6,7 +6,7 @@ website: "https://github.com/sebastianbergmann/phpcpd"
 public_url: "https://github.com/sebastianbergmann/phpcpd"
 website_status: "available"
 website_status_code: 200
-website_checked_at: "2026-07-28T15:57:15Z"
+website_checked_at: "2026-07-29T15:53:35Z"
 website_error: ""
 repository: "https://github.com/sebastianbergmann/phpcpd"
 packagist: "https://packagist.org/packages/phpcpd-next/phpcpd"
@@ -14,7 +14,7 @@ latest_version: "v1.2"
 latest_version_released_at: "2026-07-19T17:58:20+00:00"
 stars: 2211
 repo_updated_at: "2023-01-10T12:50:42Z"
-metadata_updated_at: "2026-07-28T15:57:15Z"
+metadata_updated_at: "2026-07-29T15:53:35Z"
 editor_choice: true
 quality_tags:
   - "archived"

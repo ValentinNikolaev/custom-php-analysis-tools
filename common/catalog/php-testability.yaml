@@ -6,13 +6,13 @@ website: "https://github.com/edsonmedina/php_testability"
 public_url: "https://github.com/edsonmedina/php_testability"
 website_status: "available"
 website_status_code: 200
-website_checked_at: "2026-07-28T15:57:09Z"
+website_checked_at: "2026-07-29T15:53:29Z"
 website_error: ""
 repository: "https://github.com/edsonmedina/php_testability"
 packagist: "https://packagist.org/packages/edsonmedina/php_testability"
 stars: 130
 repo_updated_at: "2022-01-27T15:18:07Z"
-metadata_updated_at: "2026-07-28T15:57:09Z"
+metadata_updated_at: "2026-07-29T15:53:29Z"
 editor_choice: false
 quality_tags:
   - "archived"

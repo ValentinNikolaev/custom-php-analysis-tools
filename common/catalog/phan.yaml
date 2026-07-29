@@ -6,7 +6,7 @@ website: "https://github.com/etsy/phan"
 public_url: "https://github.com/etsy/phan"
 website_status: "available"
 website_status_code: 200
-website_checked_at: "2026-07-28T15:57:03Z"
+website_checked_at: "2026-07-29T15:53:23Z"
 website_error: ""
 repository: "https://github.com/phan/phan"
 packagist: "https://packagist.org/packages/phan/phan"
@@ -14,7 +14,7 @@ latest_version: "6.0.7"
 latest_version_released_at: "2026-06-22T20:53:52+00:00"
 stars: 5619
 repo_updated_at: "2026-07-20T21:21:07Z"
-metadata_updated_at: "2026-07-28T15:57:03Z"
+metadata_updated_at: "2026-07-29T15:53:23Z"
 editor_choice: true
 quality_tags:
   - "php"
