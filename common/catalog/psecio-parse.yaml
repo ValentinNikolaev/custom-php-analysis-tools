@@ -6,7 +6,7 @@ website: "https://github.com/psecio/parse.git"
 public_url: "https://github.com/psecio/parse.git"
 website_status: "available"
 website_status_code: 200
-website_checked_at: "2026-07-29T15:53:36Z"
+website_checked_at: "2026-07-30T15:54:14Z"
 website_error: ""
 repository: "https://github.com/psecio/parse"
 packagist: "https://packagist.org/packages/psecio/parse"
@@ -14,7 +14,7 @@ latest_version: "0.8"
 latest_version_released_at: "2018-08-01T18:12:46+00:00"
 stars: 381
 repo_updated_at: "2018-08-07T08:33:28Z"
-metadata_updated_at: "2026-07-29T15:53:36Z"
+metadata_updated_at: "2026-07-30T15:54:14Z"
 editor_choice: false
 quality_tags:
   - "php"

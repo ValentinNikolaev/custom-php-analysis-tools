@@ -4,15 +4,15 @@ category: "Fixers"
 description: "PHP 7 to PHP 5.6 Transpiler"
 website: "https://github.com/jaytaph/Transphpile"
 public_url: "https://github.com/jaytaph/Transphpile"
-website_status: "available"
-website_status_code: 200
-website_checked_at: "2026-07-29T15:53:53Z"
-website_error: ""
+website_status: "unavailable"
+website_status_code: 502
+website_checked_at: "2026-07-30T15:54:41Z"
+website_error: "HTTP 502"
 repository: "https://github.com/jaytaph/Transphpile"
 packagist: null
 stars: 178
 repo_updated_at: "2017-09-02T00:24:19Z"
-metadata_updated_at: "2026-07-29T15:53:53Z"
+metadata_updated_at: "2026-07-30T15:54:41Z"
 editor_choice: false
 quality_tags:
 source: "README.md"

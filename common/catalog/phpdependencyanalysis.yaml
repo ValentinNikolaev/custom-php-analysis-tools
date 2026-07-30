@@ -6,7 +6,7 @@ website: "https://github.com/mamuz/PhpDependencyAnalysis"
 public_url: "https://github.com/mamuz/PhpDependencyAnalysis"
 website_status: "available"
 website_status_code: 200
-website_checked_at: "2026-07-29T15:53:58Z"
+website_checked_at: "2026-07-30T15:54:46Z"
 website_error: ""
 repository: "https://github.com/mamuz/PhpDependencyAnalysis"
 packagist: "https://packagist.org/packages/agratushniy/php-dependency-analysis"
@@ -14,7 +14,7 @@ latest_version: "v2.0.2"
 latest_version_released_at: "2019-04-11T15:58:29+00:00"
 stars: 575
 repo_updated_at: "2023-12-03T20:43:10Z"
-metadata_updated_at: "2026-07-29T15:53:58Z"
+metadata_updated_at: "2026-07-30T15:54:46Z"
 editor_choice: true
 quality_tags:
   - "code-quality"
