@@ -6,15 +6,15 @@ website: "https://github.com/Halleck45/PhpMetrics"
 public_url: "https://github.com/Halleck45/PhpMetrics"
 website_status: "available"
 website_status_code: 200
-website_checked_at: "2026-07-30T15:54:45Z"
+website_checked_at: "2026-07-31T15:56:55Z"
 website_error: ""
 repository: "https://github.com/phpmetrics/PhpMetrics"
 packagist: "https://packagist.org/packages/phpmetrics/phpmetrics"
 latest_version: "2.10.0"
 latest_version_released_at: "2026-07-21T16:15:57+00:00"
-stars: 2603
+stars: 2604
 repo_updated_at: "2026-07-29T05:43:02Z"
-metadata_updated_at: "2026-07-30T15:54:45Z"
+metadata_updated_at: "2026-07-31T15:56:55Z"
 editor_choice: true
 quality_tags:
   - "php"

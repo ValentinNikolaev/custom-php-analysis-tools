@@ -12,9 +12,9 @@ repository: "https://github.com/scanaislop/aislop"
 packagist: null
 latest_version: ""
 latest_version_released_at: null
-stars: 523
+stars: 524
 repo_updated_at: "2026-07-25T19:18:49Z"
-metadata_updated_at: "2026-07-31T04:24:17Z"
+metadata_updated_at: "2026-07-31T15:57:12Z"
 editor_choice: false
 quality_tags:
   - "code-quality"
