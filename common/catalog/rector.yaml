@@ -10,11 +10,11 @@ website_checked_at: "2026-07-30T15:54:31Z"
 website_error: ""
 repository: "https://github.com/rectorphp/rector"
 packagist: "https://packagist.org/packages/rector/rector"
-latest_version: "2.5.8"
-latest_version_released_at: "2026-07-27T06:19:16+00:00"
+latest_version: "2.5.9"
+latest_version_released_at: "2026-07-30T22:10:00+00:00"
 stars: 10388
 repo_updated_at: "2026-07-30T15:45:34Z"
-metadata_updated_at: "2026-07-30T15:54:31Z"
+metadata_updated_at: "2026-07-31T04:24:06Z"
 editor_choice: false
 quality_tags:
   - "php"

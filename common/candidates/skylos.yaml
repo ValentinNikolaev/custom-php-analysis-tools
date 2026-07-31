@@ -12,9 +12,9 @@ repository: "https://github.com/duriantaco/skylos"
 packagist: null
 latest_version: ""
 latest_version_released_at: null
-stars: 481
-repo_updated_at: "2026-07-30T15:21:51Z"
-metadata_updated_at: "2026-07-30T15:55:05Z"
+stars: 483
+repo_updated_at: "2026-07-30T16:08:44Z"
+metadata_updated_at: "2026-07-31T04:24:17Z"
 editor_choice: false
 quality_tags:
   - "code-quality"
