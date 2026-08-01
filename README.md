@@ -23,7 +23,7 @@ The source of truth is `common/catalog/*.yaml`. Run `python scripts/full_workflo
 
 | Tool | Description | Status | ⭐ Stars | Updated | Latest | Links |
 |---|---|---|---:|---|---|---|
-| [PHP Stan](https://github.com/phpstan/phpstan) | PHP Static Analysis Tool - discover bugs in your code without running it! | ![Alive](https://img.shields.io/badge/status-alive-brightgreen) | 14,050 | 2026-07-30 | 2.2.7 | [GitHub](https://github.com/phpstan/phpstan)<br>[Packagist](https://packagist.org/packages/phpstan/phpstan) |
+| [PHP Stan](https://github.com/phpstan/phpstan) | PHP Static Analysis Tool - discover bugs in your code without running it! | ![Alive](https://img.shields.io/badge/status-alive-brightgreen) | 14,052 | 2026-07-31 | 2.2.7 | [GitHub](https://github.com/phpstan/phpstan)<br>[Packagist](https://packagist.org/packages/phpstan/phpstan) |
 | [jscpd](https://github.com/kucherenko/jscpd) | Copy/paste detector for programming source code, supports 223 formats. AI-ready with token-efficient reporter, skill and MCP server. | ![Alive](https://img.shields.io/badge/status-alive-brightgreen) | 5,956 | 2026-07-31 | - | [GitHub](https://github.com/kucherenko/jscpd) |
 | [psalm](https://psalm.dev) | A PHP static analysis tool for finding errors and security vulnerabilities in PHP applications | ![Alive](https://img.shields.io/badge/status-alive-brightgreen) | 5,872 | 2026-07-13 | 6.16.1 | [GitHub](https://github.com/vimeo/psalm)<br>[Packagist](https://packagist.org/packages/vimeo/psalm) |
 | [Phan](https://github.com/etsy/phan) | Phan is a static analyzer for PHP. Phan prefers to avoid false-positives and attempts to prove incorrectness rather than correctness. | ![Alive](https://img.shields.io/badge/status-alive-brightgreen) | 5,619 | 2026-07-20 | 6.0.7 | [GitHub](https://github.com/phan/phan)<br>[Packagist](https://packagist.org/packages/phan/phan) |
@@ -48,7 +48,7 @@ The source of truth is `common/catalog/*.yaml`. Run `python scripts/full_workflo
 | Tool | Description | Status | ⭐ Stars | Updated | Latest | Links |
 |---|---|---|---:|---|---|---|
 | [PHP CS Fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer) | A tool to automatically fix PHP Coding Standards issues | ![Alive](https://img.shields.io/badge/status-alive-brightgreen) | 13,546 | 2026-07-31 | v3.88.2 | [GitHub](https://github.com/PHP-CS-Fixer/PHP-CS-Fixer)<br>[Packagist](https://packagist.org/packages/composer-phar/php-cs-fixer) |
-| [Rector](https://github.com/rectorphp/rector) | Instant Upgrades and Automated Refactoring of any PHP 5.3+ code | ![Alive](https://img.shields.io/badge/status-alive-brightgreen) | 10,388 | 2026-07-30 | 2.5.9 | [GitHub](https://github.com/rectorphp/rector)<br>[Packagist](https://packagist.org/packages/rector/rector) |
+| [Rector](https://github.com/rectorphp/rector) | Instant Upgrades and Automated Refactoring of any PHP 5.3+ code | ![Alive](https://img.shields.io/badge/status-alive-brightgreen) | 10,390 | 2026-07-31 | 2.5.9 | [GitHub](https://github.com/rectorphp/rector)<br>[Packagist](https://packagist.org/packages/rector/rector) |
 
 ##### Metrics
 
@@ -68,7 +68,7 @@ The source of truth is `common/catalog/*.yaml`. Run `python scripts/full_workflo
 
 | Tool | Description | Status | ⭐ Stars | Updated | Latest | Links |
 |---|---|---|---:|---|---|---|
-| [PHP Stan](https://github.com/phpstan/phpstan) | PHP Static Analysis Tool - discover bugs in your code without running it! | ![Alive](https://img.shields.io/badge/status-alive-brightgreen) | 14,050 | 2026-07-30 | 2.2.7 | [GitHub](https://github.com/phpstan/phpstan)<br>[Packagist](https://packagist.org/packages/phpstan/phpstan) |
+| [PHP Stan](https://github.com/phpstan/phpstan) | PHP Static Analysis Tool - discover bugs in your code without running it! | ![Alive](https://img.shields.io/badge/status-alive-brightgreen) | 14,052 | 2026-07-31 | 2.2.7 | [GitHub](https://github.com/phpstan/phpstan)<br>[Packagist](https://packagist.org/packages/phpstan/phpstan) |
 | [jscpd](https://github.com/kucherenko/jscpd) | Copy/paste detector for programming source code, supports 223 formats. AI-ready with token-efficient reporter, skill and MCP server. | ![Alive](https://img.shields.io/badge/status-alive-brightgreen) | 5,956 | 2026-07-31 | - | [GitHub](https://github.com/kucherenko/jscpd) |
 | [psalm](https://psalm.dev) | A PHP static analysis tool for finding errors and security vulnerabilities in PHP applications | ![Alive](https://img.shields.io/badge/status-alive-brightgreen) | 5,872 | 2026-07-13 | 6.16.1 | [GitHub](https://github.com/vimeo/psalm)<br>[Packagist](https://packagist.org/packages/vimeo/psalm) |
 | [Phan](https://github.com/etsy/phan) | Phan is a static analyzer for PHP. Phan prefers to avoid false-positives and attempts to prove incorrectness rather than correctness. | ![Alive](https://img.shields.io/badge/status-alive-brightgreen) | 5,619 | 2026-07-20 | 6.0.7 | [GitHub](https://github.com/phan/phan)<br>[Packagist](https://packagist.org/packages/phan/phan) |
@@ -87,7 +87,7 @@ The source of truth is `common/catalog/*.yaml`. Run `python scripts/full_workflo
 | [PHP Assumption](https://github.com/rskuipers/php-assumptions.git) | Tool to detect assumptions | ![Dead](https://img.shields.io/badge/status-dead-red) | 164 | 2025-03-22 | 0.9.1 | [GitHub](https://github.com/rskuipers/php-assumptions)<br>[Packagist](https://packagist.org/packages/rskuipers/php-assumptions) |
 | [PHP testability](https://github.com/edsonmedina/php_testability) | Analyses and reports testability issues of a php codebase | ![Dead](https://img.shields.io/badge/status-dead-red) | 130 | 2022-01-27 | - | [GitHub](https://github.com/edsonmedina/php_testability)<br>[Packagist](https://packagist.org/packages/edsonmedina/php_testability) |
 | [PhpCodeAnalyzer](https://github.com/wapmorgan/PhpCodeAnalyzer.git) | Really, it's "php extensions usage analyzer". It scans codebase and analyzes which non-built-in php extensions used | ![Dead](https://img.shields.io/badge/status-dead-red) | 96 | 2023-01-17 | - | [GitHub](https://github.com/wapmorgan/PhpCodeAnalyzer) |
-| [Exakat](http://www.exakat.io/) | Smart static analysis | ![Unknown](https://img.shields.io/badge/status-unknown-lightgrey) | - | - | - | - |
+| [Exakat](http://www.exakat.io/) | Smart static analysis | ![Unknown](https://img.shields.io/badge/status-unknown-lightgrey) | - | - | - | Site unavailable |
 | [PHP Inspection](https://plugins.jetbrains.com/plugin/7622?pr=idea) | Static analysis plugin for PHPStorm | ![Unknown](https://img.shields.io/badge/status-unknown-lightgrey) | - | - | - | - |
 | [SonarQube](http://www.sonarqube.org/) | An open platform to manage code quality. It covers PHP code | ![Unknown](https://img.shields.io/badge/status-unknown-lightgrey) | - | - | - | - |
 
@@ -115,7 +115,7 @@ The source of truth is `common/catalog/*.yaml`. Run `python scripts/full_workflo
 | Tool | Description | Status | ⭐ Stars | Updated | Latest | Links |
 |---|---|---|---:|---|---|---|
 | [PHP CS Fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer) | A tool to automatically fix PHP Coding Standards issues | ![Alive](https://img.shields.io/badge/status-alive-brightgreen) | 13,546 | 2026-07-31 | v3.88.2 | [GitHub](https://github.com/PHP-CS-Fixer/PHP-CS-Fixer)<br>[Packagist](https://packagist.org/packages/composer-phar/php-cs-fixer) |
-| [Rector](https://github.com/rectorphp/rector) | Instant Upgrades and Automated Refactoring of any PHP 5.3+ code | ![Alive](https://img.shields.io/badge/status-alive-brightgreen) | 10,388 | 2026-07-30 | 2.5.9 | [GitHub](https://github.com/rectorphp/rector)<br>[Packagist](https://packagist.org/packages/rector/rector) |
+| [Rector](https://github.com/rectorphp/rector) | Instant Upgrades and Automated Refactoring of any PHP 5.3+ code | ![Alive](https://img.shields.io/badge/status-alive-brightgreen) | 10,390 | 2026-07-31 | 2.5.9 | [GitHub](https://github.com/rectorphp/rector)<br>[Packagist](https://packagist.org/packages/rector/rector) |
 | [PHP Weaver](https://github.com/troelskn/phpweaver) | A combined runtime/static code-analysis tool, that can trace parameter types | ![Almost dead](https://img.shields.io/badge/status-almost_dead-orange) | 85 | 2026-01-28 | - | [GitHub](https://github.com/troelskn/phpweaver) |
 | [php-refactoring-browser](https://github.com/QafooLabs/php-refactoring-browser) | A command line refactoring tool for PHP | ![Dead](https://img.shields.io/badge/status-dead-red) | 548 | 2017-11-15 | v0.1 | [GitHub](https://github.com/QafooLabs/php-refactoring-browser)<br>[Packagist](https://packagist.org/packages/qafoolabs/php-refactoring-browser) |
 | [phpdoc to typehint](https://github.com/dunglas/phpdoc-to-typehint) | Add scalar type hints and return types to existing PHP projects using PHPDoc annotations | ![Dead](https://img.shields.io/badge/status-dead-red) | 225 | 2020-12-28 | v0.1.0 | [GitHub](https://github.com/dunglas/phpdoc-to-typehint)<br>[Packagist](https://packagist.org/packages/dunglas/phpdoc-to-typehint) |
