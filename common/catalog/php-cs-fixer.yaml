@@ -6,15 +6,15 @@ website: "https://github.com/FriendsOfPHP/PHP-CS-Fixer"
 public_url: "https://github.com/FriendsOfPHP/PHP-CS-Fixer"
 website_status: "available"
 website_status_code: 200
-website_checked_at: "2026-07-31T15:56:46Z"
+website_checked_at: "2026-08-01T15:38:54Z"
 website_error: ""
 repository: "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer"
 packagist: "https://packagist.org/packages/composer-phar/php-cs-fixer"
 latest_version: "v3.88.2"
 latest_version_released_at: "2025-10-13T07:09:33+00:00"
-stars: 13546
+stars: 13547
 repo_updated_at: "2026-07-31T10:35:26Z"
-metadata_updated_at: "2026-07-31T15:56:46Z"
+metadata_updated_at: "2026-08-01T15:38:54Z"
 editor_choice: true
 quality_tags:
   - "php"

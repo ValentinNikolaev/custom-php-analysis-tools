@@ -6,7 +6,7 @@ website: "https://github.com/rskuipers/php-assumptions.git"
 public_url: "https://github.com/rskuipers/php-assumptions.git"
 website_status: "available"
 website_status_code: 200
-website_checked_at: "2026-07-31T15:56:21Z"
+website_checked_at: "2026-08-01T15:38:21Z"
 website_error: ""
 repository: "https://github.com/rskuipers/php-assumptions"
 packagist: "https://packagist.org/packages/rskuipers/php-assumptions"
@@ -14,7 +14,7 @@ latest_version: "0.9.1"
 latest_version_released_at: "2025-03-22T15:15:59+00:00"
 stars: 164
 repo_updated_at: "2025-03-22T15:16:44Z"
-metadata_updated_at: "2026-07-31T15:56:21Z"
+metadata_updated_at: "2026-08-01T15:38:21Z"
 editor_choice: false
 quality_tags:
 source: "README.md"
