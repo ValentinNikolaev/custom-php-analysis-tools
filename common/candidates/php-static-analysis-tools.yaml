@@ -12,9 +12,9 @@ repository: "https://github.com/exakat/php-static-analysis-tools"
 packagist: null
 latest_version: ""
 latest_version_released_at: null
-stars: 2879
+stars: 2878
 repo_updated_at: "2026-05-07T05:43:52Z"
-metadata_updated_at: "2026-08-01T15:39:22Z"
+metadata_updated_at: "2026-08-02T04:24:25Z"
 editor_choice: false
 quality_tags:
   - "php"

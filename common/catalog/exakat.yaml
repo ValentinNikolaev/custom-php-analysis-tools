@@ -4,15 +4,15 @@ category: "Bugs finders"
 description: "Smart static analysis"
 website: "http://www.exakat.io/"
 public_url: "http://www.exakat.io/"
-website_status: "unavailable"
-website_status_code: 0
-website_checked_at: "2026-08-01T04:24:04Z"
-website_error: "timed out"
+website_status: "available"
+website_status_code: 200
+website_checked_at: "2026-08-02T04:24:05Z"
+website_error: ""
 repository: null
 packagist: null
 stars: 0
 repo_updated_at: null
-metadata_updated_at: "2026-08-01T04:24:04Z"
+metadata_updated_at: "2026-08-02T04:24:05Z"
 editor_choice: false
 quality_tags:
 source: "README.md"
