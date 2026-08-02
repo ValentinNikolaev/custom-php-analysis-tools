@@ -6,15 +6,15 @@ website: "https://github.com/Roave/BetterReflection"
 public_url: "https://github.com/Roave/BetterReflection"
 website_status: "available"
 website_status_code: 200
-website_checked_at: "2026-08-01T15:38:45Z"
+website_checked_at: "2026-08-02T15:39:20Z"
 website_error: ""
 repository: "https://github.com/Roave/BetterReflection"
 packagist: "https://packagist.org/packages/roave/better-reflection"
 latest_version: "6.72.0"
 latest_version_released_at: "2026-07-22T18:50:32+00:00"
 stars: 1244
-repo_updated_at: "2026-08-01T09:54:23Z"
-metadata_updated_at: "2026-08-01T15:38:45Z"
+repo_updated_at: "2026-08-02T06:08:56Z"
+metadata_updated_at: "2026-08-02T15:39:20Z"
 editor_choice: true
 quality_tags:
 source: "README.md"

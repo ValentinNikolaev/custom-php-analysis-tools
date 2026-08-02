@@ -6,7 +6,7 @@ website: "https://github.com/maglnet/ComposerRequireChecker"
 public_url: "https://github.com/maglnet/ComposerRequireChecker"
 website_status: "available"
 website_status_code: 200
-website_checked_at: "2026-08-01T15:39:16Z"
+website_checked_at: "2026-08-02T15:39:46Z"
 website_error: ""
 repository: "https://github.com/maglnet/ComposerRequireChecker"
 packagist: "https://packagist.org/packages/maglnet/composer-require-checker"
@@ -14,7 +14,7 @@ latest_version: "4.24.0"
 latest_version_released_at: "2026-03-20T12:51:42+00:00"
 stars: 1006
 repo_updated_at: "2026-07-30T05:06:51Z"
-metadata_updated_at: "2026-08-01T15:39:16Z"
+metadata_updated_at: "2026-08-02T15:39:46Z"
 editor_choice: true
 quality_tags:
   - "code-quality"
