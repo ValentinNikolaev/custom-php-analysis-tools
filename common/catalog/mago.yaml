@@ -6,15 +6,15 @@ website: "http://mago.carthage.software/"
 public_url: "http://mago.carthage.software/"
 website_status: "available"
 website_status_code: 200
-website_checked_at: "2026-08-02T15:38:53Z"
+website_checked_at: "2026-08-03T16:06:15Z"
 website_error: ""
 repository: "https://github.com/carthage-software/mago"
 packagist: "https://packagist.org/packages/carthage-software/mago"
 latest_version: "1.45.0"
 latest_version_released_at: "2026-07-24T04:43:42+00:00"
-stars: 3352
-repo_updated_at: "2026-08-02T07:32:46Z"
-metadata_updated_at: "2026-08-02T15:38:53Z"
+stars: 3355
+repo_updated_at: "2026-08-02T16:14:02Z"
+metadata_updated_at: "2026-08-03T16:06:15Z"
 editor_choice: false
 quality_tags:
   - "php"

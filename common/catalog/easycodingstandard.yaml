@@ -6,13 +6,13 @@ website: "https://github.com/Symplify/EasyCodingStandard"
 public_url: "https://github.com/Symplify/EasyCodingStandard"
 website_status: "available"
 website_status_code: 200
-website_checked_at: "2026-08-02T15:39:16Z"
+website_checked_at: "2026-08-03T16:06:40Z"
 website_error: ""
 repository: "https://github.com/ecsphp/ecs"
 packagist: null
 stars: 1619
 repo_updated_at: "2026-07-22T20:02:46Z"
-metadata_updated_at: "2026-08-02T15:39:16Z"
+metadata_updated_at: "2026-08-03T16:06:40Z"
 editor_choice: true
 quality_tags:
   - "php"

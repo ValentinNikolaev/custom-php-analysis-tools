@@ -6,13 +6,13 @@ website: "https://github.com/wapmorgan/PhpCodeFixer"
 public_url: "https://github.com/wapmorgan/PhpCodeFixer"
 website_status: "available"
 website_status_code: 200
-website_checked_at: "2026-08-02T15:39:11Z"
+website_checked_at: "2026-08-03T16:06:34Z"
 website_error: ""
 repository: "https://github.com/wapmorgan/PhpDeprecationDetector"
 packagist: null
 stars: 367
 repo_updated_at: "2024-02-14T12:40:26Z"
-metadata_updated_at: "2026-08-02T15:39:11Z"
+metadata_updated_at: "2026-08-03T16:06:34Z"
 editor_choice: true
 quality_tags:
   - "static-analysis"
