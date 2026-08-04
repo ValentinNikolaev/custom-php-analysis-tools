@@ -12,9 +12,9 @@ repository: "https://github.com/jakzal/phpqa"
 packagist: null
 latest_version: ""
 latest_version_released_at: null
-stars: 1318
+stars: 1319
 repo_updated_at: "2026-08-03T06:22:09Z"
-metadata_updated_at: "2026-08-04T04:21:57Z"
+metadata_updated_at: "2026-08-04T16:02:24Z"
 editor_choice: false
 quality_tags:
   - "code-quality"

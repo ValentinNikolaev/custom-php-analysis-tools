@@ -6,7 +6,7 @@ website: "https://github.com/karlosagudo/fixtro"
 public_url: "https://github.com/karlosagudo/fixtro"
 website_status: "available"
 website_status_code: 200
-website_checked_at: "2026-08-03T16:07:18Z"
+website_checked_at: "2026-08-04T16:02:21Z"
 website_error: ""
 repository: "https://github.com/karlosagudo/fixtro"
 packagist: "https://packagist.org/packages/karlosagudo/fixtro"
@@ -14,7 +14,7 @@ latest_version: "1.0.11"
 latest_version_released_at: "2019-03-02T11:29:00+00:00"
 stars: 23
 repo_updated_at: "2019-03-02T11:30:19Z"
-metadata_updated_at: "2026-08-03T16:07:18Z"
+metadata_updated_at: "2026-08-04T16:02:21Z"
 editor_choice: true
 quality_tags:
   - "php"

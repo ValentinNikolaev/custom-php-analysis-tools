@@ -6,7 +6,7 @@ website: "https://github.com/ircmaxell/php-cfg"
 public_url: "https://github.com/ircmaxell/php-cfg"
 website_status: "available"
 website_status_code: 200
-website_checked_at: "2026-08-03T16:06:49Z"
+website_checked_at: "2026-08-04T16:01:54Z"
 website_error: ""
 repository: "https://github.com/ircmaxell/php-cfg"
 packagist: "https://packagist.org/packages/ircmaxell/php-cfg"
@@ -14,7 +14,7 @@ latest_version: "V0.8.1"
 latest_version_released_at: "2025-08-17T17:57:47+00:00"
 stars: 246
 repo_updated_at: "2026-08-01T07:01:01Z"
-metadata_updated_at: "2026-08-03T16:06:49Z"
+metadata_updated_at: "2026-08-04T16:01:54Z"
 editor_choice: false
 quality_tags:
 source: "README.md"

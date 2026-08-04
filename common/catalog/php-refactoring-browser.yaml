@@ -6,7 +6,7 @@ website: "https://github.com/QafooLabs/php-refactoring-browser"
 public_url: "https://github.com/QafooLabs/php-refactoring-browser"
 website_status: "available"
 website_status_code: 200
-website_checked_at: "2026-08-03T16:06:57Z"
+website_checked_at: "2026-08-04T16:02:01Z"
 website_error: ""
 repository: "https://github.com/QafooLabs/php-refactoring-browser"
 packagist: "https://packagist.org/packages/qafoolabs/php-refactoring-browser"
@@ -14,7 +14,7 @@ latest_version: "v0.1"
 latest_version_released_at: "2015-04-14T11:32:09+00:00"
 stars: 548
 repo_updated_at: "2017-11-15T22:30:57Z"
-metadata_updated_at: "2026-08-03T16:06:57Z"
+metadata_updated_at: "2026-08-04T16:02:01Z"
 editor_choice: false
 quality_tags:
   - "archived"
