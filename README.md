@@ -48,7 +48,7 @@ The source of truth is `common/catalog/*.yaml`. Run `python scripts/full_workflo
 | Tool | Description | Status | ⭐ Stars | Updated | Latest | Links |
 |---|---|---|---:|---|---|---|
 | [PHP CS Fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer) | A tool to automatically fix PHP Coding Standards issues | ![Alive](https://img.shields.io/badge/status-alive-brightgreen) | 13,547 | 2026-07-31 | v3.88.2 | [GitHub](https://github.com/PHP-CS-Fixer/PHP-CS-Fixer)<br>[Packagist](https://packagist.org/packages/composer-phar/php-cs-fixer) |
-| [Rector](https://github.com/rectorphp/rector) | Instant Upgrades and Automated Refactoring of any PHP 5.3+ code | ![Alive](https://img.shields.io/badge/status-alive-brightgreen) | 10,391 | 2026-08-02 | 2.6.0 | [GitHub](https://github.com/rectorphp/rector)<br>[Packagist](https://packagist.org/packages/rector/rector) |
+| [Rector](https://github.com/rectorphp/rector) | Instant Upgrades and Automated Refactoring of any PHP 5.3+ code | ![Alive](https://img.shields.io/badge/status-alive-brightgreen) | 10,391 | 2026-08-02 | 2.6.1 | [GitHub](https://github.com/rectorphp/rector)<br>[Packagist](https://packagist.org/packages/rector/rector) |
 
 ##### Metrics
 
@@ -115,7 +115,7 @@ The source of truth is `common/catalog/*.yaml`. Run `python scripts/full_workflo
 | Tool | Description | Status | ⭐ Stars | Updated | Latest | Links |
 |---|---|---|---:|---|---|---|
 | [PHP CS Fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer) | A tool to automatically fix PHP Coding Standards issues | ![Alive](https://img.shields.io/badge/status-alive-brightgreen) | 13,547 | 2026-07-31 | v3.88.2 | [GitHub](https://github.com/PHP-CS-Fixer/PHP-CS-Fixer)<br>[Packagist](https://packagist.org/packages/composer-phar/php-cs-fixer) |
-| [Rector](https://github.com/rectorphp/rector) | Instant Upgrades and Automated Refactoring of any PHP 5.3+ code | ![Alive](https://img.shields.io/badge/status-alive-brightgreen) | 10,391 | 2026-08-02 | 2.6.0 | [GitHub](https://github.com/rectorphp/rector)<br>[Packagist](https://packagist.org/packages/rector/rector) |
+| [Rector](https://github.com/rectorphp/rector) | Instant Upgrades and Automated Refactoring of any PHP 5.3+ code | ![Alive](https://img.shields.io/badge/status-alive-brightgreen) | 10,391 | 2026-08-02 | 2.6.1 | [GitHub](https://github.com/rectorphp/rector)<br>[Packagist](https://packagist.org/packages/rector/rector) |
 | [PHP Weaver](https://github.com/troelskn/phpweaver) | A combined runtime/static code-analysis tool, that can trace parameter types | ![Almost dead](https://img.shields.io/badge/status-almost_dead-orange) | 85 | 2026-01-28 | - | [GitHub](https://github.com/troelskn/phpweaver) |
 | [php-refactoring-browser](https://github.com/QafooLabs/php-refactoring-browser) | A command line refactoring tool for PHP | ![Dead](https://img.shields.io/badge/status-dead-red) | 548 | 2017-11-15 | v0.1 | [GitHub](https://github.com/QafooLabs/php-refactoring-browser)<br>[Packagist](https://packagist.org/packages/qafoolabs/php-refactoring-browser) |
 | [phpdoc to typehint](https://github.com/dunglas/phpdoc-to-typehint) | Add scalar type hints and return types to existing PHP projects using PHPDoc annotations | ![Dead](https://img.shields.io/badge/status-dead-red) | 225 | 2020-12-28 | v0.1.0 | [GitHub](https://github.com/dunglas/phpdoc-to-typehint)<br>[Packagist](https://packagist.org/packages/dunglas/phpdoc-to-typehint) |
