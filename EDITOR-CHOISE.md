@@ -7,7 +7,7 @@ Selection is deterministic and limited to alive projects only, then ranked by ca
 
 | Tool | Description | Status | ⭐ Stars | Updated | Latest | Links |
 |---|---|---|---:|---|---|---|
-| [PHP Stan](https://github.com/phpstan/phpstan) | PHP Static Analysis Tool - discover bugs in your code without running it! | ![Alive](https://img.shields.io/badge/status-alive-brightgreen) | 14,054 | 2026-08-03 | 2.2.7 | [GitHub](https://github.com/phpstan/phpstan)<br>[Packagist](https://packagist.org/packages/phpstan/phpstan) |
+| [PHP Stan](https://github.com/phpstan/phpstan) | PHP Static Analysis Tool - discover bugs in your code without running it! | ![Alive](https://img.shields.io/badge/status-alive-brightgreen) | 14,057 | 2026-08-05 | 2.2.8 | [GitHub](https://github.com/phpstan/phpstan)<br>[Packagist](https://packagist.org/packages/phpstan/phpstan) |
 | [jscpd](https://github.com/kucherenko/jscpd) | Copy/paste detector for programming source code, supports 223 formats. AI-ready with token-efficient reporter, skill and MCP server. | ![Alive](https://img.shields.io/badge/status-alive-brightgreen) | 5,966 | 2026-08-04 | - | [GitHub](https://github.com/kucherenko/jscpd) |
 | [psalm](https://psalm.dev) | A PHP static analysis tool for finding errors and security vulnerabilities in PHP applications | ![Alive](https://img.shields.io/badge/status-alive-brightgreen) | 5,875 | 2026-07-13 | 6.16.1 | [GitHub](https://github.com/vimeo/psalm)<br>[Packagist](https://packagist.org/packages/vimeo/psalm) |
 | [Phan](https://github.com/etsy/phan) | Phan is a static analyzer for PHP. Phan prefers to avoid false-positives and attempts to prove incorrectness rather than correctness. | ![Alive](https://img.shields.io/badge/status-alive-brightgreen) | 5,619 | 2026-07-20 | 6.0.7 | [GitHub](https://github.com/phan/phan)<br>[Packagist](https://packagist.org/packages/phan/phan) |
@@ -32,7 +32,7 @@ Selection is deterministic and limited to alive projects only, then ranked by ca
 | Tool | Description | Status | ⭐ Stars | Updated | Latest | Links |
 |---|---|---|---:|---|---|---|
 | [PHP CS Fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer) | A tool to automatically fix PHP Coding Standards issues | ![Alive](https://img.shields.io/badge/status-alive-brightgreen) | 13,545 | 2026-07-31 | v3.88.2 | [GitHub](https://github.com/PHP-CS-Fixer/PHP-CS-Fixer)<br>[Packagist](https://packagist.org/packages/composer-phar/php-cs-fixer) |
-| [Rector](https://github.com/rectorphp/rector) | Instant Upgrades and Automated Refactoring of any PHP 5.3+ code | ![Alive](https://img.shields.io/badge/status-alive-brightgreen) | 10,391 | 2026-08-02 | 2.6.1 | [GitHub](https://github.com/rectorphp/rector)<br>[Packagist](https://packagist.org/packages/rector/rector) |
+| [Rector](https://github.com/rectorphp/rector) | Instant Upgrades and Automated Refactoring of any PHP 5.3+ code | ![Alive](https://img.shields.io/badge/status-alive-brightgreen) | 10,393 | 2026-08-04 | 2.6.1 | [GitHub](https://github.com/rectorphp/rector)<br>[Packagist](https://packagist.org/packages/rector/rector) |
 
 ### Metrics
 
