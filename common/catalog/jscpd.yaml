@@ -6,13 +6,13 @@ website: "https://github.com/kucherenko/jscpd"
 public_url: "https://github.com/kucherenko/jscpd"
 website_status: "available"
 website_status_code: 200
-website_checked_at: "2026-08-04T16:01:26Z"
+website_checked_at: "2026-08-05T15:56:01Z"
 website_error: ""
 repository: "https://github.com/kucherenko/jscpd"
 packagist: null
-stars: 5966
-repo_updated_at: "2026-08-04T14:20:05Z"
-metadata_updated_at: "2026-08-04T16:01:26Z"
+stars: 5969
+repo_updated_at: "2026-08-04T17:12:21Z"
+metadata_updated_at: "2026-08-05T15:56:01Z"
 editor_choice: false
 quality_tags:
   - "code-quality"

@@ -12,9 +12,9 @@ repository: "https://github.com/shivammathur/setup-php"
 packagist: null
 latest_version: ""
 latest_version_released_at: null
-stars: 3241
-repo_updated_at: "2026-08-01T14:10:41Z"
-metadata_updated_at: "2026-08-05T04:21:30Z"
+stars: 3242
+repo_updated_at: "2026-08-05T10:13:10Z"
+metadata_updated_at: "2026-08-05T15:57:03Z"
 editor_choice: false
 quality_tags:
   - "php"

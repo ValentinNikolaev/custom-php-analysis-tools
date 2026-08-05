@@ -12,9 +12,9 @@ repository: "https://github.com/phpro/grumphp"
 packagist: null
 latest_version: ""
 latest_version_released_at: null
-stars: 4305
+stars: 4306
 repo_updated_at: "2026-07-22T11:37:34Z"
-metadata_updated_at: "2026-08-05T04:21:30Z"
+metadata_updated_at: "2026-08-05T15:57:03Z"
 editor_choice: false
 quality_tags:
   - "code-quality"

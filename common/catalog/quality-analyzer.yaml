@@ -6,13 +6,13 @@ website: "https://github.com/Qafoo/QualityAnalyzer.git"
 public_url: "https://github.com/Qafoo/QualityAnalyzer.git"
 website_status: "available"
 website_status_code: 200
-website_checked_at: "2026-08-04T16:02:12Z"
+website_checked_at: "2026-08-05T15:56:50Z"
 website_error: ""
 repository: "https://github.com/Qafoo/QualityAnalyzer"
 packagist: "https://packagist.org/packages/qafoo/quality-analyzer"
 stars: 490
 repo_updated_at: "2019-12-06T12:45:14Z"
-metadata_updated_at: "2026-08-04T16:02:12Z"
+metadata_updated_at: "2026-08-05T15:56:50Z"
 editor_choice: true
 quality_tags:
 source: "README.md"
