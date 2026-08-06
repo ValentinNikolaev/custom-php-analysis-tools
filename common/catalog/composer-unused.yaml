@@ -1,0 +1,22 @@
+slug: "composer-unused"
+name: "Composer-Unused"
+category: "Bugs finders"
+description: "Show unused composer dependencies by scanning your code"
+website: "https://github.com/composer-unused/composer-unused"
+public_url: "https://github.com/composer-unused/composer-unused"
+website_status: "available"
+website_status_code: 200
+website_checked_at: "2026-08-06T12:07:31Z"
+website_error: ""
+repository: "https://github.com/composer-unused/composer-unused"
+packagist: "https://packagist.org/packages/icanhazstring/composer-unused"
+latest_version: "0.9.6"
+latest_version_released_at: "2026-01-30T05:52:24+00:00"
+stars: 1684
+repo_updated_at: "2026-04-27T02:02:52Z"
+metadata_updated_at: "2026-08-06T12:07:31Z"
+editor_choice: false
+quality_tags:
+  - "php"
+source: "https://github.com/exakat/php-static-analysis-tools"
+notes: "Imported from Exakat's PHP static-analysis tools catalog after active-project verification."

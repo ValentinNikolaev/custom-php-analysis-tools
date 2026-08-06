@@ -1,0 +1,24 @@
+slug: "phpcodearcheology"
+name: "PhpCodeArcheology"
+category: "Metrics"
+description: "PHP static analysis for architecture & maintainability — 60+ metrics, complexity analysis, dependency graphs, git churn hotspots, and AI-ready MCP server. Alternative to PHPMetrics."
+website: "https://phpcodearcheology.github.io"
+public_url: "https://phpcodearcheology.github.io"
+website_status: "unknown"
+website_status_code: 0
+website_checked_at: null
+website_error: ""
+repository: "https://github.com/PhpCodeArcheology/PhpCodeArcheology"
+packagist: null
+latest_version: ""
+latest_version_released_at: null
+stars: 87
+repo_updated_at: "2026-08-01T07:45:11Z"
+metadata_updated_at: "2026-08-06T00:38:32Z"
+editor_choice: false
+quality_tags:
+  - "code-quality"
+  - "php"
+  - "static-analysis"
+source: "https://github.com/exakat/php-static-analysis-tools"
+notes: "Imported from Exakat's PHP static-analysis tools catalog after active-project verification."

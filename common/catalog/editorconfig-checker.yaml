@@ -1,0 +1,23 @@
+slug: "editorconfig-checker"
+name: "editorconfig-checker"
+category: "Coding standards"
+description: "A tool to verify that your files are in harmony with your .editorconfig"
+website: "https://editorconfig-checker.github.io/"
+public_url: "https://editorconfig-checker.github.io/"
+website_status: "available"
+website_status_code: 200
+website_checked_at: "2026-08-06T12:09:33Z"
+website_error: ""
+repository: "https://github.com/editorconfig-checker/editorconfig-checker.php"
+packagist: "https://packagist.org/packages/editorconfig-checker/editorconfig-checker"
+latest_version: "10.7.0"
+latest_version_released_at: "2025-03-17T14:59:08+00:00"
+stars: 75
+repo_updated_at: "2026-05-28T22:04:18Z"
+metadata_updated_at: "2026-08-06T12:09:33Z"
+editor_choice: false
+quality_tags:
+  - "code-quality"
+  - "php"
+source: "https://github.com/exakat/php-static-analysis-tools"
+notes: "Imported from Exakat's PHP static-analysis tools catalog after active-project verification."

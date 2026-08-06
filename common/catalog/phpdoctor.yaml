@@ -1,0 +1,23 @@
+slug: "phpdoctor"
+name: "PHPDoctor"
+category: "Bugs finders"
+description: "🏥 PHPDoctor: Check files, full directories or strings for missing or bad PHPDoc types."
+website: "https://github.com/voku/PHPDoctor"
+public_url: "https://github.com/voku/PHPDoctor"
+website_status: "available"
+website_status_code: 200
+website_checked_at: "2026-08-06T12:08:59Z"
+website_error: ""
+repository: "https://github.com/voku/PHPDoctor"
+packagist: "https://packagist.org/packages/voku/phpdoctor"
+latest_version: "0.8.0"
+latest_version_released_at: "2026-04-26T05:54:56+00:00"
+stars: 53
+repo_updated_at: "2026-07-10T18:10:30Z"
+metadata_updated_at: "2026-08-06T12:08:59Z"
+editor_choice: false
+quality_tags:
+  - "php"
+  - "static-analysis"
+source: "https://github.com/exakat/php-static-analysis-tools"
+notes: "Imported from Exakat's PHP static-analysis tools catalog after active-project verification."

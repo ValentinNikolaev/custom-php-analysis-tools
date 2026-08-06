@@ -1,0 +1,21 @@
+slug: "composer-dependency-analyser"
+name: "composer-dependency-analyser"
+category: "Bugs finders"
+description: "🚀 Fast detection of composer dependency issues (unused dependencies, shadow dependencies, misplaced dependencies)"
+website: "https://github.com/shipmonk-rnd/composer-dependency-analyser"
+public_url: "https://github.com/shipmonk-rnd/composer-dependency-analyser"
+website_status: "available"
+website_status_code: 200
+website_checked_at: "2026-08-06T12:07:30Z"
+website_error: ""
+repository: "https://github.com/shipmonk-rnd/composer-dependency-analyser"
+packagist: "https://packagist.org/packages/shipmonk/composer-dependency-analyser"
+latest_version: "1.8.4"
+latest_version_released_at: "2025-11-25T14:38:16+00:00"
+stars: 623
+repo_updated_at: "2026-08-04T15:30:38Z"
+metadata_updated_at: "2026-08-06T12:07:30Z"
+editor_choice: false
+quality_tags: []
+source: "https://github.com/exakat/php-static-analysis-tools"
+notes: "Imported from Exakat's PHP static-analysis tools catalog after active-project verification."

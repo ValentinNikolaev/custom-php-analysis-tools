@@ -3,7 +3,9 @@ from __future__ import annotations
 import sys
 import tempfile
 import unittest
+from datetime import datetime, timezone
 from pathlib import Path
+from unittest.mock import patch
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -11,11 +13,15 @@ sys.path.insert(0, str(ROOT / "scripts"))
 
 import discover_tools
 import generate_editor_choice
+import import_exakat_catalog
+import update_catalog
 from catalog_lib import dump_yaml, load_yaml
-from generate_readme import lifecycle, sorted_for_table, tool_row
+from generate_readme import is_dead, latest_release_value, lifecycle, memorial_section, sorted_for_table, tool_row
 
 
 class CatalogScriptTests(unittest.TestCase):
+    REFERENCE_TIME = datetime(2026, 8, 6, tzinfo=timezone.utc)
+
     def test_yaml_round_trip_keeps_public_url_fields(self) -> None:
         data = {
             "slug": "sample",
@@ -27,6 +33,10 @@ class CatalogScriptTests(unittest.TestCase):
             "website_error": "",
             "latest_version": "1.2.3",
             "latest_version_released_at": "2026-07-20T00:00:00+00:00",
+            "latest_release_name": "Released Sample 1.2.3",
+            "latest_release_tag": "v1.2.3",
+            "latest_release_url": "https://github.com/example/sample/releases/tag/v1.2.3",
+            "latest_release_published_at": "2026-07-20T00:00:00Z",
             "quality_tags": ["php", "static-analysis"],
         }
         with tempfile.TemporaryDirectory() as directory:
@@ -34,16 +44,254 @@ class CatalogScriptTests(unittest.TestCase):
             path.write_text(dump_yaml(data), encoding="utf-8")
             self.assertEqual(load_yaml(path), data)
 
+    def test_yaml_round_trip_supports_nested_and_empty_containers(self) -> None:
+        data = {
+            "metadata": {"enabled": True, "count": 2, "tags": ["php", "analysis"]},
+            "empty_mapping": {},
+            "empty_list": [],
+        }
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "nested.yaml"
+            path.write_text(dump_yaml(data), encoding="utf-8")
+            self.assertEqual(load_yaml(path), data)
+
     def test_discovery_static_analysis_query_uses_fifty_star_threshold(self) -> None:
         self.assertIn("topic:php topic:static-analysis stars:>50", discover_tools.QUERIES)
         self.assertNotIn("topic:php topic:static-analysis stars:>100", discover_tools.QUERIES)
 
+    def test_exakat_import_parses_supported_categories_and_github_entries(self) -> None:
+        source = """
+### Bugs finders
+* [Active Analyzer](https://github.com/example/active) - Finds bugs.
+### Visualization
+* [Code City](https://github.com/example/city) - Shows code as a city.
+## Misc
+* [Website Only](https://example.com/tool) - Not verifiable through GitHub.
+"""
+        self.assertEqual(
+            import_exakat_catalog.parse_source_readme(source),
+            [
+                {
+                    "name": "Active Analyzer",
+                    "repository": "https://github.com/example/active",
+                    "description": "Finds bugs.",
+                    "category": "Bugs finders",
+                },
+                {
+                    "name": "Code City",
+                    "repository": "https://github.com/example/city",
+                    "description": "Shows code as a city.",
+                    "category": "Misc",
+                },
+            ],
+        )
+
+    def test_github_release_name_accepts_arbitrary_author_text(self) -> None:
+        examples = [
+            ("Release v5.0.14", "v5.0.14"),
+            ("PHP 7.1 Support", "v1.1.0"),
+            ("Released ECS 13.2.15", "13.2.15"),
+        ]
+        for name, tag in examples:
+            with self.subTest(name=name):
+                tool = {"slug": "sample"}
+                release = {
+                    "name": name,
+                    "tag_name": tag,
+                    "html_url": f"https://github.com/example/sample/releases/tag/{tag}",
+                    "published_at": "2026-07-20T00:00:00Z",
+                }
+                with patch("update_catalog.http_json", return_value=release):
+                    self.assertTrue(update_catalog.update_github_release(tool, "example/sample", None))
+                self.assertEqual(tool["latest_release_name"], name)
+                self.assertEqual(tool["latest_release_tag"], tag)
+
+    def test_github_release_uses_tag_when_author_title_is_blank(self) -> None:
+        tool = {"slug": "sample"}
+        release = {
+            "name": "",
+            "tag_name": "v2.0.0",
+            "html_url": "https://github.com/example/sample/releases/tag/v2.0.0",
+            "published_at": "2026-07-20T00:00:00Z",
+        }
+        with patch("update_catalog.http_json", return_value=release):
+            update_catalog.update_github_release(tool, "example/sample", None)
+        self.assertEqual(tool["latest_release_name"], "v2.0.0")
+
+    def test_mismatched_packagist_package_is_removed(self) -> None:
+        tool = {
+            "slug": "expected-tool",
+            "repository": "https://github.com/acme/expected-tool",
+            "packagist": "https://packagist.org/packages/other/wrong-package",
+            "latest_version": "9.9.9",
+            "latest_version_released_at": "2026-01-01T00:00:00Z",
+        }
+        package = {
+            "packages": {
+                "other/wrong-package": [
+                    {
+                        "version": "9.9.9",
+                        "source": {"url": "https://github.com/other/wrong-package.git"},
+                    }
+                ]
+            }
+        }
+        with (
+            patch("update_catalog.http_json", return_value=package),
+            patch("update_catalog.github_repositories_match", return_value=False),
+        ):
+            changed, valid = update_catalog.update_packagist_version(tool)
+        self.assertTrue(changed)
+        self.assertFalse(valid)
+        self.assertIsNone(tool["packagist"])
+        self.assertEqual(tool["latest_version"], "")
+
+    def test_packagist_package_without_verifiable_releases_is_removed(self) -> None:
+        tool = {
+            "slug": "expected-tool",
+            "repository": "https://github.com/acme/expected-tool",
+            "packagist": "https://packagist.org/packages/other/empty-package",
+        }
+        with patch("update_catalog.http_json", return_value={"packages": {"other/empty-package": []}}):
+            changed, valid = update_catalog.update_packagist_version(tool)
+        self.assertTrue(changed)
+        self.assertFalse(valid)
+        self.assertIsNone(tool["packagist"])
+
+    def test_packagist_metadata_can_validate_a_distribution_source_repository(self) -> None:
+        tool = {
+            "slug": "php-stan",
+            "repository": "https://github.com/phpstan/phpstan",
+            "packagist": "https://packagist.org/packages/phpstan/phpstan",
+        }
+        versions = {
+            "packages": {
+                "phpstan/phpstan": [
+                    {
+                        "version": "2.2.5",
+                        "version_normalized": "2.2.5.0",
+                        "time": "2026-07-05T06:31:06+00:00",
+                        "source": {"url": "https://github.com/phpstan/phpstan-phar-composer-source.git"},
+                    }
+                ]
+            }
+        }
+        metadata = {"package": {"repository": "https://github.com/phpstan/phpstan"}}
+        with (
+            patch("update_catalog.http_json", side_effect=[versions, metadata]),
+            patch(
+                "update_catalog.github_repositories_match",
+                side_effect=lambda expected, candidate, token: expected.casefold() == (candidate or "").casefold(),
+            ),
+        ):
+            changed, valid = update_catalog.update_packagist_version(tool)
+        self.assertTrue(changed)
+        self.assertTrue(valid)
+        self.assertEqual(tool["latest_version"], "2.2.5")
+
+    def test_packagist_search_does_not_fall_back_to_first_result(self) -> None:
+        tool = {
+            "slug": "expected-tool",
+            "name": "Expected Tool",
+            "repository": "https://github.com/acme/expected-tool",
+            "packagist": None,
+        }
+        search = {
+            "results": [
+                {
+                    "url": "https://packagist.org/packages/other/wrong-package",
+                    "repository": "https://github.com/other/wrong-package",
+                }
+            ]
+        }
+        with (
+            patch("update_catalog.http_json", return_value=search),
+            patch("update_catalog.github_repositories_match", return_value=False),
+        ):
+            changed = update_catalog.update_from_packagist(tool)
+        self.assertFalse(changed)
+        self.assertIsNone(tool["packagist"])
+
+    def test_candidate_slug_uses_owner_when_catalog_slug_is_occupied(self) -> None:
+        repo = {"name": "phpqa", "full_name": "jakzal/phpqa"}
+        with tempfile.TemporaryDirectory() as directory:
+            output_dir = Path(directory)
+            (output_dir / "phpqa.yaml").write_text(
+                dump_yaml({"slug": "phpqa", "name": "PHPQA", "repository": None}),
+                encoding="utf-8",
+            )
+            slug, already_exists = discover_tools.choose_output_slug(repo, output_dir, set())
+        self.assertEqual(slug, "jakzal-phpqa")
+        self.assertFalse(already_exists)
+
+    def test_candidate_slug_preserves_existing_repository_file(self) -> None:
+        repo = {"name": "phpqa", "full_name": "jakzal/phpqa"}
+        with tempfile.TemporaryDirectory() as directory:
+            output_dir = Path(directory)
+            (output_dir / "phpqa.yaml").write_text(
+                dump_yaml({"slug": "phpqa", "name": "phpqa", "repository": "https://github.com/jakzal/phpqa"}),
+                encoding="utf-8",
+            )
+            slug, already_exists = discover_tools.choose_output_slug(repo, output_dir, set())
+        self.assertEqual(slug, "phpqa")
+        self.assertTrue(already_exists)
+
+    def test_existing_candidates_are_known_to_discovery(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            candidate_dir = root / "common" / "candidates"
+            candidate_dir.mkdir(parents=True)
+            (candidate_dir / "phpqa.yaml").write_text(
+                dump_yaml({"slug": "phpqa", "repository": "https://github.com/jakzal/phpqa"}),
+                encoding="utf-8",
+            )
+            with patch.object(discover_tools, "ROOT", root):
+                keys = discover_tools.candidate_repository_keys()
+        self.assertEqual(keys, {"jakzal/phpqa"})
+
+    def test_latest_release_renders_author_text_as_bold_link(self) -> None:
+        tool = {
+            "latest_release_name": "PHP 7.1 Support",
+            "latest_release_tag": "v1.1.0",
+            "latest_release_url": "https://github.com/cwi-swat/php-analysis/releases/tag/v1.1.0",
+        }
+        self.assertEqual(
+            latest_release_value(tool),
+            "[**PHP 7.1 Support**](https://github.com/cwi-swat/php-analysis/releases/tag/v1.1.0)",
+        )
+
     def test_lifecycle_badges_from_repo_update_age(self) -> None:
-        self.assertIn("alive", lifecycle({"repo_updated_at": "2026-07-01T00:00:00Z"})[1])
-        self.assertIn("dying", lifecycle({"repo_updated_at": "2026-03-01T00:00:00Z"})[1])
-        self.assertIn("almost_dead", lifecycle({"repo_updated_at": "2025-12-01T00:00:00Z"})[1])
-        self.assertIn("dead", lifecycle({"repo_updated_at": "2024-01-01T00:00:00Z"})[1])
-        self.assertIn("unknown", lifecycle({})[1])
+        self.assertIn("alive", lifecycle({"repo_updated_at": "2026-07-01T00:00:00Z"}, self.REFERENCE_TIME)[1])
+        self.assertIn("dying", lifecycle({"repo_updated_at": "2026-03-01T00:00:00Z"}, self.REFERENCE_TIME)[1])
+        self.assertIn("almost_dead", lifecycle({"repo_updated_at": "2025-12-01T00:00:00Z"}, self.REFERENCE_TIME)[1])
+        self.assertIn("dead", lifecycle({"repo_updated_at": "2024-01-01T00:00:00Z"}, self.REFERENCE_TIME)[1])
+        self.assertIn("unknown", lifecycle({}, self.REFERENCE_TIME)[1])
+
+    def test_dead_and_archived_projects_are_classified_for_memorial(self) -> None:
+        self.assertTrue(is_dead({"repo_updated_at": "2024-01-01T00:00:00Z"}, self.REFERENCE_TIME))
+        self.assertTrue(
+            is_dead(
+                {"repo_updated_at": "2026-07-01T00:00:00Z", "quality_tags": ["archived"]},
+                self.REFERENCE_TIME,
+            )
+        )
+        self.assertFalse(is_dead({"repo_updated_at": "2026-07-01T00:00:00Z"}, self.REFERENCE_TIME))
+
+    def test_memorial_is_one_respectful_table(self) -> None:
+        output = memorial_section(
+            [
+                {
+                    "name": "Historic Analyzer",
+                    "description": "Introduced foundational PHP analysis ideas.",
+                    "category": "Bugs finders",
+                    "public_url": "https://example.com/historic",
+                    "repo_updated_at": "2018-01-01T00:00:00Z",
+                }
+            ]
+        )
+        self.assertIn("In Memoriam", output)
+        self.assertIn("lasting contribution", output)
+        self.assertEqual(output.count("| Project | Contribution | Category | Last activity | Legacy links |"), 1)
 
     def test_table_sorting_groups_status_before_stars(self) -> None:
         tools = [
@@ -52,15 +300,21 @@ class CatalogScriptTests(unittest.TestCase):
             {"name": "Alive High Stars", "stars": 10, "repo_updated_at": "2026-07-01T00:00:00Z"},
         ]
         self.assertEqual(
-            [tool["name"] for tool in sorted_for_table(tools)],
+            [tool["name"] for tool in sorted_for_table(tools, self.REFERENCE_TIME)],
             ["Alive High Stars", "Alive Low Stars", "Dead High Stars"],
         )
 
     def test_editor_choice_allows_only_alive_projects(self) -> None:
-        self.assertTrue(generate_editor_choice.is_alive({"repo_updated_at": "2026-07-01T00:00:00Z"}))
-        self.assertFalse(generate_editor_choice.is_alive({"repo_updated_at": "2026-03-01T00:00:00Z"}))
-        self.assertFalse(generate_editor_choice.is_alive({"repo_updated_at": "2024-01-01T00:00:00Z"}))
-        self.assertFalse(generate_editor_choice.is_alive({}))
+        self.assertTrue(generate_editor_choice.is_alive({"repo_updated_at": "2026-07-01T00:00:00Z"}, self.REFERENCE_TIME))
+        self.assertFalse(generate_editor_choice.is_alive({"repo_updated_at": "2026-03-01T00:00:00Z"}, self.REFERENCE_TIME))
+        self.assertFalse(generate_editor_choice.is_alive({"repo_updated_at": "2024-01-01T00:00:00Z"}, self.REFERENCE_TIME))
+        self.assertFalse(
+            generate_editor_choice.is_alive(
+                {"repo_updated_at": "2026-07-01T00:00:00Z", "quality_tags": ["archived"]},
+                self.REFERENCE_TIME,
+            )
+        )
+        self.assertFalse(generate_editor_choice.is_alive({}, self.REFERENCE_TIME))
 
     def test_tool_row_contains_status_star_and_links(self) -> None:
         row = tool_row(
@@ -73,7 +327,8 @@ class CatalogScriptTests(unittest.TestCase):
                 "stars": 14042,
                 "repo_updated_at": "2026-07-25T00:00:00Z",
                 "latest_version": "2.2.5",
-            }
+            },
+            self.REFERENCE_TIME,
         )
         self.assertIn("![Alive]", row)
         self.assertIn("14,042", row)

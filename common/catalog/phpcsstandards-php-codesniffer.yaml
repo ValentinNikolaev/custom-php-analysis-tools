@@ -1,0 +1,23 @@
+slug: "phpcsstandards-php-codesniffer"
+name: "PHP Code Sniffer"
+category: "Coding standards"
+description: "PHP_CodeSniffer tokenizes PHP files and detects violations of a defined set of coding standards."
+website: "https://github.com/PHPCSStandards/PHP_CodeSniffer"
+public_url: "https://github.com/PHPCSStandards/PHP_CodeSniffer"
+website_status: "available"
+website_status_code: 200
+website_checked_at: "2026-08-06T12:10:01Z"
+website_error: ""
+repository: "https://github.com/PHPCSStandards/PHP_CodeSniffer"
+packagist: "https://packagist.org/packages/phpcsstandards/php_codesniffer"
+latest_version: "4.0.4"
+latest_version_released_at: "2026-08-06T02:45:27+00:00"
+stars: 1537
+repo_updated_at: "2026-08-06T00:20:02Z"
+metadata_updated_at: "2026-08-06T12:10:01Z"
+editor_choice: false
+quality_tags:
+  - "php"
+  - "static-analysis"
+source: "https://github.com/exakat/php-static-analysis-tools"
+notes: "Imported from Exakat's PHP static-analysis tools catalog after active-project verification."

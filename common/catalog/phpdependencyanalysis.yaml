@@ -9,9 +9,9 @@ website_status_code: 200
 website_checked_at: "2026-08-05T15:56:48Z"
 website_error: ""
 repository: "https://github.com/mamuz/PhpDependencyAnalysis"
-packagist: "https://packagist.org/packages/agratushniy/php-dependency-analysis"
-latest_version: "v2.0.2"
-latest_version_released_at: "2019-04-11T15:58:29+00:00"
+packagist: null
+latest_version: ""
+latest_version_released_at: null
 stars: 576
 repo_updated_at: "2023-12-03T20:43:10Z"
 metadata_updated_at: "2026-08-05T15:56:48Z"

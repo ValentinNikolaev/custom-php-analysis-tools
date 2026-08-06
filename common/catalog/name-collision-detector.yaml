@@ -1,0 +1,22 @@
+slug: "name-collision-detector"
+name: "name-collision-detector"
+category: "Bugs finders"
+description: "Fast & simple tool to find class duplicates in your projects."
+website: "https://github.com/shipmonk-rnd/name-collision-detector"
+public_url: "https://github.com/shipmonk-rnd/name-collision-detector"
+website_status: "available"
+website_status_code: 200
+website_checked_at: "2026-08-06T12:07:39Z"
+website_error: ""
+repository: "https://github.com/shipmonk-rnd/name-collision-detector"
+packagist: "https://packagist.org/packages/shipmonk/name-collision-detector"
+latest_version: "2.1.1"
+latest_version_released_at: "2024-03-01T13:26:32+00:00"
+stars: 35
+repo_updated_at: "2026-06-23T07:57:04Z"
+metadata_updated_at: "2026-08-06T12:07:39Z"
+editor_choice: false
+quality_tags:
+  - "php"
+source: "https://github.com/exakat/php-static-analysis-tools"
+notes: "Imported from Exakat's PHP static-analysis tools catalog after active-project verification."

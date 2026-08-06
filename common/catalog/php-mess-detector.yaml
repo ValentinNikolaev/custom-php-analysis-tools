@@ -6,15 +6,19 @@ website: "https://phpmd.org"
 public_url: "https://phpmd.org"
 website_status: "available"
 website_status_code: 200
-website_checked_at: "2026-08-05T15:56:10Z"
+website_checked_at: "2026-08-06T12:08:01Z"
 website_error: ""
 repository: "https://github.com/phpmd/phpmd"
+latest_release_name: "PHPMD 2.15.0"
+latest_release_tag: "2.15.0"
+latest_release_url: "https://github.com/phpmd/phpmd/releases/tag/2.15.0"
+latest_release_published_at: "2023-12-11T08:22:57Z"
 packagist: "https://packagist.org/packages/phpmd/phpmd"
 latest_version: "2.15.0"
 latest_version_released_at: "2023-12-11T08:22:20+00:00"
 stars: 2443
 repo_updated_at: "2026-08-02T15:40:29Z"
-metadata_updated_at: "2026-08-05T15:56:10Z"
+metadata_updated_at: "2026-08-06T12:08:01Z"
 editor_choice: true
 quality_tags:
   - "php"

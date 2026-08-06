@@ -3,7 +3,7 @@ from __future__ import annotations
 from datetime import datetime, timezone
 
 from catalog_lib import CATEGORY_ORDER, ROOT, load_catalog, write_editor_choice_slugs
-from generate_readme import lifecycle, section
+from generate_readme import is_dead, lifecycle, section
 
 
 TARGETS = {
@@ -22,12 +22,13 @@ def parse_date(value: str | None) -> datetime | None:
     return datetime.fromisoformat(value.replace("Z", "+00:00"))
 
 
-def score(tool: dict) -> float:
+def score(tool: dict, reference_time: datetime | None = None) -> float:
     stars = int(tool.get("stars") or 0)
     updated = parse_date(tool.get("repo_updated_at"))
     age_bonus = 0.0
     if updated:
-        days = max((datetime.now(timezone.utc) - updated).days, 0)
+        reference_time = reference_time or datetime.now(timezone.utc)
+        days = max((reference_time - updated).days, 0)
         age_bonus = max(0, 3650 - days) / 3650
     tag_bonus = 0.0
     tags = set(tool.get("quality_tags") or [])
@@ -38,17 +39,18 @@ def score(tool: dict) -> float:
     return stars ** 0.5 + age_bonus * 10 + tag_bonus
 
 
-def is_alive(tool: dict) -> bool:
-    return lifecycle(tool)[0] == 0
+def is_alive(tool: dict, reference_time: datetime | None = None) -> bool:
+    return not is_dead(tool, reference_time) and lifecycle(tool, reference_time)[0] == 0
 
 
 def main() -> None:
     tools = load_catalog()
+    reference_time = datetime.now(timezone.utc)
     selected: list[dict] = []
     for category in CATEGORY_ORDER:
         ranked = sorted(
-            [tool for tool in tools if tool.get("category") == category and is_alive(tool)],
-            key=lambda item: (-score(item), item.get("name", "").lower()),
+            [tool for tool in tools if tool.get("category") == category and is_alive(tool, reference_time)],
+            key=lambda item: (-score(item, reference_time), item.get("name", "").lower()),
         )
         selected.extend(ranked[: TARGETS.get(category, 0)])
     selected_slugs = [tool["slug"] for tool in selected]
@@ -65,7 +67,7 @@ def main() -> None:
         grouped = [tool for tool in selected if tool.get("category") == category]
         if not grouped:
             continue
-        lines.append(section(category, grouped, level=3))
+        lines.append(section(category, grouped, level=3, reference_time=reference_time))
     (ROOT / "EDITOR-CHOISE.md").write_text("\n".join(lines).rstrip() + "\n", encoding="utf-8")
     print(f"Generated EDITOR-CHOISE.md with {len(selected)} tools")
 

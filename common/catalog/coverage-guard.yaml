@@ -1,0 +1,23 @@
+slug: "coverage-guard"
+name: "Coverage Guard"
+category: "Bugs finders"
+description: "🧪 Enforce PHP code coverage in your CI. Not by percentage, but target core methods! Allows you to start enforcing coverage for new code only!   Also contains tooling to merge and convert PHPUnit coverage files."
+website: "https://github.com/shipmonk-rnd/coverage-guard"
+public_url: "https://github.com/shipmonk-rnd/coverage-guard"
+website_status: "available"
+website_status_code: 200
+website_checked_at: "2026-08-06T12:07:32Z"
+website_error: ""
+repository: "https://github.com/shipmonk-rnd/coverage-guard"
+packagist: "https://packagist.org/packages/shipmonk/coverage-guard"
+latest_version: "1.1.0"
+latest_version_released_at: "2026-07-17T10:37:46+00:00"
+stars: 56
+repo_updated_at: "2026-07-17T13:17:04Z"
+metadata_updated_at: "2026-08-06T12:07:32Z"
+editor_choice: false
+quality_tags:
+  - "php"
+  - "static-analysis"
+source: "https://github.com/exakat/php-static-analysis-tools"
+notes: "Imported from Exakat's PHP static-analysis tools catalog after active-project verification."

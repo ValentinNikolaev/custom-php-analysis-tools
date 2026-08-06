@@ -1,22 +1,65 @@
 from __future__ import annotations
 
 import argparse
+import functools
 import urllib.error
 import urllib.request
 from datetime import datetime, timedelta, timezone
 
 from catalog_lib import (
     cli_token,
+    github_api_latest_release_url,
     github_api_repo_url,
     github_repo_key,
     http_json,
     load_catalog,
     now_iso,
+    packagist_package_metadata_url,
     packagist_package_url,
     packagist_search_url,
     positive_int,
     save_tool,
 )
+
+
+RELEASE_FIELDS = (
+    "latest_release_name",
+    "latest_release_tag",
+    "latest_release_url",
+    "latest_release_published_at",
+)
+
+
+def update_github_release(tool: dict, repo_key: str, token: str | None) -> bool:
+    old_values = tuple(tool.get(field) for field in RELEASE_FIELDS)
+    try:
+        release = http_json(github_api_latest_release_url(repo_key), token=token)
+    except urllib.error.HTTPError as exc:
+        if exc.code != 404:
+            print(f"  GitHub release skipped {tool['slug']}: {exc}")
+            return False
+        for field in RELEASE_FIELDS:
+            tool.pop(field, None)
+        return old_values != (None,) * len(RELEASE_FIELDS)
+    except (urllib.error.URLError, TimeoutError) as exc:
+        print(f"  GitHub release skipped {tool['slug']}: {exc}")
+        return False
+
+    name = str(release.get("name") or release.get("tag_name") or "").strip()
+    url = release.get("html_url")
+    if not name or not url:
+        print(f"  GitHub release skipped {tool['slug']}: release has no name/tag or public URL")
+        return False
+
+    tool["latest_release_name"] = name
+    tool["latest_release_tag"] = str(release.get("tag_name") or "").strip()
+    tool["latest_release_url"] = url
+    tool["latest_release_published_at"] = release.get("published_at") or release.get("created_at")
+    print(
+        f"  GitHub release: {tool['slug']} | name={name} | "
+        f"tag={tool['latest_release_tag']} | published_at={tool.get('latest_release_published_at')}"
+    )
+    return old_values != tuple(tool.get(field) for field in RELEASE_FIELDS)
 
 
 def update_from_github(tool: dict, token: str | None) -> bool:
@@ -43,6 +86,7 @@ def update_from_github(tool: dict, token: str | None) -> bool:
         if topic in {"static-analysis", "code-quality", "phpstan", "php", "security"} and topic not in tags:
             tags.append(topic)
     tool["quality_tags"] = sorted(tags)
+    update_github_release(tool, repo_key, token)
     print(
         f"  GitHub: {tool['slug']} | stars={tool['stars']} | "
         f"repo_updated_at={tool.get('repo_updated_at')} | repo={tool.get('repository')}"
@@ -64,18 +108,94 @@ def is_stable_version(version: str) -> bool:
     return not (lowered.startswith("dev-") or any(part in lowered for part in ["-dev", "alpha", "beta", "rc"]))
 
 
-def update_packagist_version(tool: dict) -> bool:
+def clear_packagist_metadata(tool: dict) -> bool:
+    old_values = (tool.get("packagist"), tool.get("latest_version"), tool.get("latest_version_released_at"))
+    tool["packagist"] = None
+    tool["latest_version"] = ""
+    tool["latest_version_released_at"] = None
+    return old_values != (None, "", None)
+
+
+@functools.lru_cache(maxsize=512)
+def canonical_github_repo_key(repo_key: str, token: str | None) -> str:
+    try:
+        repo = http_json(github_api_repo_url(repo_key), token=token, retries=0)
+        return str(repo.get("full_name") or repo_key).casefold()
+    except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError):
+        pass
+    request = urllib.request.Request(
+        f"https://github.com/{repo_key}",
+        method="HEAD",
+        headers={"User-Agent": "custom-php-analysis-tools-updater"},
+    )
+    try:
+        with urllib.request.urlopen(request, timeout=15) as response:
+            redirected_key = github_repo_key(response.geturl())
+            return (redirected_key or repo_key).casefold()
+    except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError):
+        return repo_key.casefold()
+
+
+def github_repositories_match(expected_key: str | None, candidate_key: str | None, token: str | None) -> bool:
+    if not expected_key or not candidate_key:
+        return False
+    if expected_key.casefold() == candidate_key.casefold():
+        return True
+    return canonical_github_repo_key(expected_key, token) == canonical_github_repo_key(candidate_key, token)
+
+
+def package_repository_key(versions: list[dict]) -> str | None:
+    for version in versions:
+        source = version.get("source") or {}
+        if isinstance(source, dict):
+            repo_key = github_repo_key(source.get("url"))
+            if repo_key:
+                return repo_key
+    return None
+
+
+def packagist_repository_matches(
+    package_name: str,
+    expected_repo_key: str,
+    versions: list[dict],
+    token: str | None,
+) -> bool | None:
+    source_repo_key = package_repository_key(versions)
+    if source_repo_key and github_repositories_match(expected_repo_key, source_repo_key, token):
+        return True
+    try:
+        metadata = http_json(packagist_package_metadata_url(package_name), retries=0)
+    except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError) as exc:
+        print(f"  Packagist validation skipped: {package_name} | {exc}")
+        return None
+    package_repo_key = github_repo_key((metadata.get("package") or {}).get("repository"))
+    return github_repositories_match(expected_repo_key, package_repo_key, token)
+
+
+def update_packagist_version(tool: dict, token: str | None = None) -> tuple[bool, bool]:
     package_name = packagist_package_name(tool.get("packagist"))
     if not package_name:
-        return False
+        return False, False
     try:
         data = http_json(packagist_package_url(package_name))
     except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError) as exc:
         print(f"  Packagist version skipped {tool['slug']}: {exc}")
-        return False
+        return False, True
     versions = data.get("packages", {}).get(package_name, [])
+    expected_repo_key = github_repo_key(tool.get("repository"))
+    if expected_repo_key:
+        repository_matches = packagist_repository_matches(package_name, expected_repo_key, versions, token)
+        if repository_matches is None:
+            return False, True
+        if not repository_matches:
+            package_repo_key = package_repository_key(versions)
+            print(
+                f"  Packagist rejected: {tool['slug']} | package={package_name} | "
+                f"repository={package_repo_key or 'unknown'} does not match {expected_repo_key}"
+            )
+            return clear_packagist_metadata(tool), False
     if not versions:
-        return False
+        return False, True
     latest = next(
         (
             item
@@ -91,14 +211,20 @@ def update_packagist_version(tool: dict) -> bool:
         f"  Packagist version: {tool['slug']} | package={package_name} | "
         f"latest={tool['latest_version']} | released_at={tool.get('latest_version_released_at')}"
     )
-    return old_values != (tool.get("latest_version"), tool.get("latest_version_released_at"))
+    return old_values != (tool.get("latest_version"), tool.get("latest_version_released_at")), True
 
 
-def update_from_packagist(tool: dict) -> bool:
+def update_from_packagist(tool: dict, token: str | None = None) -> bool:
     changed = False
     repo_key = github_repo_key(tool.get("repository"))
+    if tool.get("packagist"):
+        version_changed, valid = update_packagist_version(tool, token)
+        changed = version_changed or changed
+        if valid:
+            return changed
     if not tool.get("packagist"):
         queries = [repo_key, tool.get("name")]
+        found = False
         for query in [q for q in queries if q]:
             try:
                 search = http_json(packagist_search_url(query))
@@ -106,21 +232,18 @@ def update_from_packagist(tool: dict) -> bool:
                 continue
             for result in search.get("results", []):
                 result_repo_key = github_repo_key(result.get("repository"))
-                if repo_key and result_repo_key == repo_key:
+                if github_repositories_match(repo_key, result_repo_key, token):
                     tool["packagist"] = result.get("url")
                     print(f"  Packagist: {tool['slug']} | {tool['packagist']}")
                     changed = True
+                    found = True
                     break
-            if changed:
+            if found:
                 break
-            if search.get("results") and "/" in str(query):
-                result = search["results"][0]
-                if result.get("url"):
-                    tool["packagist"] = result["url"]
-                    print(f"  Packagist: {tool['slug']} | {tool['packagist']}")
-                    changed = True
-                    break
-    return update_packagist_version(tool) or changed
+    if not tool.get("packagist"):
+        return changed
+    version_changed, _ = update_packagist_version(tool, token)
+    return version_changed or changed
 
 
 def public_url(tool: dict) -> str | None:
@@ -233,7 +356,7 @@ def main() -> None:
         )
         changed = update_from_github(tool, token) if needs_metadata else False
         if not args.skip_packagist:
-            changed = update_from_packagist(tool) or changed
+            changed = update_from_packagist(tool, token) or changed
         if needs_website:
             changed = check_website(tool) or changed
             website_checked += 1

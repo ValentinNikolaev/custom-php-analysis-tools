@@ -9,9 +9,9 @@ website_status_code: 200
 website_checked_at: "2026-08-05T15:56:36Z"
 website_error: ""
 repository: "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer"
-packagist: "https://packagist.org/packages/composer-phar/php-cs-fixer"
-latest_version: "v3.88.2"
-latest_version_released_at: "2025-10-13T07:09:33+00:00"
+packagist: "https://packagist.org/packages/friendsofphp/php-cs-fixer"
+latest_version: "v3.95.18"
+latest_version_released_at: "2026-07-30T15:46:02+00:00"
 stars: 13545
 repo_updated_at: "2026-07-31T10:35:26Z"
 metadata_updated_at: "2026-08-05T15:56:36Z"

@@ -54,25 +54,31 @@ def dump_yaml(data: dict[str, Any]) -> str:
         elif value is None:
             lines.append(f"{key}: null")
         elif isinstance(value, list):
-            lines.append(f"{key}:")
-            for item in value:
-                if isinstance(item, str):
-                    lines.append(f"  - {yaml_quote(item)}")
-                else:
-                    lines.append(f"  - {json.dumps(item, ensure_ascii=False)}")
+            if not value:
+                lines.append(f"{key}: []")
+            else:
+                lines.append(f"{key}:")
+                for item in value:
+                    if isinstance(item, str):
+                        lines.append(f"  - {yaml_quote(item)}")
+                    else:
+                        lines.append(f"  - {json.dumps(item, ensure_ascii=False)}")
         elif isinstance(value, dict):
-            lines.append(f"{key}:")
-            for sub_key, sub_value in value.items():
-                if isinstance(sub_value, str):
-                    lines.append(f"  {sub_key}: {yaml_quote(sub_value)}")
-                elif isinstance(sub_value, bool):
-                    lines.append(f"  {sub_key}: {'true' if sub_value else 'false'}")
-                elif isinstance(sub_value, int):
-                    lines.append(f"  {sub_key}: {sub_value}")
-                elif sub_value is None:
-                    lines.append(f"  {sub_key}: null")
-                else:
-                    lines.append(f"  {sub_key}: {json.dumps(sub_value, ensure_ascii=False)}")
+            if not value:
+                lines.append(f"{key}: {{}}")
+            else:
+                lines.append(f"{key}:")
+                for sub_key, sub_value in value.items():
+                    if isinstance(sub_value, str):
+                        lines.append(f"  {sub_key}: {yaml_quote(sub_value)}")
+                    elif isinstance(sub_value, bool):
+                        lines.append(f"  {sub_key}: {'true' if sub_value else 'false'}")
+                    elif isinstance(sub_value, int):
+                        lines.append(f"  {sub_key}: {sub_value}")
+                    elif sub_value is None:
+                        lines.append(f"  {sub_key}: null")
+                    else:
+                        lines.append(f"  {sub_key}: {json.dumps(sub_value, ensure_ascii=False)}")
         else:
             lines.append(f"{key}: {json.dumps(value, ensure_ascii=False)}")
     return "\n".join(lines) + "\n"
@@ -88,7 +94,7 @@ def parse_scalar(value: str) -> Any:
         return False
     if re.fullmatch(r"-?\d+", value):
         return int(value)
-    if value.startswith('"'):
+    if value.startswith(('"', "[", "{")):
         return json.loads(value)
     return value
 
@@ -104,7 +110,13 @@ def load_yaml(path: Path) -> dict[str, Any]:
             continue
         if raw_line.startswith("  ") and current_key:
             sub_key, sub_value = raw_line.strip().split(":", 1)
-            data.setdefault(current_key, {})[sub_key] = parse_scalar(sub_value)
+            container = data.setdefault(current_key, {})
+            if isinstance(container, list) and not container:
+                container = {}
+                data[current_key] = container
+            if not isinstance(container, dict):
+                raise ValueError(f"Expected a mapping for {current_key!r} in {path}")
+            container[sub_key] = parse_scalar(sub_value)
             continue
         key, value = raw_line.split(":", 1)
         key = key.strip()
@@ -139,6 +151,10 @@ def save_tool(tool: dict[str, Any]) -> None:
         "website_checked_at",
         "website_error",
         "repository",
+        "latest_release_name",
+        "latest_release_tag",
+        "latest_release_url",
+        "latest_release_published_at",
         "packagist",
         "latest_version",
         "latest_version_released_at",
@@ -208,12 +224,20 @@ def github_api_repo_url(repo_key: str) -> str:
     return f"https://api.github.com/repos/{repo_key}"
 
 
+def github_api_latest_release_url(repo_key: str) -> str:
+    return f"https://api.github.com/repos/{repo_key}/releases/latest"
+
+
 def packagist_search_url(query: str) -> str:
     return "https://packagist.org/search.json?" + urllib.parse.urlencode({"q": query})
 
 
 def packagist_package_url(package_name: str) -> str:
     return f"https://repo.packagist.org/p2/{package_name}.json"
+
+
+def packagist_package_metadata_url(package_name: str) -> str:
+    return f"https://packagist.org/packages/{package_name}.json"
 
 
 def read_editor_choice_slugs() -> set[str]:

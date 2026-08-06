@@ -6,15 +6,19 @@ website: "https://github.com/ovr/phpsa"
 public_url: "https://github.com/ovr/phpsa"
 website_status: "available"
 website_status_code: 200
-website_checked_at: "2026-08-05T15:56:11Z"
+website_checked_at: "2026-08-06T12:08:02Z"
 website_error: ""
 repository: "https://github.com/ovr/phpsa"
+latest_release_name: "Release 0.6.2"
+latest_release_tag: "0.6.2"
+latest_release_url: "https://github.com/ovr/phpsa/releases/tag/0.6.2"
+latest_release_published_at: "2016-12-10T02:42:35Z"
 packagist: "https://packagist.org/packages/ovr/phpsa"
 latest_version: "0.6.2"
 latest_version_released_at: "2016-12-10T02:41:19+00:00"
 stars: 635
 repo_updated_at: "2019-02-27T06:40:47Z"
-metadata_updated_at: "2026-08-05T15:56:11Z"
+metadata_updated_at: "2026-08-06T12:08:02Z"
 editor_choice: true
 quality_tags:
   - "archived"

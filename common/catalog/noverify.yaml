@@ -1,0 +1,22 @@
+slug: "noverify"
+name: "noverify"
+category: "Bugs finders"
+description: "Pretty fast linter (code static analysis utility) for PHP"
+website: "https://github.com/VKCOM/noverify"
+public_url: "https://github.com/VKCOM/noverify"
+website_status: "available"
+website_status_code: 200
+website_checked_at: "2026-08-06T12:07:40Z"
+website_error: ""
+repository: "https://github.com/VKCOM/noverify"
+packagist: "https://packagist.org/packages/vkcom/noverify"
+latest_version: "v0.5.5"
+latest_version_released_at: "2025-04-22T11:44:53+00:00"
+stars: 688
+repo_updated_at: "2026-01-19T13:58:35Z"
+metadata_updated_at: "2026-08-06T12:07:40Z"
+editor_choice: false
+quality_tags:
+  - "php"
+source: "https://github.com/exakat/php-static-analysis-tools"
+notes: "Imported from Exakat's PHP static-analysis tools catalog after active-project verification."

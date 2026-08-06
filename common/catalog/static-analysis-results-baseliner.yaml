@@ -1,0 +1,21 @@
+slug: "static-analysis-results-baseliner"
+name: "Static Analysis Results Baseliner"
+category: "Misc"
+description: "Static Analysis Results Baseliner"
+website: "https://github.com/DaveLiddament/sarb"
+public_url: "https://github.com/DaveLiddament/sarb"
+website_status: "unknown"
+website_status_code: 0
+website_checked_at: null
+website_error: ""
+repository: "https://github.com/DaveLiddament/sarb"
+packagist: "https://packagist.org/packages/dave-liddament/sarb"
+latest_version: "1.11.0"
+latest_version_released_at: "2026-07-11T13:41:04+00:00"
+stars: 165
+repo_updated_at: "2026-07-12T08:42:09Z"
+metadata_updated_at: "2026-08-06T00:38:41Z"
+editor_choice: false
+quality_tags: []
+source: "https://github.com/exakat/php-static-analysis-tools"
+notes: "Imported from Exakat's PHP static-analysis tools catalog after active-project verification."

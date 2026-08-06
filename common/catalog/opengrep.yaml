@@ -1,0 +1,21 @@
+slug: "opengrep"
+name: "Opengrep"
+category: "Misc"
+description: "🔎 Static code analysis engine to find security issues in code."
+website: "https://github.com/opengrep/opengrep"
+public_url: "https://github.com/opengrep/opengrep"
+website_status: "unknown"
+website_status_code: 0
+website_checked_at: null
+website_error: ""
+repository: "https://github.com/opengrep/opengrep"
+packagist: null
+latest_version: ""
+latest_version_released_at: null
+stars: 2879
+repo_updated_at: "2026-08-05T20:06:06Z"
+metadata_updated_at: "2026-08-06T00:38:38Z"
+editor_choice: false
+quality_tags: []
+source: "https://github.com/exakat/php-static-analysis-tools"
+notes: "Imported from Exakat's PHP static-analysis tools catalog after active-project verification."

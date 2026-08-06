@@ -1,0 +1,22 @@
+slug: "tlint"
+name: "TLint"
+category: "Coding standards"
+description: "Tighten linter for Laravel conventions."
+website: "https://github.com/tighten/tlint"
+public_url: "https://github.com/tighten/tlint"
+website_status: "available"
+website_status_code: 200
+website_checked_at: "2026-08-06T12:10:12Z"
+website_error: ""
+repository: "https://github.com/tighten/tlint"
+packagist: "https://packagist.org/packages/tightenco/tlint"
+latest_version: "v9.6.1"
+latest_version_released_at: "2026-04-30T16:26:46+00:00"
+stars: 526
+repo_updated_at: "2026-04-30T16:27:48Z"
+metadata_updated_at: "2026-08-06T12:10:12Z"
+editor_choice: false
+quality_tags:
+  - "php"
+source: "https://github.com/exakat/php-static-analysis-tools"
+notes: "Imported from Exakat's PHP static-analysis tools catalog after active-project verification."

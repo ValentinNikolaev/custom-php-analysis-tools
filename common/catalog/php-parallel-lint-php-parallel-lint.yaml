@@ -1,0 +1,21 @@
+slug: "php-parallel-lint-php-parallel-lint"
+name: "PHP-Parallel-Lint"
+category: "Bugs finders"
+description: "This tool check syntax of PHP files faster than serial check with fancier output."
+website: "https://github.com/php-parallel-lint/PHP-Parallel-Lint"
+public_url: "https://github.com/php-parallel-lint/PHP-Parallel-Lint"
+website_status: "available"
+website_status_code: 200
+website_checked_at: "2026-08-06T12:08:24Z"
+website_error: ""
+repository: "https://github.com/php-parallel-lint/PHP-Parallel-Lint"
+packagist: "https://packagist.org/packages/php-parallel-lint/php-parallel-lint"
+latest_version: "v1.4.0"
+latest_version_released_at: "2024-03-27T12:14:49+00:00"
+stars: 356
+repo_updated_at: "2026-07-26T21:37:41Z"
+metadata_updated_at: "2026-08-06T12:08:24Z"
+editor_choice: false
+quality_tags: []
+source: "https://github.com/exakat/php-static-analysis-tools"
+notes: "Imported from Exakat's PHP static-analysis tools catalog after active-project verification."

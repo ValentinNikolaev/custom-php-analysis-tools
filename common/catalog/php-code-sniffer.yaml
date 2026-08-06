@@ -9,9 +9,9 @@ website_status_code: 200
 website_checked_at: "2026-08-05T15:56:26Z"
 website_error: ""
 repository: "https://github.com/squizlabs/PHP_CodeSniffer"
-packagist: "https://packagist.org/packages/squizlabs/php_codesniffer"
-latest_version: "4.0.4"
-latest_version_released_at: "2026-08-06T02:45:27+00:00"
+packagist: null
+latest_version: ""
+latest_version_released_at: null
 stars: 10770
 repo_updated_at: "2024-04-01T20:37:32Z"
 metadata_updated_at: "2026-08-06T04:22:06Z"

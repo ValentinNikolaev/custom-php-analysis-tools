@@ -1,0 +1,22 @@
+slug: "semgrep"
+name: "Semgrep"
+category: "Misc"
+description: "Lightweight static analysis for many languages. Find bug variants with patterns that look like source code."
+website: "https://semgrep.dev"
+public_url: "https://semgrep.dev"
+website_status: "unknown"
+website_status_code: 0
+website_checked_at: null
+website_error: ""
+repository: "https://github.com/semgrep/semgrep"
+packagist: null
+latest_version: ""
+latest_version_released_at: null
+stars: 16123
+repo_updated_at: "2026-08-06T00:23:44Z"
+metadata_updated_at: "2026-08-06T00:38:39Z"
+editor_choice: false
+quality_tags:
+  - "static-analysis"
+source: "https://github.com/exakat/php-static-analysis-tools"
+notes: "Imported from Exakat's PHP static-analysis tools catalog after active-project verification."

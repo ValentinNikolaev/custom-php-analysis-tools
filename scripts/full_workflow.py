@@ -17,12 +17,15 @@ def run(args: list[str]) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser(description="Refresh catalog metadata, discover candidates, and regenerate Markdown files.")
     parser.add_argument("--skip-discovery", action="store_true")
+    parser.add_argument("--import-exakat", action="store_true", help="Import verified active tools from Exakat's catalog.")
     parser.add_argument("--discovery-limit", type=int, default=5)
     parser.add_argument("--update-limit", type=int, default=0)
     args = parser.parse_args()
 
     if not (ROOT / "common" / "catalog").exists():
         run([sys.executable, "scripts/import_from_readme.py"])
+    if args.import_exakat:
+        run([sys.executable, "scripts/import_exakat_catalog.py", "--write"])
     update_args = [sys.executable, "scripts/update_catalog.py"]
     if args.update_limit:
         update_args.extend(["--limit", str(args.update_limit)])

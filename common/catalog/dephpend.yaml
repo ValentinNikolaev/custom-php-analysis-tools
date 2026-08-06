@@ -9,7 +9,9 @@ website_status_code: 200
 website_checked_at: "2026-08-05T15:56:44Z"
 website_error: ""
 repository: "https://github.com/mihaeu/dephpend"
-packagist: "https://packagist.org/packages/mihaeu/dephpend-tests"
+packagist: "https://packagist.org/packages/dephpend/dephpend"
+latest_version: "0.9.0"
+latest_version_released_at: "2025-10-05T09:20:18+00:00"
 stars: 532
 repo_updated_at: "2026-01-28T21:41:06Z"
 metadata_updated_at: "2026-08-05T15:56:44Z"

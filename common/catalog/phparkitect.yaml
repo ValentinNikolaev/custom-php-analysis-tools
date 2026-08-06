@@ -1,0 +1,22 @@
+slug: "phparkitect"
+name: "PHPArkitect"
+category: "Coding standards"
+description: "Put your architectural rules under test!"
+website: "https://github.com/phparkitect/arkitect"
+public_url: "https://github.com/phparkitect/arkitect"
+website_status: "available"
+website_status_code: 200
+website_checked_at: "2026-08-06T12:10:11Z"
+website_error: ""
+repository: "https://github.com/phparkitect/arkitect"
+packagist: "https://packagist.org/packages/phparkitect/phparkitect"
+latest_version: "1.3.0"
+latest_version_released_at: "2026-07-31T08:05:29+00:00"
+stars: 923
+repo_updated_at: "2026-07-31T08:17:24Z"
+metadata_updated_at: "2026-08-06T12:10:11Z"
+editor_choice: false
+quality_tags:
+  - "php"
+source: "https://github.com/exakat/php-static-analysis-tools"
+notes: "Imported from Exakat's PHP static-analysis tools catalog after active-project verification."

@@ -9,6 +9,9 @@ website_status_code: 200
 website_checked_at: "2026-08-05T15:56:24Z"
 website_error: ""
 repository: "https://github.com/ecsphp/ecs"
+latest_release_name: "Released ECS 13.2.15"
+latest_release_tag: "13.2.15"
+latest_release_url: "https://github.com/ecsphp/ecs/releases/tag/13.2.15"
 packagist: null
 stars: 1619
 repo_updated_at: "2026-07-22T20:02:46Z"
