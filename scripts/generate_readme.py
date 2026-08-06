@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import re
 from datetime import datetime, timezone
-from urllib.parse import urlparse
+from urllib.parse import quote, urlparse
 
 from catalog_lib import (
     CATEGORY_ORDER,
@@ -168,16 +168,32 @@ def format_date(value: str | None) -> str:
     return f"{parsed.strftime('%b')} {parsed.day}, {parsed.year}"
 
 
+def static_badge(label: str, message: str, color: str, alt: str) -> str:
+    encoded_label = quote(label, safe="")
+    encoded_message = quote(message, safe="")
+    return f"![{alt}](https://img.shields.io/badge/{encoded_label}-{encoded_message}-{color}?style=flat-square)"
+
+
+def latest_release_date(tool: dict) -> str:
+    return format_date(tool.get("latest_release_published_at") or tool.get("latest_version_released_at"))
+
+
 def status_value(tool: dict, reference_time: datetime | None = None) -> str:
     label = lifecycle(tool, reference_time)[1]
     color = STATUS_BADGE_COLORS.get(label, "lightgrey")
-    lines = [f"![{label}](https://img.shields.io/badge/-{label}-{color}?style=flat-square)"]
+    commit_date = format_date(tool.get("repo_updated_at"))
+    if commit_date:
+        lines = [static_badge(f"{label} · last commit", commit_date, color, f"{label}: last commit {commit_date}")]
+    else:
+        lines = [f"![{label}](https://img.shields.io/badge/-{label}-{color}?style=flat-square)"]
+
+    release_date = latest_release_date(tool)
+    if release_date:
+        lines.append(static_badge("last release", release_date, "blue", f"Last release {release_date}"))
+
     release = latest_release_value(tool)
     if release != "—":
         lines.append(release)
-    updated = format_date(tool.get("repo_updated_at"))
-    if updated:
-        lines.append(f"<sub>Updated {updated}</sub>")
     return "<br>".join(lines)
 
 
@@ -444,7 +460,7 @@ def main() -> None:
             f"![Website]({RESOURCE_BADGES['website']}) official website · "
             f"![Website unavailable]({RESOURCE_BADGES['unavailable']}) unavailable website.",
             "",
-            "**Activity:** Active = updated within 90 days; Quiet = 90–182 days; Inactive = 183–364 days; Unknown = no repository activity data. Projects inactive for at least a year move to In Memoriam.",
+            "**Activity:** The first badge shows the last commit date and determines status: Active = within 90 days; Quiet = 90–182 days; Inactive = 183–364 days; Unknown = no repository activity data. The second badge shows the last release date when available. Projects without commits for at least a year move to In Memoriam.",
             "",
         ]
     )

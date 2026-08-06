@@ -54,6 +54,8 @@ def is_alive(tool: dict, reference_time: datetime | None = None) -> bool:
 def is_editor_choice_candidate(tool: dict, reference_time: datetime | None = None) -> bool:
     if not is_alive(tool, reference_time):
         return False
+    if "historical-analysis-only" in set(tool.get("quality_tags") or []):
+        return False
     return not tool.get("repository") or int(tool.get("stars") or 0) >= MINIMUM_REPOSITORY_STARS
 
 

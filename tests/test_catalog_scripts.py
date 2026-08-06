@@ -528,6 +528,17 @@ class CatalogScriptTests(unittest.TestCase):
                 self.REFERENCE_TIME,
             )
         )
+        self.assertFalse(
+            generate_editor_choice.is_editor_choice_candidate(
+                {
+                    **active,
+                    "repository": "https://github.com/example/historical",
+                    "stars": 10000,
+                    "quality_tags": ["historical-analysis-only"],
+                },
+                self.REFERENCE_TIME,
+            )
+        )
 
     def test_tool_row_combines_activity_release_and_uses_four_columns(self) -> None:
         row = tool_row(
@@ -540,11 +551,15 @@ class CatalogScriptTests(unittest.TestCase):
                 "stars": 14042,
                 "repo_updated_at": "2026-07-25T00:00:00Z",
                 "latest_version": "2.2.5",
+                "latest_version_released_at": "2026-07-20T00:00:00Z",
             },
             self.REFERENCE_TIME,
         )
-        self.assertIn("![Active](https://img.shields.io/badge/-Active-brightgreen?style=flat-square)", row)
-        self.assertIn("<br>2.2.5<br><sub>Updated Jul 25, 2026</sub>", row)
+        self.assertIn("![Active: last commit Jul 25, 2026]", row)
+        self.assertIn("Active%20%C2%B7%20last%20commit-Jul%2025%2C%202026-brightgreen", row)
+        self.assertIn("![Last release Jul 20, 2026]", row)
+        self.assertIn("last%20release-Jul%2020%2C%202026-blue", row)
+        self.assertIn("<br>2.2.5", row)
         self.assertIn("⭐ 14,042", row)
         self.assertNotIn("🥇", row)
         self.assertIn('](https://github.com/phpstan/phpstan "GitHub source")', row)

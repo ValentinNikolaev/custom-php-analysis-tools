@@ -116,6 +116,7 @@ def tool_card(tool: dict, reference_time: datetime, rank: int) -> str:
     description = str(tool.get("best_for") or tool.get("description") or "No description available.")
     stars = stars_value(tool)
     updated = format_date(tool.get("repo_updated_at")) or "Unknown"
+    released = format_date(tool.get("latest_release_published_at") or tool.get("latest_version_released_at")) or "Unknown"
     updated_iso = normalized_iso_date(tool.get("repo_updated_at"))
     tags = " ".join(str(tag) for tag in tool.get("quality_tags") or [])
     search_text = " ".join((name, category_title(category), description, tags)).casefold()
@@ -142,7 +143,8 @@ def tool_card(tool: dict, reference_time: datetime, rank: int) -> str:
   <dl class="tool-meta">
     <div><dt>Stars</dt><dd>{stars:,}</dd></div>
     <div><dt>Latest</dt><dd>{escape(version)}</dd></div>
-    <div><dt>Updated</dt><dd>{escape(updated)}</dd></div>
+    <div><dt>Last commit</dt><dd>{escape(updated)}</dd></div>
+    <div><dt>Last release</dt><dd>{escape(released)}</dd></div>
   </dl>
   {f'<p class="availability-note">Official website currently unavailable</p>' if website_unavailable else ''}
   <div class="resource-links" aria-label="Resources for {escape(name)}">{resource_links(tool)}</div>

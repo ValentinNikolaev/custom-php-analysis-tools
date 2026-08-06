@@ -137,6 +137,25 @@ class GenerateSiteTests(unittest.TestCase):
         self.assertNotIn("https://offline.example.com", card)
         self.assertIn("Official website currently unavailable", card)
 
+    def test_tool_card_labels_commit_and_release_dates_explicitly(self) -> None:
+        card = tool_card(
+            {
+                "slug": "dated",
+                "name": "Dated tool",
+                "description": "A tool with activity metadata",
+                "repository": "https://github.com/example/dated",
+                "category": "Misc",
+                "repo_updated_at": "2026-08-05T12:00:00Z",
+                "latest_release_tag": "v1.2.3",
+                "latest_release_published_at": "2026-07-20T12:00:00Z",
+            },
+            self.REFERENCE_TIME,
+            1,
+        )
+
+        self.assertIn("<dt>Last commit</dt><dd>Aug 5, 2026</dd>", card)
+        self.assertIn("<dt>Last release</dt><dd>Jul 20, 2026</dd>", card)
+
     def test_generator_only_replaces_its_own_non_empty_output_directory(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             output = Path(directory) / "site"

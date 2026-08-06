@@ -1,19 +1,26 @@
 slug: "phpqa"
 name: "PHPQA"
 category: "Misc"
-description: "A Wrapper to a lot of PHP tools reported into a single HTML file"
+description: "Analyze PHP code with one command"
 website: "https://edgedesigncz.github.io/phpqa/"
 public_url: "https://edgedesigncz.github.io/phpqa/"
 website_status: "available"
 website_status_code: 200
-website_checked_at: "2026-07-25T18:37:24Z"
+website_checked_at: "2026-08-06T16:39:22Z"
 website_error: ""
-repository: null
-packagist: null
-stars: 0
-repo_updated_at: null
-metadata_updated_at: "2026-07-25T18:37:24Z"
+repository: "https://github.com/EdgedesignCZ/phpqa"
+latest_release_name: "v1.27.2"
+latest_release_tag: "v1.27.2"
+latest_release_url: "https://github.com/EdgedesignCZ/phpqa/releases/tag/v1.27.2"
+latest_release_published_at: "2025-11-22T07:46:06Z"
+packagist: "https://packagist.org/packages/edgedesign/phpqa"
+latest_version: "v1.27.2"
+latest_version_released_at: "2025-11-22T07:41:40+00:00"
+packagist_checked_at: "2026-08-06T16:39:22Z"
+stars: 564
+repo_updated_at: "2025-11-22T07:45:23Z"
+metadata_updated_at: "2026-08-06T16:39:22Z"
 editor_choice: true
-quality_tags:
+quality_tags: []
 source: "README.md"
 notes: ""
