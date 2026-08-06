@@ -71,7 +71,7 @@ STATUS_BADGE_COLORS = {
 
 RESOURCE_BADGES = {
     "github": "https://img.shields.io/badge/-181717?style=flat-square&logo=github&logoColor=white",
-    "packagist": "https://img.shields.io/badge/-181717?style=flat-square&logo=packagist&logoColor=F28D1A",
+    "packagist": "https://img.shields.io/badge/-%F0%9F%93%A6-181717?style=flat-square",
     "website": "https://img.shields.io/badge/-4285F4?style=flat-square&logo=googlechrome&logoColor=white",
     "unavailable": "https://img.shields.io/badge/website-N%2FA-lightgrey?style=flat-square",
 }
@@ -183,7 +183,7 @@ def status_value(tool: dict, reference_time: datetime | None = None) -> str:
     color = STATUS_BADGE_COLORS.get(label, "lightgrey")
     commit_date = format_date(tool.get("repo_updated_at"))
     if commit_date:
-        lines = [static_badge(f"{label} · last commit", commit_date, color, f"{label}: last commit {commit_date}")]
+        lines = [static_badge("last commit", commit_date, color, f"Last commit {commit_date}")]
     else:
         lines = [f"![{label}](https://img.shields.io/badge/-{label}-{color}?style=flat-square)"]
 
@@ -417,12 +417,6 @@ def main() -> None:
         "",
         "A generated catalog of PHP static analysis, code quality, coding standards, metrics, refactoring, and hosted analysis tools.",
         "",
-        "Inspired by the pioneering [PHP Static Analysis Tools catalog by Exakat](https://github.com/exakat/php-static-analysis-tools) and its contributors.",
-        "",
-        "Catalog metadata comes from `common/catalog/*.yaml`; Editors' Choice copy comes from `common/editor-choice-copy.yaml`. Run `python scripts/full_workflow.py` to refresh metadata and regenerate this file.",
-        "",
-        "To review and import newly listed active projects from Exakat, run `python scripts/full_workflow.py --import-exakat`.",
-        "",
         "## Table of contents",
         "",
         "- [Editors' Choice](#editors-choice)",
@@ -460,7 +454,7 @@ def main() -> None:
             f"![Website]({RESOURCE_BADGES['website']}) official website · "
             f"![Website unavailable]({RESOURCE_BADGES['unavailable']}) unavailable website.",
             "",
-            "**Activity:** The first badge shows the last commit date and determines status: Active = within 90 days; Quiet = 90–182 days; Inactive = 183–364 days; Unknown = no repository activity data. The second badge shows the last release date when available. Projects without commits for at least a year move to In Memoriam.",
+            "**Activity:** The first badge shows the last commit date. Its color indicates repository activity: green = within 90 days; yellow = 90–182 days; orange = 183–364 days; light grey = no repository activity data. The second badge shows the last release date when available. Projects without commits for at least a year move to In Memoriam.",
             "",
         ]
     )
@@ -470,6 +464,15 @@ def main() -> None:
             lines.append(section(category, grouped, reference_time=reference_time, anchor_prefix="all"))
     if dead_tools:
         lines.append(memorial_section(dead_tools))
+    lines.extend(
+        [
+            "---",
+            "",
+            "Inspired by the pioneering [PHP Static Analysis Tools catalog by Exakat](https://github.com/exakat/php-static-analysis-tools) and its contributors.",
+            "",
+            "Catalog metadata comes from `common/catalog/*.yaml`; Editors' Choice copy comes from `common/editor-choice-copy.yaml`. Run `python scripts/full_workflow.py` to refresh metadata and regenerate this file.",
+        ]
+    )
     (ROOT / "README.md").write_text("\n".join(lines).rstrip() + "\n", encoding="utf-8")
     print(f"Generated README.md from {len(published_tools)} current and {len(dead_tools)} memorial catalog entries")
 

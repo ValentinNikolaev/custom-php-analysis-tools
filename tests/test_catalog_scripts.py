@@ -555,8 +555,9 @@ class CatalogScriptTests(unittest.TestCase):
             },
             self.REFERENCE_TIME,
         )
-        self.assertIn("![Active: last commit Jul 25, 2026]", row)
-        self.assertIn("Active%20%C2%B7%20last%20commit-Jul%2025%2C%202026-brightgreen", row)
+        self.assertIn("![Last commit Jul 25, 2026]", row)
+        self.assertIn("last%20commit-Jul%2025%2C%202026-brightgreen", row)
+        self.assertNotIn("Active", row)
         self.assertIn("![Last release Jul 20, 2026]", row)
         self.assertIn("last%20release-Jul%2020%2C%202026-blue", row)
         self.assertIn("<br>2.2.5", row)
@@ -564,6 +565,8 @@ class CatalogScriptTests(unittest.TestCase):
         self.assertNotIn("🥇", row)
         self.assertIn('](https://github.com/phpstan/phpstan "GitHub source")', row)
         self.assertIn('](https://packagist.org/packages/phpstan/phpstan "Packagist package")', row)
+        self.assertIn("badge/-%F0%9F%93%A6-181717", row)
+        self.assertNotIn("logo=packagist", row)
         self.assertIn('](https://phpstan.org "Official website")', row)
         self.assertLess(row.index('"GitHub source"'), row.index('"Packagist package"'))
         self.assertLess(row.index('"Packagist package"'), row.index('"Official website"'))
