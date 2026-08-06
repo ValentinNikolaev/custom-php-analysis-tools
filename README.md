@@ -1,5 +1,5 @@
-![GitHub last commit](https://img.shields.io/github/last-commit/ValentinNikolaev/custom-php-analysis-tools)
-![visitors](https://visitor-badge.laobi.icu/badge?page_id=ValentinNikolaev.custom-php-analysis-tools)
+![GitHub last commit](https://img.shields.io/github/last-commit/ValentinNikolaev/php-analysis-tools-catalog)
+![visitors](https://visitor-badge.laobi.icu/badge?page_id=ValentinNikolaev.php-analysis-tools-catalog)
 
 # Static analysis tools for PHP
 
