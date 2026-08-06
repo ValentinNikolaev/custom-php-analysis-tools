@@ -75,6 +75,15 @@ RESOURCE_BADGES = {
     "website": "https://img.shields.io/badge/-4285F4?style=flat-square&logo=googlechrome&logoColor=white",
     "unavailable": "https://img.shields.io/badge/website-N%2FA-lightgrey?style=flat-square",
 }
+REPOSITORY_SLUG = "ValentinNikolaev/php-analysis-tools-catalog"
+
+
+def repository_badges() -> list[str]:
+    visitor_page_id = REPOSITORY_SLUG.replace("/", ".")
+    return [
+        f"![GitHub last commit](https://img.shields.io/github/last-commit/{REPOSITORY_SLUG})",
+        f"![visitors](https://visitor-badge.laobi.icu/badge?page_id={visitor_page_id})",
+    ]
 
 
 def md_escape(value: str) -> str:
@@ -410,8 +419,7 @@ def main() -> None:
         read_editor_choice_copy(),
     )
     lines = [
-        "![GitHub last commit](https://img.shields.io/github/last-commit/ValentinNikolaev/custom-php-analysis-tools)",
-        "![visitors](https://visitor-badge.laobi.icu/badge?page_id=ValentinNikolaev.custom-php-analysis-tools)",
+        *repository_badges(),
         "",
         "# Static analysis tools for PHP",
         "",

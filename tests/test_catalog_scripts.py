@@ -38,6 +38,7 @@ from generate_readme import (
     latest_release_value,
     lifecycle,
     memorial_section,
+    repository_badges,
     resources_value,
     saas_row,
     section,
@@ -48,6 +49,15 @@ from generate_readme import (
 
 class CatalogScriptTests(unittest.TestCase):
     REFERENCE_TIME = datetime(2026, 8, 6, tzinfo=timezone.utc)
+
+    def test_repository_badges_use_current_repository_name(self) -> None:
+        self.assertEqual(
+            repository_badges(),
+            [
+                "![GitHub last commit](https://img.shields.io/github/last-commit/ValentinNikolaev/php-analysis-tools-catalog)",
+                "![visitors](https://visitor-badge.laobi.icu/badge?page_id=ValentinNikolaev.php-analysis-tools-catalog)",
+            ],
+        )
 
     def test_yaml_round_trip_keeps_public_url_fields(self) -> None:
         data = {
