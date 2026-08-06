@@ -1,0 +1,80 @@
+name: Sync Claude configuration
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - ".codex/**"
+      - ".github/workflows/sync-claude.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-claude-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate .claude from .codex
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import shutil
+
+          source = Path(".codex")
+          destination = Path(".claude")
+
+          if not source.is_dir():
+              raise SystemExit("The .codex source directory does not exist")
+
+          shutil.rmtree(destination, ignore_errors=True)
+          shutil.copytree(source, destination)
+
+          for path in sorted(file for file in destination.rglob("*") if file.is_file()):
+              relative_path = path.relative_to(destination)
+              source_path = Path(".codex") / relative_path
+              content = path.read_text(encoding="utf-8")
+
+              if path.suffix.lower() in {".yaml", ".yml"}:
+                  notice = f"# Generated from {source_path.as_posix()}; do not edit directly.\n"
+                  path.write_text(notice + content, encoding="utf-8")
+                  continue
+
+              if path.suffix.lower() == ".md":
+                  notice = (
+                      f"<!-- Generated from {source_path.as_posix()}; "
+                      "do not edit directly. -->"
+                  )
+                  lines = content.splitlines(keepends=True)
+                  insert_at = 0
+                  if lines and lines[0].strip() == "---":
+                      for index, line in enumerate(lines[1:], start=1):
+                          if line.strip() == "---":
+                              insert_at = index + 1
+                              break
+                  lines.insert(insert_at, f"\n{notice}\n")
+                  path.write_text("".join(lines), encoding="utf-8")
+                  continue
+
+              raise SystemExit(f"Cannot add a safe generated notice to {path}")
+          PY
+
+      - name: Commit generated files
+        run: |
+          git add .claude
+          if git diff --cached --quiet; then
+            echo "Claude configuration is already up to date"
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore: sync .claude from .codex"
+          git push

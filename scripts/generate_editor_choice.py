@@ -2,8 +2,14 @@ from __future__ import annotations
 
 from datetime import datetime, timezone
 
-from catalog_lib import CATEGORY_ORDER, ROOT, load_catalog, write_editor_choice_slugs
-from generate_readme import editor_section, is_dead, lifecycle
+from catalog_lib import (
+    CATEGORY_ORDER,
+    ROOT,
+    load_catalog,
+    read_editor_choice_copy,
+    write_editor_choice_slugs,
+)
+from generate_readme import apply_editor_choice_copy, editor_section, is_dead, lifecycle
 
 
 TARGETS = {
@@ -55,6 +61,7 @@ def main() -> None:
         )
         selected.extend(ranked[: TARGETS.get(category, 0)])
     selected_slugs = [tool["slug"] for tool in selected]
+    selected = apply_editor_choice_copy(selected, read_editor_choice_copy())
     write_editor_choice_slugs(selected_slugs)
 
     lines = [
@@ -62,6 +69,8 @@ def main() -> None:
         "",
         "This file is generated from `common/catalog/*.yaml` by `scripts/generate_editor_choice.py`.",
         "Selection is deterministic and limited to alive projects only, then ranked by category quota, stars, repository freshness, and archive signals.",
+        "A human or LLM writes the recommendations and reasons in `common/editor-choice-copy.yaml`, followed by an editorial pass. Generation fails when a selected tool lacks either field.",
+        "⭐ shows GitHub stars; 🥇, 🥈, and 🥉 mark the first three entries in each section.",
         "",
     ]
     for category in CATEGORY_ORDER:

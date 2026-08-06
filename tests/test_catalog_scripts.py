@@ -16,9 +16,19 @@ import generate_editor_choice
 import import_exakat_catalog
 import update_catalog
 import catalog_lib
-from catalog_lib import CATEGORY_ORDER, dump_yaml, load_yaml, save_tool
+from catalog_lib import (
+    CATEGORY_ORDER,
+    dump_yaml,
+    load_yaml,
+    read_editor_choice_copy,
+    read_editor_choice_slugs,
+    save_tool,
+)
 from generate_readme import (
     CATEGORY_TITLES,
+    apply_editor_choice_copy,
+    editor_row,
+    editor_section,
     is_dead,
     latest_release_value,
     lifecycle,
@@ -342,10 +352,101 @@ class CatalogScriptTests(unittest.TestCase):
             self.REFERENCE_TIME,
         )
         self.assertIn("Active · Jul 25, 2026", row)
-        self.assertIn("14,042", row)
+        self.assertIn("⭐ 14,042", row)
+        self.assertNotIn("🥇", row)
         self.assertIn("[GitHub](https://github.com/phpstan/phpstan)", row)
         self.assertIn("[Packagist](https://packagist.org/packages/phpstan/phpstan)", row)
         self.assertEqual(row.count("|"), 6)
+
+    def test_editor_choice_row_uses_curated_copy_and_position_medal(self) -> None:
+        tool = {
+            "slug": "sample",
+            "name": "Sample",
+            "public_url": "https://example.com",
+            "stars": 14042,
+            "best_for": "Applications that need a focused analysis workflow",
+            "editor_reason": "It detects a distinctive class of defects with project-aware rules.",
+        }
+        row = editor_row(tool, position=2)
+        self.assertIn("🥈 ⭐ 14,042", row)
+        self.assertIn("Applications that need a focused analysis workflow", row)
+        self.assertIn("distinctive class of defects", row)
+
+    def test_editor_choice_medals_restart_for_each_section(self) -> None:
+        tools = [
+            {
+                "slug": f"sample-{position}",
+                "name": f"Sample {position}",
+                "public_url": "https://example.com",
+                "stars": 100 - position,
+                "repo_updated_at": "2026-07-01T00:00:00Z",
+                "best_for": f"Use case {position}",
+                "editor_reason": f"Distinct reason {position}",
+            }
+            for position in range(1, 5)
+        ]
+        output = editor_section("Bugs finders", tools, reference_time=self.REFERENCE_TIME)
+        self.assertEqual(output.count("🥇"), 1)
+        self.assertEqual(output.count("🥈"), 1)
+        self.assertEqual(output.count("🥉"), 1)
+        self.assertIn("⭐ 96", output)
+
+    def test_complete_catalog_section_ranks_first_three_repositories(self) -> None:
+        tools = [
+            {
+                "name": f"Sample {position}",
+                "public_url": "https://example.com",
+                "description": f"Description {position}",
+                "stars": 100 - position,
+                "repo_updated_at": "2026-07-01T00:00:00Z",
+            }
+            for position in range(1, 5)
+        ]
+        output = section("Bugs finders", tools, reference_time=self.REFERENCE_TIME)
+        self.assertEqual(output.count("🥇"), 1)
+        self.assertEqual(output.count("🥈"), 1)
+        self.assertEqual(output.count("🥉"), 1)
+        self.assertIn("<sub>⭐ 96</sub>", output)
+
+    def test_editor_choice_copy_is_required_for_every_selected_tool(self) -> None:
+        with self.assertRaisesRegex(ValueError, "missing-copy"):
+            apply_editor_choice_copy(
+                [{"slug": "missing-copy", "name": "Missing Copy"}],
+                {},
+            )
+
+    def test_generated_metadata_fallback_is_rejected_as_editorial_copy(self) -> None:
+        with self.assertRaisesRegex(ValueError, "generated metadata fallback"):
+            apply_editor_choice_copy(
+                [{"slug": "generic-copy", "name": "Generic Copy"}],
+                {
+                    "generic-copy": {
+                        "recommended_for": "Projects that need routine static analysis checks",
+                        "why_it_stands_out": "High adoption and recent maintenance: 10,000 stars; updated today.",
+                    }
+                },
+            )
+
+    def test_recommended_for_rejects_repeated_tool_name(self) -> None:
+        with self.assertRaisesRegex(ValueError, "repeats the tool name"):
+            apply_editor_choice_copy(
+                [{"slug": "sample", "name": "Sample Analyzer"}],
+                {
+                    "sample": {
+                        "recommended_for": "Teams adopting Sample Analyzer for application checks",
+                        "why_it_stands_out": "Custom data-flow rules identify defects across application boundaries and framework conventions.",
+                    }
+                },
+            )
+
+    def test_current_editor_choice_is_fully_covered_by_curated_copy(self) -> None:
+        copy = read_editor_choice_copy()
+        missing = {
+            slug
+            for slug in read_editor_choice_slugs()
+            if not copy.get(slug, {}).get("recommended_for") or not copy.get(slug, {}).get("why_it_stands_out")
+        }
+        self.assertEqual(missing, set())
 
     def test_saas_row_uses_service_specific_fields(self) -> None:
         row = saas_row(

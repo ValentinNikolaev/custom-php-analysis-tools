@@ -17,6 +17,7 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 CATALOG_DIR = ROOT / "common" / "catalog"
 EDITOR_CHOICE_FILE = ROOT / "common" / "editor-choice.yaml"
+EDITOR_CHOICE_COPY_FILE = ROOT / "common" / "editor-choice-copy.yaml"
 CATEGORY_ORDER = [
     "Bugs finders",
     "Coding standards",
@@ -249,6 +250,26 @@ def read_editor_choice_slugs() -> set[str]:
         return set()
     data = load_yaml(EDITOR_CHOICE_FILE)
     return set(data.get("slugs", []))
+
+
+def read_editor_choice_copy() -> dict[str, dict[str, str]]:
+    if not EDITOR_CHOICE_COPY_FILE.exists():
+        return {}
+    data = load_yaml(EDITOR_CHOICE_COPY_FILE)
+    recommended = data.get("recommended_for") or {}
+    reasons = data.get("why_it_stands_out") or {}
+    if not isinstance(recommended, dict) or not isinstance(reasons, dict):
+        raise ValueError(
+            f"{EDITOR_CHOICE_COPY_FILE} must contain recommended_for and why_it_stands_out mappings"
+        )
+    slugs = set(recommended) | set(reasons)
+    return {
+        slug: {
+            "recommended_for": str(recommended.get(slug) or "").strip(),
+            "why_it_stands_out": str(reasons.get(slug) or "").strip(),
+        }
+        for slug in slugs
+    }
 
 
 def write_editor_choice_slugs(slugs: list[str]) -> None:

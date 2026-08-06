@@ -3,7 +3,15 @@ from __future__ import annotations
 import re
 from datetime import datetime, timezone
 
-from catalog_lib import CATEGORY_ORDER, ROOT, category_rank, load_catalog, read_editor_choice_slugs, slugify
+from catalog_lib import (
+    CATEGORY_ORDER,
+    ROOT,
+    category_rank,
+    load_catalog,
+    read_editor_choice_copy,
+    read_editor_choice_slugs,
+    slugify,
+)
 
 
 CATEGORY_TITLES = {
@@ -44,6 +52,14 @@ CATEGORY_DESCRIPTIONS = {
         "Wrappers, baseliners, multi-language engines, and focused analysis tools that do not fit the primary categories."
     ),
 }
+
+EDITOR_MEDALS = {1: "🥇", 2: "🥈", 3: "🥉"}
+GENERIC_EDITOR_REASON_MARKERS = (
+    "high adoption and recent maintenance",
+    "active community and recent maintenance",
+    "recently maintained",
+    "selected by the catalog",
+)
 
 
 def md_escape(value: str) -> str:
@@ -143,10 +159,14 @@ def activity_value(tool: dict, reference_time: datetime | None = None) -> str:
     return f"{label} · {updated}" if updated else label
 
 
-def tool_name_value(tool: dict) -> str:
+def tool_name_value(tool: dict, position: int | None = None) -> str:
     name = f"[{md_escape(tool['name'])}]({link_for(tool)})"
     stars = stars_value(tool)
-    return f"{name}<br><sub>★ {stars:,}</sub>" if stars else name
+    if not stars:
+        return name
+    medal = EDITOR_MEDALS.get(position)
+    ranking = f"{medal} " if medal else ""
+    return f"{name}<br><sub>{ranking}⭐ {stars:,}</sub>"
 
 
 def resources_value(tool: dict) -> str:
@@ -179,9 +199,9 @@ def tool_line(tool: dict, include_stats: bool = True) -> str:
     return f"* [{tool['name']}]({link_for(tool)}) - {purpose_value(tool)}{suffix}"
 
 
-def tool_row(tool: dict, reference_time: datetime | None = None) -> str:
+def tool_row(tool: dict, reference_time: datetime | None = None, position: int | None = None) -> str:
     return (
-        f"| {tool_name_value(tool)} | {purpose_value(tool)} | {activity_value(tool, reference_time)} | "
+        f"| {tool_name_value(tool, position)} | {purpose_value(tool)} | {activity_value(tool, reference_time)} | "
         f"{latest_release_value(tool)} | {resources_value(tool)} |"
     )
 
@@ -199,22 +219,61 @@ def saas_row(tool: dict) -> str:
     return f"| {service} | {purpose_value(tool)} | {delivery} | {service_availability(tool)} |"
 
 
-def editor_reason_value(tool: dict, reference_time: datetime | None = None) -> str:
-    if tool.get("editor_reason"):
-        return md_escape(short_text(str(tool["editor_reason"]), 110))
-    updated = format_date(tool.get("repo_updated_at"))
-    stars = stars_value(tool)
-    if stars >= 1000 and updated:
-        return f"High adoption and recent maintenance: ★ {stars:,}; updated {updated}."
-    if stars >= 100 and updated:
-        return f"Active community and recent maintenance: ★ {stars:,}; updated {updated}."
-    if updated:
-        return f"Recently maintained; updated {updated}."
-    return "Selected by the catalog's deterministic quality and relevance ranking."
+def apply_editor_choice_copy(tools: list[dict], copy: dict[str, dict[str, str]]) -> list[dict]:
+    enriched: list[dict] = []
+    missing: list[str] = []
+    generic: list[str] = []
+    for tool in tools:
+        slug = str(tool.get("slug") or "")
+        curated = copy.get(slug) or {}
+        recommended_for = curated.get("recommended_for")
+        why_it_stands_out = curated.get("why_it_stands_out")
+        if not recommended_for or not why_it_stands_out:
+            missing.append(slug or "<missing slug>")
+            continue
+        normalized_reason = why_it_stands_out.casefold()
+        tool_name = str(tool.get("name") or "").strip().casefold()
+        if (
+            len(recommended_for.split()) < 5
+            or len(why_it_stands_out.split()) < 8
+            or (tool_name and tool_name in recommended_for.casefold())
+            or any(marker in normalized_reason for marker in GENERIC_EDITOR_REASON_MARKERS)
+        ):
+            generic.append(slug)
+            continue
+        enriched.append(
+            {
+                **tool,
+                "best_for": recommended_for,
+                "editor_reason": why_it_stands_out,
+            }
+        )
+    if missing:
+        raise ValueError("Missing curated Editors' Choice copy for: " + ", ".join(sorted(missing)))
+    if generic:
+        raise ValueError(
+            "Editors' Choice copy is too short, repeats the tool name, or uses a generated metadata fallback for: "
+            + ", ".join(sorted(generic))
+        )
+    return enriched
 
 
-def editor_row(tool: dict, reference_time: datetime | None = None) -> str:
-    return f"| {tool_name_value(tool)} | {purpose_value(tool)} | {editor_reason_value(tool, reference_time)} |"
+def recommended_for_value(tool: dict) -> str:
+    value = tool.get("best_for")
+    if not value:
+        raise ValueError(f"Missing curated recommendation for Editors' Choice tool: {tool.get('slug')}")
+    return md_escape(str(value))
+
+
+def editor_reason_value(tool: dict) -> str:
+    value = tool.get("editor_reason")
+    if not value:
+        raise ValueError(f"Missing curated reason for Editors' Choice tool: {tool.get('slug')}")
+    return md_escape(str(value))
+
+
+def editor_row(tool: dict, position: int | None = None) -> str:
+    return f"| {tool_name_value(tool, position)} | {recommended_for_value(tool)} | {editor_reason_value(tool)} |"
 
 
 def memorial_row(tool: dict) -> str:
@@ -261,7 +320,8 @@ def section(
         lines.extend(saas_row(tool) for tool in sorted(tools, key=lambda item: item.get("name", "").casefold()))
     else:
         lines.extend(["| Tool | What it does | Activity | Latest | Resources |", "|---|---|---|---|---|"])
-        lines.extend(tool_row(tool, reference_time) for tool in sorted_for_table(tools, reference_time))
+        ranked_tools = sorted_for_table(tools, reference_time)
+        lines.extend(tool_row(tool, reference_time, position) for position, tool in enumerate(ranked_tools, start=1))
     lines.append("")
     return "\n".join(lines)
 
@@ -287,7 +347,8 @@ def editor_section(
             "|---|---|---|",
         ]
     )
-    lines.extend(editor_row(tool, reference_time) for tool in sorted_for_table(tools, reference_time))
+    ranked_tools = sorted_for_table(tools, reference_time)
+    lines.extend(editor_row(tool, position) for position, tool in enumerate(ranked_tools, start=1))
     lines.append("")
     return "\n".join(lines)
 
@@ -302,9 +363,12 @@ def main() -> None:
         category: [tool for tool in published_tools if tool.get("category") == category]
         for category in CATEGORY_ORDER
     }
-    editor_tools = sorted(
-        [tool for tool in published_tools if tool.get("slug") in editor_slugs],
-        key=lambda item: (category_rank(item.get("category")), item.get("name", "").lower()),
+    editor_tools = apply_editor_choice_copy(
+        sorted(
+            [tool for tool in published_tools if tool.get("slug") in editor_slugs],
+            key=lambda item: (category_rank(item.get("category")), item.get("name", "").lower()),
+        ),
+        read_editor_choice_copy(),
     )
     lines = [
         "![GitHub last commit](https://img.shields.io/github/last-commit/ValentinNikolaev/custom-php-analysis-tools)",
@@ -316,7 +380,7 @@ def main() -> None:
         "",
         "Inspired by the pioneering [PHP Static Analysis Tools catalog by Exakat](https://github.com/exakat/php-static-analysis-tools) and its contributors.",
         "",
-        "The source of truth is `common/catalog/*.yaml`. Run `python scripts/full_workflow.py` to refresh metadata and regenerate this file.",
+        "Catalog metadata comes from `common/catalog/*.yaml`; Editors' Choice copy comes from `common/editor-choice-copy.yaml`. Run `python scripts/full_workflow.py` to refresh metadata and regenerate this file.",
         "",
         "To review and import newly listed active projects from Exakat, run `python scripts/full_workflow.py --import-exakat`.",
         "",
@@ -338,7 +402,9 @@ def main() -> None:
             "",
             "## Editors' Choice",
             "",
-            "A decision-oriented shortlist of active projects selected by category, adoption, repository freshness, and archive signals.",
+            "Category quotas and repository data select these active projects. A human or LLM writes the recommendation copy, followed by an editorial pass.",
+            "",
+            "⭐ shows GitHub stars; 🥇, 🥈, and 🥉 mark the first three repository entries in each section.",
             "",
         ]
     )
@@ -353,6 +419,8 @@ def main() -> None:
             "## Complete catalog",
             "",
             "Repository tables are sorted by activity, then GitHub stars. Hosted services are sorted alphabetically.",
+            "",
+            "⭐ shows GitHub stars; 🥇, 🥈, and 🥉 mark the first three repository entries in each section.",
             "",
             "**Activity:** Active = updated within 90 days; Quiet = 90–182 days; Inactive = 183–364 days; Unknown = no repository activity data. Projects inactive for at least a year move to In Memoriam.",
             "",

@@ -7,7 +7,7 @@ A generated catalog of PHP static analysis, code quality, coding standards, metr
 
 Inspired by the pioneering [PHP Static Analysis Tools catalog by Exakat](https://github.com/exakat/php-static-analysis-tools) and its contributors.
 
-The source of truth is `common/catalog/*.yaml`. Run `python scripts/full_workflow.py` to refresh metadata and regenerate this file.
+Catalog metadata comes from `common/catalog/*.yaml`; Editors' Choice copy comes from `common/editor-choice-copy.yaml`. Run `python scripts/full_workflow.py` to refresh metadata and regenerate this file.
 
 To review and import newly listed active projects from Exakat, run `python scripts/full_workflow.py --import-exakat`.
 
@@ -29,7 +29,9 @@ To review and import newly listed active projects from Exakat, run `python scrip
 
 ## Editors' Choice
 
-A decision-oriented shortlist of active projects selected by category, adoption, repository freshness, and archive signals.
+Category quotas and repository data select these active projects. A human or LLM writes the recommendation copy, followed by an editorial pass.
+
+⭐ shows GitHub stars; 🥇, 🥈, and 🥉 mark the first three repository entries in each section.
 
 <a id="editors-bug-finders"></a>
 
@@ -39,15 +41,15 @@ Tools that inspect PHP code without running it to identify type errors, defects,
 
 | Tool | Recommended for | Why it stands out |
 |---|---|---|
-| [PHP Stan](https://github.com/phpstan/phpstan)<br><sub>★ 14,061</sub> | PHP Static Analysis Tool - discover bugs in your code without running it! | High adoption and recent maintenance: ★ 14,061; updated Aug 6, 2026. |
-| [jscpd](https://github.com/kucherenko/jscpd)<br><sub>★ 5,972</sub> | Copy/paste detector for programming source code, supports 223 formats. AI-ready with token-efficient… | High adoption and recent maintenance: ★ 5,972; updated Aug 6, 2026. |
-| [psalm](https://psalm.dev)<br><sub>★ 5,875</sub> | A PHP static analysis tool for finding errors and security vulnerabilities in PHP applications | High adoption and recent maintenance: ★ 5,875; updated Jul 13, 2026. |
-| [Phan](https://github.com/etsy/phan)<br><sub>★ 5,619</sub> | Phan is a static analyzer for PHP. Phan prefers to avoid false-positives and attempts to prove incorrectness… | High adoption and recent maintenance: ★ 5,619; updated Jul 20, 2026. |
-| [mago](http://mago.carthage.software/)<br><sub>★ 3,361</sub> | Mago is a toolchain for PHP that aims to provide a set of tools to help developers write better code. | High adoption and recent maintenance: ★ 3,361; updated Aug 4, 2026. |
-| [PHP Mess Detector](https://phpmd.org)<br><sub>★ 2,443</sub> | PHPMD is a spin-off project of PHP Depend and aims to be a PHP equivalent of the well known Java tool PMD… | High adoption and recent maintenance: ★ 2,443; updated Aug 2, 2026. |
-| [PHP Compatibility](http://techblog.wimgodden.be/tag/codesniffer/)<br><sub>★ 2,299</sub> | PHP Compatibility check for PHP_CodeSniffer | High adoption and recent maintenance: ★ 2,299; updated Aug 5, 2026. |
-| [composer-dependency-analyser](https://github.com/shipmonk-rnd/composer-dependency-analyser)<br><sub>★ 623</sub> | 🚀 Fast detection of composer dependency issues (unused dependencies, shadow dependencies, misplaced… | Active community and recent maintenance: ★ 623; updated Aug 4, 2026. |
-| [Skylos](https://skylos.dev/)<br><sub>★ 482</sub> | Local pull-request scanning for dead code and security issues | Active community and recent maintenance: ★ 482; updated Aug 5, 2026. |
+| [PHP Stan](https://github.com/phpstan/phpstan)<br><sub>🥇 ⭐ 14,061</sub> | PHP applications that need configurable type-safety checks and framework extensions | Extensions add framework-specific types, while baselines and rule levels support gradual adoption. |
+| [jscpd](https://github.com/kucherenko/jscpd)<br><sub>🥈 ⭐ 5,972</sub> | Polyglot repositories that need duplicate-code checks across PHP and other file formats | One CLI detects copy-paste across 223 formats and provides CI, token-efficient, and MCP reporting options. |
+| [psalm](https://psalm.dev)<br><sub>🥉 ⭐ 5,875</sub> | Projects needing advanced type modelling, taint analysis, and security checks | Psalm combines an expressive type system with taint analysis for application and security defects. |
+| [Phan](https://github.com/etsy/phan)<br><sub>⭐ 5,619</sub> | Teams that want AST-based PHP analysis designed to limit false positives | Phan uses php-ast and tries to prove incorrectness, an approach designed to reduce false positives. |
+| [mago](http://mago.carthage.software/)<br><sub>⭐ 3,361</sub> | Teams that want a Rust-based PHP linter, formatter, and static analyzer | Mago combines customizable linting, static analysis, automatic fixes, formatting, and AST visualization. |
+| [PHP Mess Detector](https://phpmd.org)<br><sub>⭐ 2,443</sub> | Finding complexity, naming, unused-code, and design problems with configurable rules | PHPMD turns PDepend metrics into configurable rules for complexity, naming, and maintainability problems. |
+| [PHP Compatibility](http://techblog.wimgodden.be/tag/codesniffer/)<br><sub>⭐ 2,299</sub> | Libraries and applications that must support specific PHP version ranges | Dedicated PHP_CodeSniffer rules detect syntax and API usage that conflicts with a target PHP version. |
+| [composer-dependency-analyser](https://github.com/shipmonk-rnd/composer-dependency-analyser)<br><sub>⭐ 623</sub> | Composer projects checking for unused, shadow, and misplaced dependencies | Separate checks identify unused, shadow, and misplaced Composer dependencies. |
+| [Skylos](https://skylos.dev/)<br><sub>⭐ 482</sub> | Local pull-request checks for dead code, secrets, security defects, and quality regressions | The local-first scanner checks pull requests for dead code, secrets, security defects, and quality regressions. |
 
 <a id="editors-coding-standards"></a>
 
@@ -57,8 +59,8 @@ Linters and rule-enforcement tools for formatting, naming, documentation, and pr
 
 | Tool | Recommended for | Why it stands out |
 |---|---|---|
-| [EasyCodingStandard](https://github.com/Symplify/EasyCodingStandard)<br><sub>★ 1,619</sub> | ECS runs PHP-CS-Fixer and PHP_CodeSniffer as a single, parallel fast tool with zero dependencies. Run on PHP… | High adoption and recent maintenance: ★ 1,619; updated Jul 22, 2026. |
-| [PHP Code Sniffer](https://github.com/PHPCSStandards/PHP_CodeSniffer)<br><sub>★ 1,537</sub> | PHP_CodeSniffer tokenizes PHP files and detects violations of a defined set of coding standards. | High adoption and recent maintenance: ★ 1,537; updated Aug 6, 2026. |
+| [EasyCodingStandard](https://github.com/Symplify/EasyCodingStandard)<br><sub>🥇 ⭐ 1,619</sub> | Teams running PHP-CS-Fixer and PHP_CodeSniffer through one configuration | One PHP config runs both rule engines in parallel and supports prepared rule sets and gradual adoption. |
+| [PHP Code Sniffer](https://github.com/PHPCSStandards/PHP_CodeSniffer)<br><sub>🥈 ⭐ 1,537</sub> | Projects enforcing published standards or detailed custom coding rules | An extensible sniff API supports established standards and project-specific rules. |
 
 <a id="editors-architecture-rules"></a>
 
@@ -68,8 +70,8 @@ Ready-to-use tools that enforce dependency boundaries and architectural constrai
 
 | Tool | Recommended for | Why it stands out |
 |---|---|---|
-| [Deptrac](https://github.com/sensiolabs-de/deptrac.git)<br><sub>★ 2,983</sub> | Keep your architecture clean. | High adoption and recent maintenance: ★ 2,983; updated Jul 23, 2026. |
-| [PHP Architecture Tester](https://phpat.dev)<br><sub>★ 1,273</sub> | ✔️ PHP Architecture Tester - Easy architecture testing for PHP | High adoption and recent maintenance: ★ 1,273; updated Jul 30, 2026. |
+| [Deptrac](https://github.com/sensiolabs-de/deptrac.git)<br><sub>🥇 ⭐ 2,983</sub> | Layered applications and modular monoliths that enforce dependency boundaries in CI | Dependency rules turn layer and module boundaries into repeatable CI checks. |
+| [PHP Architecture Tester](https://phpat.dev)<br><sub>🥈 ⭐ 1,273</sub> | Teams that prefer to express architecture constraints as readable PHP tests | A fluent PHP API keeps architecture tests in the same language and workflow as application tests. |
 
 <a id="editors-libraries-and-building-blocks"></a>
 
@@ -79,7 +81,7 @@ Parsers, reflection libraries, and control-flow components for developers buildi
 
 | Tool | Recommended for | Why it stands out |
 |---|---|---|
-| [PHP Parser](https://github.com/nikic/PHP-Parser)<br><sub>★ 17,451</sub> | A PHP parser written in PHP | High adoption and recent maintenance: ★ 17,451; updated Jul 11, 2026. |
+| [PHP Parser](https://github.com/nikic/PHP-Parser)<br><sub>🥇 ⭐ 17,451</sub> | Developers building analyzers, refactoring tools, formatters, or source transformations | A stable AST, traversal API, and code builder support many PHP analyzers and transformation tools. |
 
 <a id="editors-fixers-and-refactoring"></a>
 
@@ -89,8 +91,8 @@ Tools that automatically correct coding-standard violations, upgrade PHP syntax,
 
 | Tool | Recommended for | Why it stands out |
 |---|---|---|
-| [PHP CS Fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer)<br><sub>★ 13,545</sub> | A tool to automatically fix PHP Coding Standards issues | High adoption and recent maintenance: ★ 13,545; updated Jul 31, 2026. |
-| [Rector](https://github.com/rectorphp/rector)<br><sub>★ 10,396</sub> | Instant Upgrades and Automated Refactoring of any PHP 5.3+ code | High adoption and recent maintenance: ★ 10,396; updated Aug 5, 2026. |
+| [PHP CS Fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer)<br><sub>🥇 ⭐ 13,545</sub> | Projects that automatically apply PHP formatting and coding-standard fixes | A broad fixer catalog and custom rule sets cover published standards and project-specific formatting. |
+| [Rector](https://github.com/rectorphp/rector)<br><sub>🥈 ⭐ 10,396</sub> | Teams automating PHP upgrades, framework migrations, or repeatable refactoring | AST-based rules turn upgrade and refactoring recipes into reviewable code changes across a project. |
 
 <a id="editors-metrics-and-architecture"></a>
 
@@ -100,10 +102,10 @@ Tools that measure complexity, coupling, dependencies, maintainability, churn, a
 
 | Tool | Recommended for | Why it stands out |
 |---|---|---|
-| [PHPInsights](https://youtube.com/@nunomaduro?sub_confirmation=1)<br><sub>★ 5,626</sub> | 🔰 Instant PHP quality checks from your console | High adoption and recent maintenance: ★ 5,626; updated Aug 4, 2026. |
-| [PHP Metrics](https://github.com/Halleck45/PhpMetrics)<br><sub>★ 2,605</sub> | Beautiful and understandable static analysis tool for PHP | High adoption and recent maintenance: ★ 2,605; updated Aug 2, 2026. |
-| [PDepend](https://pdepend.org/)<br><sub>★ 958</sub> | Measuring PHP design quality and dependency structure | Active community and recent maintenance: ★ 958; updated Aug 2, 2026. |
-| [PhpCodeArcheology](https://phpcodearcheology.github.io)<br><sub>★ 87</sub> | PHP static analysis for architecture & maintainability — 60+ metrics, complexity analysis, dependency… | Recently maintained; updated Aug 1, 2026. |
+| [PHPInsights](https://youtube.com/@nunomaduro?sub_confirmation=1)<br><sub>🥇 ⭐ 5,626</sub> | Teams that want a quick command-line overview of PHP code quality | A single console report summarizes several code-quality signals and can enforce thresholds in CI. |
+| [PHP Metrics](https://github.com/Halleck45/PhpMetrics)<br><sub>🥈 ⭐ 2,605</sub> | Visual review of complexity, coupling, maintainability, and project structure | Browsable reports make complexity, coupling, and architecture metrics easier to inspect than raw output. |
+| [PDepend](https://pdepend.org/)<br><sub>🥉 ⭐ 958</sub> | Detailed object-oriented design, dependency, complexity, and maintainability metrics | JDepend-inspired metrics quantify coupling, complexity, dependencies, and maintainability. |
+| [PhpCodeArcheology](https://phpcodearcheology.github.io)<br><sub>⭐ 87</sub> | Architecture review using code metrics, dependency graphs, and Git churn | One analyzer combines 60+ metrics, dependency graphs, Git churn hotspots, and an MCP server. |
 
 <a id="editors-specialized-tools"></a>
 
@@ -113,14 +115,16 @@ Wrappers, baseliners, multi-language engines, and focused analysis tools that do
 
 | Tool | Recommended for | Why it stands out |
 |---|---|---|
-| [Semgrep](https://semgrep.dev)<br><sub>★ 16,123</sub> | Lightweight static analysis for many languages. Find bug variants with patterns that look like source code. | High adoption and recent maintenance: ★ 16,123; updated Aug 6, 2026. |
-| [Larastan](https://github.com/larastan/larastan)<br><sub>★ 6,479</sub> | ⚗️ Adds code analysis to Laravel improving developer productivity and code quality. | High adoption and recent maintenance: ★ 6,479; updated Jul 30, 2026. |
+| [Semgrep](https://semgrep.dev)<br><sub>🥇 ⭐ 16,123</sub> | Security teams writing custom checks for PHP and polyglot repositories | Source-like rules make custom bug and security checks quicker to write than compiler-style analyzers. |
+| [Larastan](https://github.com/larastan/larastan)<br><sub>🥈 ⭐ 6,479</sub> | Laravel applications that need PHPStan to understand framework conventions | Laravel-specific type information covers containers, facades, Eloquent, and other framework conventions. |
 
 <a id="complete-catalog"></a>
 
 ## Complete catalog
 
 Repository tables are sorted by activity, then GitHub stars. Hosted services are sorted alphabetically.
+
+⭐ shows GitHub stars; 🥇, 🥈, and 🥉 mark the first three repository entries in each section.
 
 **Activity:** Active = updated within 90 days; Quiet = 90–182 days; Inactive = 183–364 days; Unknown = no repository activity data. Projects inactive for at least a year move to In Memoriam.
 
@@ -132,29 +136,29 @@ Tools that inspect PHP code without running it to identify type errors, defects,
 
 | Tool | What it does | Activity | Latest | Resources |
 |---|---|---|---|---|
-| [PHP Stan](https://github.com/phpstan/phpstan)<br><sub>★ 14,061</sub> | PHP Static Analysis Tool - discover bugs in your code without running it! | Active · Aug 6, 2026 | [2.2.8](https://github.com/phpstan/phpstan/releases/tag/2.2.8) | [GitHub](https://github.com/phpstan/phpstan) · [Packagist](https://packagist.org/packages/phpstan/phpstan) |
-| [jscpd](https://github.com/kucherenko/jscpd)<br><sub>★ 5,972</sub> | Copy/paste detector for programming source code, supports 223 formats. AI-ready with token-efficient… | Active · Aug 6, 2026 | [v5.0.14](https://github.com/kucherenko/jscpd/releases/tag/v5.0.14) | [GitHub](https://github.com/kucherenko/jscpd) |
-| [psalm](https://psalm.dev)<br><sub>★ 5,875</sub> | A PHP static analysis tool for finding errors and security vulnerabilities in PHP applications | Active · Jul 13, 2026 | 6.16.1 | [GitHub](https://github.com/vimeo/psalm) · [Packagist](https://packagist.org/packages/vimeo/psalm) |
-| [Phan](https://github.com/etsy/phan)<br><sub>★ 5,619</sub> | Phan is a static analyzer for PHP. Phan prefers to avoid false-positives and attempts to prove incorrectness… | Active · Jul 20, 2026 | [6.0.7](https://github.com/phan/phan/releases/tag/6.0.7) | [GitHub](https://github.com/phan/phan) · [Packagist](https://packagist.org/packages/phan/phan) |
-| [mago](http://mago.carthage.software/)<br><sub>★ 3,361</sub> | Mago is a toolchain for PHP that aims to provide a set of tools to help developers write better code. | Active · Aug 4, 2026 | 1.46.0 | [GitHub](https://github.com/carthage-software/mago) · [Packagist](https://packagist.org/packages/carthage-software/mago) |
-| [PHP Mess Detector](https://phpmd.org)<br><sub>★ 2,443</sub> | PHPMD is a spin-off project of PHP Depend and aims to be a PHP equivalent of the well known Java tool PMD… | Active · Aug 2, 2026 | [2.15.0](https://github.com/phpmd/phpmd/releases/tag/2.15.0) | [GitHub](https://github.com/phpmd/phpmd) · [Packagist](https://packagist.org/packages/phpmd/phpmd) |
-| [PHP Compatibility](http://techblog.wimgodden.be/tag/codesniffer/)<br><sub>★ 2,299</sub> | PHP Compatibility check for PHP_CodeSniffer | Active · Aug 5, 2026 | 9.3.5 | [GitHub](https://github.com/PHPCompatibility/PHPCompatibility) · [Packagist](https://packagist.org/packages/phpcompatibility/php-compatibility) |
-| [composer-dependency-analyser](https://github.com/shipmonk-rnd/composer-dependency-analyser)<br><sub>★ 623</sub> | 🚀 Fast detection of composer dependency issues (unused dependencies, shadow dependencies, misplaced… | Active · Aug 4, 2026 | 1.8.4 | [GitHub](https://github.com/shipmonk-rnd/composer-dependency-analyser) · [Packagist](https://packagist.org/packages/shipmonk/composer-dependency-analyser) |
-| [Skylos](https://skylos.dev/)<br><sub>★ 482</sub> | Local pull-request scanning for dead code and security issues | Active · Aug 5, 2026 | — | [GitHub](https://github.com/duriantaco/skylos) |
-| [SonarPHP](https://github.com/SonarSource/sonar-php)<br><sub>★ 430</sub> | PHP analysis in SonarQube and SonarQube for IDE | Active · Aug 4, 2026 | — | [GitHub](https://github.com/SonarSource/sonar-php) |
-| [php-compat-info](https://llaville.github.io/php-compatinfo/7.2/)<br><sub>★ 380</sub> | Library that find out the minimum version and the extensions required for a piece of code to run | Active · May 20, 2026 | — | [GitHub](https://github.com/llaville/php-compatinfo) |
-| [PHP-Parallel-Lint](https://github.com/php-parallel-lint/PHP-Parallel-Lint)<br><sub>★ 356</sub> | This tool check syntax of PHP files faster than serial check with fancier output. | Active · Jul 26, 2026 | v1.4.0 | [GitHub](https://github.com/php-parallel-lint/PHP-Parallel-Lint) · [Packagist](https://packagist.org/packages/php-parallel-lint/php-parallel-lint) |
-| [phanalist](https://denzyldick.github.io/phanalist/)<br><sub>★ 161</sub> | Performant static analyzer for PHP, which is extremely easy to use. It helps you catch common mistakes in… | Active · Aug 4, 2026 | v1.1.10 | [GitHub](https://github.com/denzyldick/phanalist) · [Packagist](https://packagist.org/packages/denzyl/phanalist) |
-| [AST Metrics](http://ast-metrics.dev)<br><sub>★ 151</sub> | See the invisible structure of your code. Multi-language code quality and architecture analyzer (Go, PHP… | Active · Jul 29, 2026 | — | [GitHub](https://github.com/ast-metrics/ast-metrics) |
-| [Coverage Guard](https://github.com/shipmonk-rnd/coverage-guard)<br><sub>★ 56</sub> | 🧪 Enforce PHP code coverage in your CI. Not by percentage, but target core methods! Allows you to start… | Active · Jul 17, 2026 | 1.1.0 | [GitHub](https://github.com/shipmonk-rnd/coverage-guard) · [Packagist](https://packagist.org/packages/shipmonk/coverage-guard) |
-| [PHPDoctor](https://github.com/voku/PHPDoctor)<br><sub>★ 53</sub> | 🏥 PHPDoctor: Check files, full directories or strings for missing or bad PHPDoc types. | Active · Jul 10, 2026 | 0.8.0 | [GitHub](https://github.com/voku/PHPDoctor) · [Packagist](https://packagist.org/packages/voku/phpdoctor) |
-| [name-collision-detector](https://github.com/shipmonk-rnd/name-collision-detector)<br><sub>★ 35</sub> | Fast & simple tool to find class duplicates in your projects. | Active · Jun 23, 2026 | 2.1.1 | [GitHub](https://github.com/shipmonk-rnd/name-collision-detector) · [Packagist](https://packagist.org/packages/shipmonk/name-collision-detector) |
-| [PHP Analysis](https://github.com/cwi-swat/php-analysis)<br><sub>★ 29</sub> | PHP language analyses in Rascal | Active · May 13, 2026 | [v1.1.0](https://github.com/cwi-swat/php-analysis/releases/tag/v1.1.0) | [GitHub](https://github.com/cwi-swat/php-analysis) |
-| [Composer-Unused](https://github.com/composer-unused/composer-unused)<br><sub>★ 1,684</sub> | Show unused composer dependencies by scanning your code | Quiet · Apr 27, 2026 | 0.9.6 | [GitHub](https://github.com/composer-unused/composer-unused) · [Packagist](https://packagist.org/packages/icanhazstring/composer-unused) |
-| [PHP Magic Number Detector](https://github.com/povils/phpmnd)<br><sub>★ 585</sub> | PHP Magic Number Detector | Quiet · Feb 25, 2026 | [v3.6.1](https://github.com/povils/phpmnd/releases/tag/v3.6.1) | [GitHub](https://github.com/povils/phpmnd) · [Packagist](https://packagist.org/packages/povils/phpmnd) |
+| [PHP Stan](https://github.com/phpstan/phpstan)<br><sub>🥇 ⭐ 14,061</sub> | PHP Static Analysis Tool - discover bugs in your code without running it! | Active · Aug 6, 2026 | [2.2.8](https://github.com/phpstan/phpstan/releases/tag/2.2.8) | [GitHub](https://github.com/phpstan/phpstan) · [Packagist](https://packagist.org/packages/phpstan/phpstan) |
+| [jscpd](https://github.com/kucherenko/jscpd)<br><sub>🥈 ⭐ 5,972</sub> | Copy/paste detector for programming source code, supports 223 formats. AI-ready with token-efficient… | Active · Aug 6, 2026 | [v5.0.14](https://github.com/kucherenko/jscpd/releases/tag/v5.0.14) | [GitHub](https://github.com/kucherenko/jscpd) |
+| [psalm](https://psalm.dev)<br><sub>🥉 ⭐ 5,875</sub> | A PHP static analysis tool for finding errors and security vulnerabilities in PHP applications | Active · Jul 13, 2026 | 6.16.1 | [GitHub](https://github.com/vimeo/psalm) · [Packagist](https://packagist.org/packages/vimeo/psalm) |
+| [Phan](https://github.com/etsy/phan)<br><sub>⭐ 5,619</sub> | Phan is a static analyzer for PHP. Phan prefers to avoid false-positives and attempts to prove incorrectness… | Active · Jul 20, 2026 | [6.0.7](https://github.com/phan/phan/releases/tag/6.0.7) | [GitHub](https://github.com/phan/phan) · [Packagist](https://packagist.org/packages/phan/phan) |
+| [mago](http://mago.carthage.software/)<br><sub>⭐ 3,361</sub> | Mago is a toolchain for PHP that aims to provide a set of tools to help developers write better code. | Active · Aug 4, 2026 | 1.46.0 | [GitHub](https://github.com/carthage-software/mago) · [Packagist](https://packagist.org/packages/carthage-software/mago) |
+| [PHP Mess Detector](https://phpmd.org)<br><sub>⭐ 2,443</sub> | PHPMD is a spin-off project of PHP Depend and aims to be a PHP equivalent of the well known Java tool PMD… | Active · Aug 2, 2026 | [2.15.0](https://github.com/phpmd/phpmd/releases/tag/2.15.0) | [GitHub](https://github.com/phpmd/phpmd) · [Packagist](https://packagist.org/packages/phpmd/phpmd) |
+| [PHP Compatibility](http://techblog.wimgodden.be/tag/codesniffer/)<br><sub>⭐ 2,299</sub> | PHP Compatibility check for PHP_CodeSniffer | Active · Aug 5, 2026 | 9.3.5 | [GitHub](https://github.com/PHPCompatibility/PHPCompatibility) · [Packagist](https://packagist.org/packages/phpcompatibility/php-compatibility) |
+| [composer-dependency-analyser](https://github.com/shipmonk-rnd/composer-dependency-analyser)<br><sub>⭐ 623</sub> | 🚀 Fast detection of composer dependency issues (unused dependencies, shadow dependencies, misplaced… | Active · Aug 4, 2026 | 1.8.4 | [GitHub](https://github.com/shipmonk-rnd/composer-dependency-analyser) · [Packagist](https://packagist.org/packages/shipmonk/composer-dependency-analyser) |
+| [Skylos](https://skylos.dev/)<br><sub>⭐ 482</sub> | Local pull-request scanning for dead code and security issues | Active · Aug 5, 2026 | — | [GitHub](https://github.com/duriantaco/skylos) |
+| [SonarPHP](https://github.com/SonarSource/sonar-php)<br><sub>⭐ 430</sub> | PHP analysis in SonarQube and SonarQube for IDE | Active · Aug 4, 2026 | — | [GitHub](https://github.com/SonarSource/sonar-php) |
+| [php-compat-info](https://llaville.github.io/php-compatinfo/7.2/)<br><sub>⭐ 380</sub> | Library that find out the minimum version and the extensions required for a piece of code to run | Active · May 20, 2026 | — | [GitHub](https://github.com/llaville/php-compatinfo) |
+| [PHP-Parallel-Lint](https://github.com/php-parallel-lint/PHP-Parallel-Lint)<br><sub>⭐ 356</sub> | This tool check syntax of PHP files faster than serial check with fancier output. | Active · Jul 26, 2026 | v1.4.0 | [GitHub](https://github.com/php-parallel-lint/PHP-Parallel-Lint) · [Packagist](https://packagist.org/packages/php-parallel-lint/php-parallel-lint) |
+| [phanalist](https://denzyldick.github.io/phanalist/)<br><sub>⭐ 161</sub> | Performant static analyzer for PHP, which is extremely easy to use. It helps you catch common mistakes in… | Active · Aug 4, 2026 | v1.1.10 | [GitHub](https://github.com/denzyldick/phanalist) · [Packagist](https://packagist.org/packages/denzyl/phanalist) |
+| [AST Metrics](http://ast-metrics.dev)<br><sub>⭐ 151</sub> | See the invisible structure of your code. Multi-language code quality and architecture analyzer (Go, PHP… | Active · Jul 29, 2026 | — | [GitHub](https://github.com/ast-metrics/ast-metrics) |
+| [Coverage Guard](https://github.com/shipmonk-rnd/coverage-guard)<br><sub>⭐ 56</sub> | 🧪 Enforce PHP code coverage in your CI. Not by percentage, but target core methods! Allows you to start… | Active · Jul 17, 2026 | 1.1.0 | [GitHub](https://github.com/shipmonk-rnd/coverage-guard) · [Packagist](https://packagist.org/packages/shipmonk/coverage-guard) |
+| [PHPDoctor](https://github.com/voku/PHPDoctor)<br><sub>⭐ 53</sub> | 🏥 PHPDoctor: Check files, full directories or strings for missing or bad PHPDoc types. | Active · Jul 10, 2026 | 0.8.0 | [GitHub](https://github.com/voku/PHPDoctor) · [Packagist](https://packagist.org/packages/voku/phpdoctor) |
+| [name-collision-detector](https://github.com/shipmonk-rnd/name-collision-detector)<br><sub>⭐ 35</sub> | Fast & simple tool to find class duplicates in your projects. | Active · Jun 23, 2026 | 2.1.1 | [GitHub](https://github.com/shipmonk-rnd/name-collision-detector) · [Packagist](https://packagist.org/packages/shipmonk/name-collision-detector) |
+| [PHP Analysis](https://github.com/cwi-swat/php-analysis)<br><sub>⭐ 29</sub> | PHP language analyses in Rascal | Active · May 13, 2026 | [v1.1.0](https://github.com/cwi-swat/php-analysis/releases/tag/v1.1.0) | [GitHub](https://github.com/cwi-swat/php-analysis) |
+| [Composer-Unused](https://github.com/composer-unused/composer-unused)<br><sub>⭐ 1,684</sub> | Show unused composer dependencies by scanning your code | Quiet · Apr 27, 2026 | 0.9.6 | [GitHub](https://github.com/composer-unused/composer-unused) · [Packagist](https://packagist.org/packages/icanhazstring/composer-unused) |
+| [PHP Magic Number Detector](https://github.com/povils/phpmnd)<br><sub>⭐ 585</sub> | PHP Magic Number Detector | Quiet · Feb 25, 2026 | [v3.6.1](https://github.com/povils/phpmnd/releases/tag/v3.6.1) | [GitHub](https://github.com/povils/phpmnd) · [Packagist](https://packagist.org/packages/povils/phpmnd) |
 | [PHP Static Type Checker](https://codeberg.org/Jumping-Beaver/PHP_Static_Type_Checker) | Static type checker for PHP relying on the php-ast PECL extension. Mirrored from Codeberg.org | Quiet · Apr 8, 2026 | — | [GitHub](https://github.com/Jumping-Beaver/PHP_Static_Type_Checker) · Website unavailable |
-| [noverify](https://github.com/VKCOM/noverify)<br><sub>★ 688</sub> | Pretty fast linter (code static analysis utility) for PHP | Inactive · Jan 19, 2026 | v0.5.5 | [GitHub](https://github.com/VKCOM/noverify) · [Packagist](https://packagist.org/packages/vkcom/noverify) |
-| [Progpilot](https://github.com/designsecurity/progpilot)<br><sub>★ 365</sub> | A static analysis tool for security | Inactive · Aug 17, 2025 | v1.3.0 | [GitHub](https://github.com/designsecurity/progpilot) · [Packagist](https://packagist.org/packages/designsecurity/progpilot) |
+| [noverify](https://github.com/VKCOM/noverify)<br><sub>⭐ 688</sub> | Pretty fast linter (code static analysis utility) for PHP | Inactive · Jan 19, 2026 | v0.5.5 | [GitHub](https://github.com/VKCOM/noverify) · [Packagist](https://packagist.org/packages/vkcom/noverify) |
+| [Progpilot](https://github.com/designsecurity/progpilot)<br><sub>⭐ 365</sub> | A static analysis tool for security | Inactive · Aug 17, 2025 | v1.3.0 | [GitHub](https://github.com/designsecurity/progpilot) · [Packagist](https://packagist.org/packages/designsecurity/progpilot) |
 | [Exakat](http://www.exakat.io/) | Smart static analysis | Unknown | — | — |
 | [PHP Inspection](https://plugins.jetbrains.com/plugin/7622?pr=idea) | Static analysis plugin for PHPStorm | Unknown | — | — |
 | [SonarQube](http://www.sonarqube.org/) | An open platform to manage code quality. It covers PHP code | Unknown | — | — |
@@ -167,12 +171,12 @@ Linters and rule-enforcement tools for formatting, naming, documentation, and pr
 
 | Tool | What it does | Activity | Latest | Resources |
 |---|---|---|---|---|
-| [EasyCodingStandard](https://github.com/Symplify/EasyCodingStandard)<br><sub>★ 1,619</sub> | ECS runs PHP-CS-Fixer and PHP_CodeSniffer as a single, parallel fast tool with zero dependencies. Run on PHP… | Active · Jul 22, 2026 | [13.2.15](https://github.com/ecsphp/ecs/releases/tag/13.2.15) | [GitHub](https://github.com/ecsphp/ecs) |
-| [PHP Code Sniffer](https://github.com/PHPCSStandards/PHP_CodeSniffer)<br><sub>★ 1,537</sub> | PHP_CodeSniffer tokenizes PHP files and detects violations of a defined set of coding standards. | Active · Aug 6, 2026 | 4.0.4 | [GitHub](https://github.com/PHPCSStandards/PHP_CodeSniffer) · [Packagist](https://packagist.org/packages/phpcsstandards/php_codesniffer) |
-| [composer-normalize](https://github.com/ergebnis/composer-normalize)<br><sub>★ 1,115</sub> | 🎵 Provides a composer plugin for normalizing composer.json. | Active · Aug 2, 2026 | 2.52.0 | [GitHub](https://github.com/ergebnis/composer-normalize) · [Packagist](https://packagist.org/packages/ergebnis/composer-normalize) |
-| [editorconfig-checker](https://editorconfig-checker.github.io/)<br><sub>★ 75</sub> | A tool to verify that your files are in harmony with your .editorconfig | Active · May 28, 2026 | 10.7.0 | [GitHub](https://github.com/editorconfig-checker/editorconfig-checker.php) · [Packagist](https://packagist.org/packages/editorconfig-checker/editorconfig-checker) |
-| [TLint](https://github.com/tighten/tlint)<br><sub>★ 526</sub> | Tighten linter for Laravel conventions. | Quiet · Apr 30, 2026 | v9.6.1 | [GitHub](https://github.com/tighten/tlint) · [Packagist](https://packagist.org/packages/tightenco/tlint) |
-| [PHP Doc Check](https://github.com/NielsdeBlaauw/php-doc-check)<br><sub>★ 43</sub> | Uses complexity metrics to determine which functions need documentation. | Inactive · Dec 16, 2025 | v0.4.1 | [GitHub](https://github.com/NielsdeBlaauw/php-doc-check) · [Packagist](https://packagist.org/packages/niels-de-blaauw/php-doc-check) |
+| [EasyCodingStandard](https://github.com/Symplify/EasyCodingStandard)<br><sub>🥇 ⭐ 1,619</sub> | ECS runs PHP-CS-Fixer and PHP_CodeSniffer as a single, parallel fast tool with zero dependencies. Run on PHP… | Active · Jul 22, 2026 | [13.2.15](https://github.com/ecsphp/ecs/releases/tag/13.2.15) | [GitHub](https://github.com/ecsphp/ecs) |
+| [PHP Code Sniffer](https://github.com/PHPCSStandards/PHP_CodeSniffer)<br><sub>🥈 ⭐ 1,537</sub> | PHP_CodeSniffer tokenizes PHP files and detects violations of a defined set of coding standards. | Active · Aug 6, 2026 | 4.0.4 | [GitHub](https://github.com/PHPCSStandards/PHP_CodeSniffer) · [Packagist](https://packagist.org/packages/phpcsstandards/php_codesniffer) |
+| [composer-normalize](https://github.com/ergebnis/composer-normalize)<br><sub>🥉 ⭐ 1,115</sub> | 🎵 Provides a composer plugin for normalizing composer.json. | Active · Aug 2, 2026 | 2.52.0 | [GitHub](https://github.com/ergebnis/composer-normalize) · [Packagist](https://packagist.org/packages/ergebnis/composer-normalize) |
+| [editorconfig-checker](https://editorconfig-checker.github.io/)<br><sub>⭐ 75</sub> | A tool to verify that your files are in harmony with your .editorconfig | Active · May 28, 2026 | 10.7.0 | [GitHub](https://github.com/editorconfig-checker/editorconfig-checker.php) · [Packagist](https://packagist.org/packages/editorconfig-checker/editorconfig-checker) |
+| [TLint](https://github.com/tighten/tlint)<br><sub>⭐ 526</sub> | Tighten linter for Laravel conventions. | Quiet · Apr 30, 2026 | v9.6.1 | [GitHub](https://github.com/tighten/tlint) · [Packagist](https://packagist.org/packages/tightenco/tlint) |
+| [PHP Doc Check](https://github.com/NielsdeBlaauw/php-doc-check)<br><sub>⭐ 43</sub> | Uses complexity metrics to determine which functions need documentation. | Inactive · Dec 16, 2025 | v0.4.1 | [GitHub](https://github.com/NielsdeBlaauw/php-doc-check) · [Packagist](https://packagist.org/packages/niels-de-blaauw/php-doc-check) |
 
 <a id="all-architecture-rules"></a>
 
@@ -182,9 +186,9 @@ Ready-to-use tools that enforce dependency boundaries and architectural constrai
 
 | Tool | What it does | Activity | Latest | Resources |
 |---|---|---|---|---|
-| [Deptrac](https://github.com/sensiolabs-de/deptrac.git)<br><sub>★ 2,983</sub> | Keep your architecture clean. | Active · Jul 23, 2026 | 4.7.1 | [GitHub](https://github.com/deptrac/deptrac) · [Packagist](https://packagist.org/packages/deptrac/deptrac) |
-| [PHP Architecture Tester](https://phpat.dev)<br><sub>★ 1,273</sub> | ✔️ PHP Architecture Tester - Easy architecture testing for PHP | Active · Jul 30, 2026 | 0.12.4 | [GitHub](https://github.com/carlosas/phpat) · [Packagist](https://packagist.org/packages/carlosas/phpat) |
-| [PHPArkitect](https://github.com/phparkitect/arkitect)<br><sub>★ 923</sub> | Put your architectural rules under test! | Active · Jul 31, 2026 | 1.3.0 | [GitHub](https://github.com/phparkitect/arkitect) · [Packagist](https://packagist.org/packages/phparkitect/phparkitect) |
+| [Deptrac](https://github.com/sensiolabs-de/deptrac.git)<br><sub>🥇 ⭐ 2,983</sub> | Keep your architecture clean. | Active · Jul 23, 2026 | 4.7.1 | [GitHub](https://github.com/deptrac/deptrac) · [Packagist](https://packagist.org/packages/deptrac/deptrac) |
+| [PHP Architecture Tester](https://phpat.dev)<br><sub>🥈 ⭐ 1,273</sub> | ✔️ PHP Architecture Tester - Easy architecture testing for PHP | Active · Jul 30, 2026 | 0.12.4 | [GitHub](https://github.com/carlosas/phpat) · [Packagist](https://packagist.org/packages/carlosas/phpat) |
+| [PHPArkitect](https://github.com/phparkitect/arkitect)<br><sub>🥉 ⭐ 923</sub> | Put your architectural rules under test! | Active · Jul 31, 2026 | 1.3.0 | [GitHub](https://github.com/phparkitect/arkitect) · [Packagist](https://packagist.org/packages/phparkitect/phparkitect) |
 
 <a id="all-libraries-and-building-blocks"></a>
 
@@ -194,10 +198,10 @@ Parsers, reflection libraries, and control-flow components for developers buildi
 
 | Tool | What it does | Activity | Latest | Resources |
 |---|---|---|---|---|
-| [PHP Parser](https://github.com/nikic/PHP-Parser)<br><sub>★ 17,451</sub> | A PHP parser written in PHP | Active · Jul 11, 2026 | v5.8.0 | [GitHub](https://github.com/nikic/PHP-Parser) · [Packagist](https://packagist.org/packages/nikic/php-parser) |
-| [Better Reflection](https://github.com/Roave/BetterReflection)<br><sub>★ 1,245</sub> | :crystal_ball: Better Reflection is a reflection API that aims to improve and provide more features than… | Active · Aug 2, 2026 | 6.72.0 | [GitHub](https://github.com/Roave/BetterReflection) · [Packagist](https://packagist.org/packages/roave/better-reflection) |
-| [PHP-cfg](https://github.com/ircmaxell/php-cfg)<br><sub>★ 246</sub> | A Control Flow Graph implementation in PHP | Active · Aug 1, 2026 | V0.8.1 | [GitHub](https://github.com/ircmaxell/php-cfg) · [Packagist](https://packagist.org/packages/ircmaxell/php-cfg) |
-| [Reflection](https://github.com/phpDocumentor/Reflection.git)<br><sub>★ 125</sub> | Reflection library to do Static Analysis for PHP Projects | Active · Jul 30, 2026 | 7.0.0 | [GitHub](https://github.com/phpDocumentor/Reflection) · [Packagist](https://packagist.org/packages/phpdocumentor/reflection) |
+| [PHP Parser](https://github.com/nikic/PHP-Parser)<br><sub>🥇 ⭐ 17,451</sub> | A PHP parser written in PHP | Active · Jul 11, 2026 | v5.8.0 | [GitHub](https://github.com/nikic/PHP-Parser) · [Packagist](https://packagist.org/packages/nikic/php-parser) |
+| [Better Reflection](https://github.com/Roave/BetterReflection)<br><sub>🥈 ⭐ 1,245</sub> | :crystal_ball: Better Reflection is a reflection API that aims to improve and provide more features than… | Active · Aug 2, 2026 | 6.72.0 | [GitHub](https://github.com/Roave/BetterReflection) · [Packagist](https://packagist.org/packages/roave/better-reflection) |
+| [PHP-cfg](https://github.com/ircmaxell/php-cfg)<br><sub>🥉 ⭐ 246</sub> | A Control Flow Graph implementation in PHP | Active · Aug 1, 2026 | V0.8.1 | [GitHub](https://github.com/ircmaxell/php-cfg) · [Packagist](https://packagist.org/packages/ircmaxell/php-cfg) |
+| [Reflection](https://github.com/phpDocumentor/Reflection.git)<br><sub>⭐ 125</sub> | Reflection library to do Static Analysis for PHP Projects | Active · Jul 30, 2026 | 7.0.0 | [GitHub](https://github.com/phpDocumentor/Reflection) · [Packagist](https://packagist.org/packages/phpdocumentor/reflection) |
 
 <a id="all-fixers-and-refactoring"></a>
 
@@ -207,11 +211,11 @@ Tools that automatically correct coding-standard violations, upgrade PHP syntax,
 
 | Tool | What it does | Activity | Latest | Resources |
 |---|---|---|---|---|
-| [PHP CS Fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer)<br><sub>★ 13,545</sub> | A tool to automatically fix PHP Coding Standards issues | Active · Jul 31, 2026 | v3.95.18 | [GitHub](https://github.com/PHP-CS-Fixer/PHP-CS-Fixer) · [Packagist](https://packagist.org/packages/friendsofphp/php-cs-fixer) |
-| [Rector](https://github.com/rectorphp/rector)<br><sub>★ 10,396</sub> | Instant Upgrades and Automated Refactoring of any PHP 5.3+ code | Active · Aug 5, 2026 | 2.6.1 | [GitHub](https://github.com/rectorphp/rector) · [Packagist](https://packagist.org/packages/rector/rector) |
-| [Phpactor](https://github.com/phpactor/phpactor)<br><sub>★ 1,908</sub> | Mainly a PHP Language Server with more features than you can shake a stick at | Active · Aug 1, 2026 | 2026.07.22.0 | [GitHub](https://github.com/phpactor/phpactor) · [Packagist](https://packagist.org/packages/phpactor/phpactor) |
-| [php-scoper](https://github.com/humbug/php-scoper)<br><sub>★ 806</sub> | 🔨 Prefixes all PHP namespaces in a file/directory to isolate the code bundled in PHARs. | Active · Jul 6, 2026 | 0.18.19 | [GitHub](https://github.com/humbug/php-scoper) · [Packagist](https://packagist.org/packages/humbug/php-scoper) |
-| [PHP Weaver](https://github.com/troelskn/phpweaver)<br><sub>★ 85</sub> | A combined runtime/static code-analysis tool, that can trace parameter types | Inactive · Jan 28, 2026 | — | [GitHub](https://github.com/troelskn/phpweaver) |
+| [PHP CS Fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer)<br><sub>🥇 ⭐ 13,545</sub> | A tool to automatically fix PHP Coding Standards issues | Active · Jul 31, 2026 | v3.95.18 | [GitHub](https://github.com/PHP-CS-Fixer/PHP-CS-Fixer) · [Packagist](https://packagist.org/packages/friendsofphp/php-cs-fixer) |
+| [Rector](https://github.com/rectorphp/rector)<br><sub>🥈 ⭐ 10,396</sub> | Instant Upgrades and Automated Refactoring of any PHP 5.3+ code | Active · Aug 5, 2026 | 2.6.1 | [GitHub](https://github.com/rectorphp/rector) · [Packagist](https://packagist.org/packages/rector/rector) |
+| [Phpactor](https://github.com/phpactor/phpactor)<br><sub>🥉 ⭐ 1,908</sub> | Mainly a PHP Language Server with more features than you can shake a stick at | Active · Aug 1, 2026 | 2026.07.22.0 | [GitHub](https://github.com/phpactor/phpactor) · [Packagist](https://packagist.org/packages/phpactor/phpactor) |
+| [php-scoper](https://github.com/humbug/php-scoper)<br><sub>⭐ 806</sub> | 🔨 Prefixes all PHP namespaces in a file/directory to isolate the code bundled in PHARs. | Active · Jul 6, 2026 | 0.18.19 | [GitHub](https://github.com/humbug/php-scoper) · [Packagist](https://packagist.org/packages/humbug/php-scoper) |
+| [PHP Weaver](https://github.com/troelskn/phpweaver)<br><sub>⭐ 85</sub> | A combined runtime/static code-analysis tool, that can trace parameter types | Inactive · Jan 28, 2026 | — | [GitHub](https://github.com/troelskn/phpweaver) |
 
 <a id="all-metrics-and-architecture"></a>
 
@@ -221,14 +225,14 @@ Tools that measure complexity, coupling, dependencies, maintainability, churn, a
 
 | Tool | What it does | Activity | Latest | Resources |
 |---|---|---|---|---|
-| [PHPInsights](https://youtube.com/@nunomaduro?sub_confirmation=1)<br><sub>★ 5,626</sub> | 🔰 Instant PHP quality checks from your console | Active · Aug 4, 2026 | v2.14.2 | [GitHub](https://github.com/nunomaduro/phpinsights) · [Packagist](https://packagist.org/packages/nunomaduro/phpinsights) |
-| [PHP Metrics](https://github.com/Halleck45/PhpMetrics)<br><sub>★ 2,605</sub> | Beautiful and understandable static analysis tool for PHP | Active · Aug 2, 2026 | 2.10.0 | [GitHub](https://github.com/phpmetrics/PhpMetrics) · [Packagist](https://packagist.org/packages/phpmetrics/phpmetrics) |
-| [PDepend](https://pdepend.org/)<br><sub>★ 958</sub> | Measuring PHP design quality and dependency structure | Active · Aug 2, 2026 | 2.16.2 | [GitHub](https://github.com/pdepend/pdepend) · [Packagist](https://packagist.org/packages/pdepend/pdepend) |
-| [PhpCodeArcheology](https://phpcodearcheology.github.io)<br><sub>★ 87</sub> | PHP static analysis for architecture & maintainability — 60+ metrics, complexity analysis, dependency… | Active · Aug 1, 2026 | — | [GitHub](https://github.com/PhpCodeArcheology/PhpCodeArcheology) |
-| [PHP Semantic Versioning Checker](https://github.com/tomzx/php-semver-checker)<br><sub>★ 436</sub> | Compares two source sets and determines the appropriate semantic versioning to apply. | Quiet · Feb 5, 2026 | v0.17.0 | [GitHub](https://github.com/tomzx/php-semver-checker) · [Packagist](https://packagist.org/packages/tomzx/php-semver-checker) |
-| [churn-php](https://github.com/bmitch/churn-php)<br><sub>★ 1,376</sub> | Discover files in need of refactoring. | Inactive · Dec 31, 2025 | 1.7.3 | [GitHub](https://github.com/bmitch/churn-php) · [Packagist](https://packagist.org/packages/bmitch/churn-php) |
-| [dePHPend](https://github.com/mihaeu/dephpend)<br><sub>★ 532</sub> | Detect flaws in your architecture, before they drag you down into the depths of dependency hell ... | Inactive · Jan 28, 2026 | 0.9.0 | [GitHub](https://github.com/mihaeu/dephpend) · [Packagist](https://packagist.org/packages/dephpend/dephpend) |
-| [php-class-dependencies-analyzer](https://php-quality-tools.com/class-dependencies-analyzer/)<br><sub>★ 21</sub> | This tool allows you to monitor the dependencies and instability of your classes | Inactive · Jan 6, 2026 | — | [GitHub](https://github.com/DeGraciaMathieu/php-class-dependencies-analyzer) · Website unavailable |
+| [PHPInsights](https://youtube.com/@nunomaduro?sub_confirmation=1)<br><sub>🥇 ⭐ 5,626</sub> | 🔰 Instant PHP quality checks from your console | Active · Aug 4, 2026 | v2.14.2 | [GitHub](https://github.com/nunomaduro/phpinsights) · [Packagist](https://packagist.org/packages/nunomaduro/phpinsights) |
+| [PHP Metrics](https://github.com/Halleck45/PhpMetrics)<br><sub>🥈 ⭐ 2,605</sub> | Beautiful and understandable static analysis tool for PHP | Active · Aug 2, 2026 | 2.10.0 | [GitHub](https://github.com/phpmetrics/PhpMetrics) · [Packagist](https://packagist.org/packages/phpmetrics/phpmetrics) |
+| [PDepend](https://pdepend.org/)<br><sub>🥉 ⭐ 958</sub> | Measuring PHP design quality and dependency structure | Active · Aug 2, 2026 | 2.16.2 | [GitHub](https://github.com/pdepend/pdepend) · [Packagist](https://packagist.org/packages/pdepend/pdepend) |
+| [PhpCodeArcheology](https://phpcodearcheology.github.io)<br><sub>⭐ 87</sub> | PHP static analysis for architecture & maintainability — 60+ metrics, complexity analysis, dependency… | Active · Aug 1, 2026 | — | [GitHub](https://github.com/PhpCodeArcheology/PhpCodeArcheology) |
+| [PHP Semantic Versioning Checker](https://github.com/tomzx/php-semver-checker)<br><sub>⭐ 436</sub> | Compares two source sets and determines the appropriate semantic versioning to apply. | Quiet · Feb 5, 2026 | v0.17.0 | [GitHub](https://github.com/tomzx/php-semver-checker) · [Packagist](https://packagist.org/packages/tomzx/php-semver-checker) |
+| [churn-php](https://github.com/bmitch/churn-php)<br><sub>⭐ 1,376</sub> | Discover files in need of refactoring. | Inactive · Dec 31, 2025 | 1.7.3 | [GitHub](https://github.com/bmitch/churn-php) · [Packagist](https://packagist.org/packages/bmitch/churn-php) |
+| [dePHPend](https://github.com/mihaeu/dephpend)<br><sub>⭐ 532</sub> | Detect flaws in your architecture, before they drag you down into the depths of dependency hell ... | Inactive · Jan 28, 2026 | 0.9.0 | [GitHub](https://github.com/mihaeu/dephpend) · [Packagist](https://packagist.org/packages/dephpend/dephpend) |
+| [php-class-dependencies-analyzer](https://php-quality-tools.com/class-dependencies-analyzer/)<br><sub>⭐ 21</sub> | This tool allows you to monitor the dependencies and instability of your classes | Inactive · Jan 6, 2026 | — | [GitHub](https://github.com/DeGraciaMathieu/php-class-dependencies-analyzer) · Website unavailable |
 
 <a id="all-hosted-analysis-services"></a>
 
@@ -261,15 +265,15 @@ Wrappers, baseliners, multi-language engines, and focused analysis tools that do
 
 | Tool | What it does | Activity | Latest | Resources |
 |---|---|---|---|---|
-| [Semgrep](https://semgrep.dev)<br><sub>★ 16,123</sub> | Lightweight static analysis for many languages. Find bug variants with patterns that look like source code. | Active · Aug 6, 2026 | — | [GitHub](https://github.com/semgrep/semgrep) |
-| [Larastan](https://github.com/larastan/larastan)<br><sub>★ 6,479</sub> | ⚗️ Adds code analysis to Laravel improving developer productivity and code quality. | Active · Jul 30, 2026 | v3.10.0 | [GitHub](https://github.com/larastan/larastan) · [Packagist](https://packagist.org/packages/larastan/larastan) |
-| [GrumPHP](https://github.com/phpro/grumphp)<br><sub>★ 4,306</sub> | Running a project’s PHP quality tools before code is committed | Active · Jul 22, 2026 | — | [GitHub](https://github.com/phpro/grumphp) · [Packagist](https://packagist.org/packages/phpro/grumphp) |
-| [Opengrep](https://github.com/opengrep/opengrep)<br><sub>★ 2,879</sub> | 🔎 Static code analysis engine to find security issues in code. | Active · Aug 5, 2026 | — | [GitHub](https://github.com/opengrep/opengrep) |
-| [jakzal/phpqa](https://hub.docker.com/r/jakzal/phpqa/)<br><sub>★ 1,319</sub> | Running a ready-made PHP analysis toolchain in Docker | Active · Aug 3, 2026 | — | [GitHub](https://github.com/jakzal/phpqa) |
-| [Composer Require Checker](https://github.com/maglnet/ComposerRequireChecker)<br><sub>★ 1,006</sub> | A CLI tool to check whether a specific composer package uses imported symbols that aren't part of its direct… | Active · Aug 5, 2026 | 4.24.0 | [GitHub](https://github.com/maglnet/ComposerRequireChecker) · [Packagist](https://packagist.org/packages/maglnet/composer-require-checker) |
-| [PHP Parser](https://php-parser.glayzzle.com/)<br><sub>★ 563</sub> | :herb: NodeJS PHP Parser - extract AST or tokens | Active · Aug 5, 2026 | — | [GitHub](https://github.com/glayzzle/php-parser) |
-| [aislop](https://scanaislop.com)<br><sub>★ 537</sub> | Detecting AI-code mistakes and quality regressions before merge | Active · Aug 1, 2026 | — | [GitHub](https://github.com/scanaislop/aislop) |
-| [Static Analysis Results Baseliner](https://github.com/DaveLiddament/sarb)<br><sub>★ 165</sub> | Static Analysis Results Baseliner | Active · Jul 12, 2026 | 1.11.0 | [GitHub](https://github.com/DaveLiddament/sarb) · [Packagist](https://packagist.org/packages/dave-liddament/sarb) |
+| [Semgrep](https://semgrep.dev)<br><sub>🥇 ⭐ 16,123</sub> | Lightweight static analysis for many languages. Find bug variants with patterns that look like source code. | Active · Aug 6, 2026 | — | [GitHub](https://github.com/semgrep/semgrep) |
+| [Larastan](https://github.com/larastan/larastan)<br><sub>🥈 ⭐ 6,479</sub> | ⚗️ Adds code analysis to Laravel improving developer productivity and code quality. | Active · Jul 30, 2026 | v3.10.0 | [GitHub](https://github.com/larastan/larastan) · [Packagist](https://packagist.org/packages/larastan/larastan) |
+| [GrumPHP](https://github.com/phpro/grumphp)<br><sub>🥉 ⭐ 4,306</sub> | Running a project’s PHP quality tools before code is committed | Active · Jul 22, 2026 | — | [GitHub](https://github.com/phpro/grumphp) · [Packagist](https://packagist.org/packages/phpro/grumphp) |
+| [Opengrep](https://github.com/opengrep/opengrep)<br><sub>⭐ 2,879</sub> | 🔎 Static code analysis engine to find security issues in code. | Active · Aug 5, 2026 | — | [GitHub](https://github.com/opengrep/opengrep) |
+| [jakzal/phpqa](https://hub.docker.com/r/jakzal/phpqa/)<br><sub>⭐ 1,319</sub> | Running a ready-made PHP analysis toolchain in Docker | Active · Aug 3, 2026 | — | [GitHub](https://github.com/jakzal/phpqa) |
+| [Composer Require Checker](https://github.com/maglnet/ComposerRequireChecker)<br><sub>⭐ 1,006</sub> | A CLI tool to check whether a specific composer package uses imported symbols that aren't part of its direct… | Active · Aug 5, 2026 | 4.24.0 | [GitHub](https://github.com/maglnet/ComposerRequireChecker) · [Packagist](https://packagist.org/packages/maglnet/composer-require-checker) |
+| [PHP Parser](https://php-parser.glayzzle.com/)<br><sub>⭐ 563</sub> | :herb: NodeJS PHP Parser - extract AST or tokens | Active · Aug 5, 2026 | — | [GitHub](https://github.com/glayzzle/php-parser) |
+| [aislop](https://scanaislop.com)<br><sub>⭐ 537</sub> | Detecting AI-code mistakes and quality regressions before merge | Active · Aug 1, 2026 | — | [GitHub](https://github.com/scanaislop/aislop) |
+| [Static Analysis Results Baseliner](https://github.com/DaveLiddament/sarb)<br><sub>⭐ 165</sub> | Static Analysis Results Baseliner | Active · Jul 12, 2026 | 1.11.0 | [GitHub](https://github.com/DaveLiddament/sarb) · [Packagist](https://packagist.org/packages/dave-liddament/sarb) |
 | [devbug](http://www.devbug.co.uk/) | Ongoing work on PHP Analysis in Rascal (PHP AiR) | Unknown | — | Website unavailable |
 | [HHVM](http://hhvm.com/) | Hack Language from Facebook. Add a SCA until version 3.3.8, newer version doesn't have anymore | Unknown | — | — |
 | [PHPQA](https://edgedesigncz.github.io/phpqa/) | A Wrapper to a lot of PHP tools reported into a single HTML file | Unknown | — | — |

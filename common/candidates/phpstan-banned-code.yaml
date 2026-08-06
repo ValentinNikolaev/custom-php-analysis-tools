@@ -1,0 +1,22 @@
+slug: "phpstan-banned-code"
+name: "phpstan-banned-code"
+category: "Bugs finders"
+description: "Detect banned code through PHPStan"
+website: "https://github.com/ekino/phpstan-banned-code"
+public_url: "https://github.com/ekino/phpstan-banned-code"
+website_status: "unknown"
+website_status_code: 0
+website_checked_at: null
+website_error: ""
+repository: "https://github.com/ekino/phpstan-banned-code"
+packagist: null
+latest_version: ""
+latest_version_released_at: null
+stars: 299
+repo_updated_at: "2026-05-29T09:15:58Z"
+metadata_updated_at: "2026-08-06T13:15:51Z"
+editor_choice: false
+quality_tags:
+  - "php"
+source: "github-search"
+notes: "Review category and description before promoting."

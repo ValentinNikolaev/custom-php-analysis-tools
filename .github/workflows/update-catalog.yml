@@ -32,7 +32,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python scripts/discover_tools.py --write --limit 10
-      - name: Generate editor choice
+      - name: Validate editorial copy and generate editor choice
         run: python scripts/generate_editor_choice.py
       - name: Generate README
         run: python scripts/generate_readme.py
