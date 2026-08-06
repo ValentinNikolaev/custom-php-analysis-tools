@@ -1,0 +1,80 @@
+name: Propose a tool
+description: Suggest a PHP static-analysis or code-quality tool for the catalog.
+title: "[Tool]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Propose an actively maintained tool that is relevant to PHP analysis, quality, architecture, metrics, refactoring, or related workflows.
+  - type: input
+    id: name
+    attributes:
+      label: Tool name
+      placeholder: Example Analyzer
+    validations:
+      required: true
+  - type: input
+    id: repository
+    attributes:
+      label: Source repository
+      placeholder: https://github.com/owner/repository
+    validations:
+      required: true
+  - type: input
+    id: website
+    attributes:
+      label: Official website or documentation
+      description: Leave empty if the source repository is the official project page.
+      placeholder: https://example.org
+  - type: input
+    id: package
+    attributes:
+      label: Packagist package
+      placeholder: https://packagist.org/packages/vendor/package
+  - type: dropdown
+    id: category
+    attributes:
+      label: Suggested category
+      options:
+        - Bugs finders
+        - Coding standards
+        - Architecture rules
+        - DIY
+        - Fixers
+        - Metrics
+        - SaaS
+        - Misc
+    validations:
+      required: true
+  - type: textarea
+    id: relevance
+    attributes:
+      label: What the tool does
+      description: Briefly explain its purpose and why it belongs in this catalog.
+    validations:
+      required: true
+  - type: textarea
+    id: maintenance
+    attributes:
+      label: Maintenance evidence
+      description: Link to a recent release, commit, or other evidence that the project is active.
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I searched the published catalog, candidates, issues, and pull requests for this tool.
+          required: true
+        - label: I am not requesting Editors' Choice placement.
+          required: true
+        - label: I disclosed any affiliation with this tool below.
+          required: true
+  - type: textarea
+    id: affiliation
+    attributes:
+      label: Affiliation
+      description: State your relationship to the project, or write "None."
+    validations:
+      required: true

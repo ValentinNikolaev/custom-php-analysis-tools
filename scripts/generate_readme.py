@@ -476,6 +476,10 @@ def main() -> None:
         [
             "---",
             "",
+            "## License",
+            "",
+            "Non-commercial use, modification, and redistribution are permitted under the [PolyForm Noncommercial License 1.0.0](LICENSE). Commercial use requires a separate written license from Valentin Nikolaev, and a fee may apply.",
+            "",
             "Inspired by the pioneering [PHP Static Analysis Tools catalog by Exakat](https://github.com/exakat/php-static-analysis-tools) and its contributors.",
             "",
             "Catalog metadata comes from `common/catalog/*.yaml`; Editors' Choice copy comes from `common/editor-choice-copy.yaml`. Run `python scripts/full_workflow.py` to refresh metadata and regenerate this file.",

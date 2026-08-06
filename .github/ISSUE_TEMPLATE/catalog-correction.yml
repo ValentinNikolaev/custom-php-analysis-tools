@@ -1,0 +1,48 @@
+name: Catalog correction
+description: Report incorrect, stale, or missing information for a listed tool.
+title: "[Catalog]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping keep the catalog accurate. Please provide links that support the requested change.
+  - type: input
+    id: tool
+    attributes:
+      label: Tool name
+      description: Which catalog entry needs to be corrected?
+      placeholder: PHPStan
+    validations:
+      required: true
+  - type: input
+    id: catalog-link
+    attributes:
+      label: Catalog link
+      description: Link to the entry on the site or in the repository.
+      placeholder: https://valentinnikolaev.github.io/php-analysis-tools-catalog/#tool-php-stan
+    validations:
+      required: true
+  - type: textarea
+    id: correction
+    attributes:
+      label: Requested correction
+      description: Explain what is incorrect and what it should say instead.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Supporting sources
+      description: Link to the official repository, package page, release, or website that verifies the correction.
+      placeholder: One URL per line
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I searched existing issues and pull requests for this correction.
+          required: true
+        - label: I have not included secrets or private security details.
+          required: true
