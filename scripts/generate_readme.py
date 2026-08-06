@@ -71,7 +71,7 @@ STATUS_BADGE_COLORS = {
 
 RESOURCE_BADGES = {
     "github": "https://img.shields.io/badge/-181717?style=flat-square&logo=github&logoColor=white",
-    "packagist": "https://img.shields.io/badge/-F28D1A?style=flat-square&logo=packagist&logoColor=white",
+    "packagist": "https://img.shields.io/badge/-F5F5F5?style=flat-square&logo=packagist&logoColor=F28D1A",
     "website": "https://img.shields.io/badge/-4285F4?style=flat-square&logo=googlechrome&logoColor=white",
     "unavailable": "https://img.shields.io/badge/website-N%2FA-lightgrey?style=flat-square",
 }

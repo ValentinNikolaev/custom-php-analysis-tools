@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A searchable catalog of PHP static-analysis, code-quality, architecture, metrics, and refactoring tools.">
+  <meta name="theme-color" content="#08111f">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="PHP Analysis Tools Catalog">
+  <meta property="og:description" content="Find and compare maintained PHP analysis tools by category, activity, stars, and release data.">
+  <meta property="og:url" content="{{CANONICAL_URL}}">
+  <link rel="canonical" href="{{CANONICAL_URL}}">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/site.css?v=2">
+  <title>PHP Analysis Tools Catalog</title>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+
+  <header class="site-header">
+    <div class="shell site-header__inner">
+      <a class="brand" href="./" aria-label="PHP Analysis Tools Catalog home">
+        <span class="brand__mark" aria-hidden="true">&lt;?&gt;</span>
+        <span>PHP Analysis Tools</span>
+      </a>
+      <nav aria-label="Primary navigation">
+        <a href="#editors-choice">Editors’ Choice</a>
+        <a href="#catalog">Catalog</a>
+        <a href="#methodology">Methodology</a>
+        <a href="{{REPOSITORY_URL}}">GitHub<span aria-hidden="true"> ↗</span></a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section class="hero shell" aria-labelledby="page-title">
+      <div class="hero__content">
+        <p class="kicker">Community-maintained PHP tooling index</p>
+        <h1 id="page-title">Choose the right analysis tool for your PHP codebase.</h1>
+        <p class="hero__lede">Explore static analyzers, coding-standard tools, architecture guards, metrics, refactoring utilities, and hosted services in one current, searchable catalog.</p>
+        <div class="hero__actions">
+          <a class="button button--primary" href="#catalog">Browse all tools</a>
+          <a class="button button--secondary" href="#editors-choice">See Editors’ Choice</a>
+        </div>
+        <p class="hero__update">Catalog metadata last refreshed <strong>{{LAST_UPDATED}}</strong>.</p>
+      </div>
+      <dl class="hero__stats" aria-label="Catalog statistics">
+        <div><dt>{{CURRENT_COUNT}}</dt><dd>current tools</dd></div>
+        <div><dt>{{EDITOR_COUNT}}</dt><dd>editor picks</dd></div>
+        <div><dt>{{CATEGORY_COUNT}}</dt><dd>categories</dd></div>
+        <div><dt>{{MEMORIAL_COUNT}}</dt><dd>preserved projects</dd></div>
+      </dl>
+    </section>
+
+    <section class="section shell" id="editors-choice" aria-labelledby="editors-title">
+      <div class="section-heading">
+        <div>
+          <p class="kicker">A practical starting point</p>
+          <h2 id="editors-title">Editors’ Choice</h2>
+        </div>
+        <p>Active projects selected by category quotas and repository data, with recommendation copy reviewed for usefulness and specificity.</p>
+      </div>
+      <div class="editor-grid">
+        {{EDITOR_CARDS}}
+      </div>
+    </section>
+
+    <section class="section section--catalog" id="catalog" aria-labelledby="catalog-title">
+      <div class="shell">
+        <div class="section-heading">
+          <div>
+            <p class="kicker">Search the full collection</p>
+            <h2 id="catalog-title">Tool catalog</h2>
+          </div>
+          <p>Activity is based on repository updates: Active within 90 days, Quiet within 182 days, and Inactive within 364 days.</p>
+        </div>
+
+        <form class="catalog-controls" id="catalog-controls" role="search" aria-label="Filter the tool catalog">
+          <div class="control control--search">
+            <label for="catalog-search">Search tools</label>
+            <input id="catalog-search" name="q" type="search" placeholder="Try “security”, “Laravel”, or “metrics”" autocomplete="off">
+          </div>
+          <div class="control">
+            <label for="catalog-category">Category</label>
+            <select id="catalog-category" name="category">
+              <option value="">All categories</option>
+              {{CATEGORY_OPTIONS}}
+            </select>
+          </div>
+          <div class="control">
+            <label for="catalog-status">Activity</label>
+            <select id="catalog-status" name="status">
+              <option value="">Any activity</option>
+              {{STATUS_OPTIONS}}
+            </select>
+          </div>
+          <div class="control">
+            <label for="catalog-sort">Sort by</label>
+            <select id="catalog-sort" name="sort">
+              <option value="rank">Recommended order</option>
+              <option value="stars">Most GitHub stars</option>
+              <option value="updated">Recently updated</option>
+              <option value="name">Name A–Z</option>
+            </select>
+          </div>
+          <button class="button button--quiet" id="catalog-reset" type="reset">Reset filters</button>
+        </form>
+
+        <div class="catalog-summary" aria-live="polite" aria-atomic="true">
+          <p id="catalog-results">Showing {{CURRENT_COUNT}} tools</p>
+          <p class="catalog-summary__hint">Search matches names, descriptions, categories, and catalog tags.</p>
+        </div>
+
+        <noscript>
+          <p class="notice"><strong>JavaScript is disabled.</strong> Every catalog entry remains available below, but search, filtering, and sorting require JavaScript.</p>
+        </noscript>
+
+        <div class="tool-grid" id="tool-grid">
+          {{TOOL_CARDS}}
+        </div>
+        <div class="empty-state" id="catalog-empty" hidden>
+          <h3>No matching tools</h3>
+          <p>Try a broader search or reset one of the filters.</p>
+          <button class="button button--secondary" type="button" data-reset-catalog>Reset filters</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section shell" id="methodology" aria-labelledby="methodology-title">
+      <div class="section-heading">
+        <div>
+          <p class="kicker">How this catalog stays current</p>
+          <h2 id="methodology-title">Transparent, repository-backed data</h2>
+        </div>
+        <p>The published site is regenerated from the same committed YAML records that produce the repository README.</p>
+      </div>
+      <div class="method-grid">
+        <article>
+          <span class="step-number">01</span>
+          <h3>Refresh metadata</h3>
+          <p>Scheduled automation checks public GitHub, Packagist, release, and website metadata for catalog entries.</p>
+        </article>
+        <article>
+          <span class="step-number">02</span>
+          <h3>Validate selection</h3>
+          <p>Tests check catalog structure and require specific editorial copy for every selected recommendation.</p>
+        </article>
+        <article>
+          <span class="step-number">03</span>
+          <h3>Build and publish</h3>
+          <p>A dependency-free Python generator turns committed catalog data into this static, searchable site.</p>
+        </article>
+      </div>
+      <p class="source-note">See the <a href="{{REPOSITORY_URL}}">source repository and catalog records<span aria-hidden="true"> ↗</span></a> to inspect the data or propose an improvement.</p>
+    </section>
+
+    <section class="section memorial shell" id="in-memoriam" aria-labelledby="memorial-title">
+      <div class="section-heading">
+        <div>
+          <p class="kicker">Project history</p>
+          <h2 id="memorial-title">In Memoriam</h2>
+        </div>
+        <p>Projects inactive for at least a year remain preserved for their contribution to PHP analysis tooling.</p>
+      </div>
+      <details>
+        <summary>View {{MEMORIAL_COUNT}} preserved projects</summary>
+        <div class="tool-grid tool-grid--memorial">
+          {{MEMORIAL_CARDS}}
+        </div>
+      </details>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell site-footer__inner">
+      <p>PHP Analysis Tools Catalog</p>
+      <p>Generated from public repository metadata. Verify tool compatibility and licensing with each project.</p>
+      <a href="#main-content">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <script src="assets/site.js?v=2" defer></script>
+</body>
+</html>
