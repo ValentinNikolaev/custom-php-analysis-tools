@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import email.utils
 import json
 import os
 import re
@@ -16,6 +17,7 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 CATALOG_DIR = ROOT / "common" / "catalog"
+MAX_RETRY_DELAY_SECONDS = 60.0
 EDITOR_CHOICE_FILE = ROOT / "common" / "editor-choice.yaml"
 EDITOR_CHOICE_COPY_FILE = ROOT / "common" / "editor-choice-copy.yaml"
 CATEGORY_ORDER = [
@@ -163,6 +165,7 @@ def save_tool(tool: dict[str, Any]) -> None:
         "packagist",
         "latest_version",
         "latest_version_released_at",
+        "packagist_checked_at",
         "stars",
         "repo_updated_at",
         "metadata_updated_at",
@@ -201,6 +204,36 @@ def github_repo_key(url: str | None) -> str | None:
     return normalized.removeprefix("https://github.com/")
 
 
+def http_retry_delay(exc: urllib.error.HTTPError, attempt: int) -> float | None:
+    fallback = float(2 + attempt * 3)
+    headers = exc.headers
+    if headers is None:
+        return fallback
+
+    retry_after = headers.get("Retry-After")
+    if retry_after:
+        try:
+            delay = float(retry_after)
+        except ValueError:
+            try:
+                retry_at = email.utils.parsedate_to_datetime(retry_after)
+                delay = retry_at.timestamp() - time.time()
+            except (TypeError, ValueError, OverflowError):
+                delay = fallback
+        delay = max(0.0, delay)
+        return delay if delay <= MAX_RETRY_DELAY_SECONDS else None
+
+    rate_limit_reset = headers.get("X-RateLimit-Reset")
+    if rate_limit_reset:
+        try:
+            delay = max(0.0, float(rate_limit_reset) - time.time())
+        except ValueError:
+            delay = fallback
+        return delay if delay <= MAX_RETRY_DELAY_SECONDS else None
+
+    return fallback
+
+
 def http_json(url: str, token: str | None = None, retries: int = 2) -> Any:
     headers = {
         "Accept": "application/vnd.github+json, application/json",
@@ -215,7 +248,10 @@ def http_json(url: str, token: str | None = None, retries: int = 2) -> Any:
                 return json.loads(response.read().decode("utf-8"))
         except urllib.error.HTTPError as exc:
             if exc.code in {403, 429} and attempt < retries:
-                time.sleep(2 + attempt * 3)
+                delay = http_retry_delay(exc, attempt)
+                if delay is None:
+                    raise
+                time.sleep(delay)
                 continue
             raise
         except urllib.error.URLError:

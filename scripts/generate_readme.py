@@ -71,7 +71,7 @@ STATUS_BADGE_COLORS = {
 
 RESOURCE_BADGES = {
     "github": "https://img.shields.io/badge/-181717?style=flat-square&logo=github&logoColor=white",
-    "packagist": "https://img.shields.io/badge/-F5F5F5?style=flat-square&logo=packagist&logoColor=F28D1A",
+    "packagist": "https://img.shields.io/badge/-181717?style=flat-square&logo=packagist&logoColor=F28D1A",
     "website": "https://img.shields.io/badge/-4285F4?style=flat-square&logo=googlechrome&logoColor=white",
     "unavailable": "https://img.shields.io/badge/website-N%2FA-lightgrey?style=flat-square",
 }
@@ -425,10 +425,6 @@ def main() -> None:
             "",
             "## Editors' Choice",
             "",
-            "Category quotas and repository data select these active projects. A human or LLM writes the recommendation copy, followed by an editorial pass.",
-            "",
-            "⭐ shows GitHub stars; 🥇, 🥈, and 🥉 mark the first three repository entries in each section.",
-            "",
         ]
     )
     for category in CATEGORY_ORDER:
@@ -442,8 +438,6 @@ def main() -> None:
             "## Complete catalog",
             "",
             "Repository tables are sorted by activity, then GitHub stars. Hosted services are sorted alphabetically.",
-            "",
-            "⭐ shows GitHub stars; 🥇, 🥈, and 🥉 mark the first three repository entries in each section.",
             "",
             f"**Links:** ![GitHub]({RESOURCE_BADGES['github']}) GitHub · "
             f"![Packagist]({RESOURCE_BADGES['packagist']}) Packagist · "

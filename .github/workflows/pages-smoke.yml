@@ -1,0 +1,25 @@
+name: Test reusable Pages build
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/pages.yml"
+      - ".github/workflows/pages-smoke.yml"
+      - ".github/workflows/update-catalog.yml"
+      - "common/**"
+      - "scripts/**"
+      - "site/**"
+      - "tests/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  pages-build:
+    permissions:
+      contents: read
+    uses: ./.github/workflows/pages.yml
+    with:
+      deploy: false
+      ref: ${{ github.sha }}

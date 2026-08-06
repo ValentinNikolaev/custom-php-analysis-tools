@@ -1,7 +1,7 @@
 # Static analysis tools for PHP
 
 This file is generated from `common/catalog/*.yaml` by `scripts/generate_editor_choice.py`.
-Selection is deterministic and limited to alive projects only, then ranked by category quota, stars, repository freshness, and archive signals.
+Selection is deterministic and limited to alive projects only. Repositories require at least 500 GitHub stars, then eligible projects are ranked by category quota, stars, repository freshness, and archive signals.
 A human or LLM writes the recommendations and reasons in `common/editor-choice-copy.yaml`, followed by an editorial pass. Generation fails when a selected tool lacks either field.
 ⭐ shows GitHub stars; 🥇, 🥈, and 🥉 mark the first three entries in each section.
 
@@ -19,7 +19,6 @@ Tools that inspect PHP code without running it to identify type errors, defects,
 | [PHP Mess Detector](https://phpmd.org)<br><sub>⭐ 2,443</sub> | Finding complexity, naming, unused-code, and design problems with configurable rules | PHPMD turns PDepend metrics into configurable rules for complexity, naming, and maintainability problems. |
 | [PHP Compatibility](http://techblog.wimgodden.be/tag/codesniffer/)<br><sub>⭐ 2,299</sub> | Libraries and applications that must support specific PHP version ranges | Dedicated PHP_CodeSniffer rules detect syntax and API usage that conflicts with a target PHP version. |
 | [composer-dependency-analyser](https://github.com/shipmonk-rnd/composer-dependency-analyser)<br><sub>⭐ 623</sub> | Composer projects checking for unused, shadow, and misplaced dependencies | Separate checks identify unused, shadow, and misplaced Composer dependencies. |
-| [Skylos](https://skylos.dev/)<br><sub>⭐ 482</sub> | Local pull-request checks for dead code, secrets, security defects, and quality regressions | The local-first scanner checks pull requests for dead code, secrets, security defects, and quality regressions. |
 
 ## Coding standards
 
@@ -65,7 +64,6 @@ Tools that measure complexity, coupling, dependencies, maintainability, churn, a
 | [PHPInsights](https://youtube.com/@nunomaduro?sub_confirmation=1)<br><sub>🥇 ⭐ 5,626</sub> | Teams that want a quick command-line overview of PHP code quality | A single console report summarizes several code-quality signals and can enforce thresholds in CI. |
 | [PHP Metrics](https://github.com/Halleck45/PhpMetrics)<br><sub>🥈 ⭐ 2,605</sub> | Visual review of complexity, coupling, maintainability, and project structure | Browsable reports make complexity, coupling, and architecture metrics easier to inspect than raw output. |
 | [PDepend](https://pdepend.org/)<br><sub>🥉 ⭐ 958</sub> | Detailed object-oriented design, dependency, complexity, and maintainability metrics | JDepend-inspired metrics quantify coupling, complexity, dependencies, and maintainability. |
-| [PhpCodeArcheology](https://phpcodearcheology.github.io)<br><sub>⭐ 87</sub> | Architecture review using code metrics, dependency graphs, and Git churn | One analyzer combines 60+ metrics, dependency graphs, Git churn hotspots, and an MCP server. |
 
 ## Specialized tools
 

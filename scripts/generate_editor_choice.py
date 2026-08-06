@@ -21,6 +21,7 @@ TARGETS = {
     "Metrics": 6,
     "Misc": 2,
 }
+MINIMUM_REPOSITORY_STARS = 500
 
 
 def parse_date(value: str | None) -> datetime | None:
@@ -50,13 +51,23 @@ def is_alive(tool: dict, reference_time: datetime | None = None) -> bool:
     return not is_dead(tool, reference_time) and lifecycle(tool, reference_time)[0] == 0
 
 
+def is_editor_choice_candidate(tool: dict, reference_time: datetime | None = None) -> bool:
+    if not is_alive(tool, reference_time):
+        return False
+    return not tool.get("repository") or int(tool.get("stars") or 0) >= MINIMUM_REPOSITORY_STARS
+
+
 def main() -> None:
     tools = load_catalog()
     reference_time = datetime.now(timezone.utc)
     selected: list[dict] = []
     for category in CATEGORY_ORDER:
         ranked = sorted(
-            [tool for tool in tools if tool.get("category") == category and is_alive(tool, reference_time)],
+            [
+                tool
+                for tool in tools
+                if tool.get("category") == category and is_editor_choice_candidate(tool, reference_time)
+            ],
             key=lambda item: (-score(item, reference_time), item.get("name", "").lower()),
         )
         selected.extend(ranked[: TARGETS.get(category, 0)])
@@ -68,7 +79,7 @@ def main() -> None:
         "# Static analysis tools for PHP",
         "",
         "This file is generated from `common/catalog/*.yaml` by `scripts/generate_editor_choice.py`.",
-        "Selection is deterministic and limited to alive projects only, then ranked by category quota, stars, repository freshness, and archive signals.",
+        "Selection is deterministic and limited to alive projects only. Repositories require at least 500 GitHub stars, then eligible projects are ranked by category quota, stars, repository freshness, and archive signals.",
         "A human or LLM writes the recommendations and reasons in `common/editor-choice-copy.yaml`, followed by an editorial pass. Generation fails when a selected tool lacks either field.",
         "⭐ shows GitHub stars; 🥇, 🥈, and 🥉 mark the first three entries in each section.",
         "",

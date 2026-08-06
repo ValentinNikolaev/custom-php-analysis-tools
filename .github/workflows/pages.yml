@@ -4,13 +4,18 @@ on:
   push:
     branches:
       - master
-  workflow_run:
-    workflows:
-      - Update PHP analysis catalog
-    types:
-      - completed
-    branches:
-      - master
+  workflow_call:
+    inputs:
+      deploy:
+        description: Deploy the generated site after a successful build
+        required: false
+        type: boolean
+        default: true
+      ref:
+        description: Git ref to build
+        required: false
+        type: string
+        default: ""
   workflow_dispatch:
 
 permissions:
@@ -24,13 +29,12 @@ concurrency:
 
 jobs:
   build:
-    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     steps:
-      - name: Check out the default branch
+      - name: Check out the requested revision
         uses: actions/checkout@v6
         with:
-          ref: master
+          ref: ${{ inputs.ref || github.sha }}
 
       - name: Set up Python
         uses: actions/setup-python@v6
@@ -41,18 +45,21 @@ jobs:
         run: python -m unittest discover -s tests
 
       - name: Configure GitHub Pages
+        if: github.event_name != 'workflow_call' || inputs.deploy
         uses: actions/configure-pages@v5
 
       - name: Build the production site
         run: python scripts/generate_site.py --output site-dist
 
       - name: Upload the Pages artifact
+        if: github.event_name != 'workflow_call' || inputs.deploy
         uses: actions/upload-pages-artifact@v4
         with:
           path: site-dist
 
   deploy:
     needs: build
+    if: github.event_name != 'workflow_call' || inputs.deploy
     runs-on: ubuntu-latest
     environment:
       name: github-pages
