@@ -352,12 +352,15 @@ class CatalogScriptTests(unittest.TestCase):
             },
             self.REFERENCE_TIME,
         )
-        self.assertIn("Active<br><sub>Jul 25, 2026 · 2.2.5</sub>", row)
+        self.assertIn("![Active](https://img.shields.io/badge/-Active-brightgreen?style=flat-square)", row)
+        self.assertIn("<br>2.2.5<br><sub>Updated Jul 25, 2026</sub>", row)
         self.assertIn("⭐ 14,042", row)
         self.assertNotIn("🥇", row)
-        self.assertIn('[&lt;/&gt;](https://github.com/phpstan/phpstan "GitHub source")', row)
-        self.assertIn('[🌐](https://phpstan.org "Official website")', row)
-        self.assertIn('[📦](https://packagist.org/packages/phpstan/phpstan "Packagist package")', row)
+        self.assertIn('](https://github.com/phpstan/phpstan "GitHub source")', row)
+        self.assertIn('](https://packagist.org/packages/phpstan/phpstan "Packagist package")', row)
+        self.assertIn('](https://phpstan.org "Official website")', row)
+        self.assertLess(row.index('"GitHub source"'), row.index('"Packagist package"'))
+        self.assertLess(row.index('"Packagist package"'), row.index('"Official website"'))
         self.assertEqual(row.count("|"), 5)
 
     def test_editor_choice_row_uses_curated_copy_and_position_medal(self) -> None:
@@ -462,9 +465,22 @@ class CatalogScriptTests(unittest.TestCase):
         )
         self.assertIn("Hosted PHP security analysis", row)
         self.assertIn("Cloud dashboard and CI integration", row)
-        self.assertIn('[🌐](https://example.com "Official website")', row)
+        self.assertIn('](https://example.com "Official website")', row)
         self.assertNotIn("Stars", row)
         self.assertEqual(row.count("|"), 5)
+
+    def test_saas_row_marks_an_unavailable_site_with_na_badge(self) -> None:
+        row = saas_row(
+            {
+                "name": "Retired Hosted Analyzer",
+                "public_url": "https://example.com",
+                "best_for": "Hosted PHP security analysis",
+                "delivery": "Hosted service",
+                "website_status": "unavailable",
+            }
+        )
+        self.assertIn("website-N%2FA-lightgrey", row)
+        self.assertNotIn('](https://example.com "Official website")', row)
 
     def test_resources_do_not_duplicate_a_github_public_url_as_a_website(self) -> None:
         links = resources_value(

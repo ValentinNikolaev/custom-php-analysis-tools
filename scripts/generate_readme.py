@@ -62,6 +62,20 @@ GENERIC_EDITOR_REASON_MARKERS = (
     "selected by the catalog",
 )
 
+STATUS_BADGE_COLORS = {
+    "Active": "brightgreen",
+    "Quiet": "yellow",
+    "Inactive": "orange",
+    "Unknown": "lightgrey",
+}
+
+RESOURCE_BADGES = {
+    "github": "https://img.shields.io/badge/-181717?style=flat-square&logo=github&logoColor=white",
+    "packagist": "https://img.shields.io/badge/-F28D1A?style=flat-square&logo=packagist&logoColor=white",
+    "website": "https://img.shields.io/badge/-4285F4?style=flat-square&logo=googlechrome&logoColor=white",
+    "unavailable": "https://img.shields.io/badge/website-N%2FA-lightgrey?style=flat-square",
+}
+
 
 def md_escape(value: str) -> str:
     return value.replace("|", "\\|").replace("\n", " ")
@@ -156,14 +170,15 @@ def format_date(value: str | None) -> str:
 
 def status_value(tool: dict, reference_time: datetime | None = None) -> str:
     label = lifecycle(tool, reference_time)[1]
-    details = []
-    updated = format_date(tool.get("repo_updated_at"))
-    if updated:
-        details.append(updated)
+    color = STATUS_BADGE_COLORS.get(label, "lightgrey")
+    lines = [f"![{label}](https://img.shields.io/badge/-{label}-{color}?style=flat-square)"]
     release = latest_release_value(tool)
     if release != "—":
-        details.append(release)
-    return f"{label}<br><sub>{' · '.join(details)}</sub>" if details else label
+        lines.append(release)
+    updated = format_date(tool.get("repo_updated_at"))
+    if updated:
+        lines.append(f"<sub>Updated {updated}</sub>")
+    return "<br>".join(lines)
 
 
 def tool_name_value(tool: dict, position: int | None = None) -> str:
@@ -180,17 +195,19 @@ def resources_value(tool: dict) -> str:
     links = []
     repository = tool.get("repository")
     if repository:
-        links.append(f"[&lt;/&gt;]({repository} \"GitHub source\")")
+        links.append(f"[![GitHub]({RESOURCE_BADGES['github']})]({repository} \"GitHub source\")")
+    if tool.get("packagist"):
+        links.append(
+            f"[![Packagist]({RESOURCE_BADGES['packagist']})]({tool['packagist']} \"Packagist package\")"
+        )
     website = tool.get("public_url") or tool.get("website")
     website_host = urlparse(website).netloc.casefold() if website else ""
     website_is_github_duplicate = bool(repository and website_host in {"github.com", "www.github.com"})
     if website and website != repository and not website_is_github_duplicate and tool.get("website_status") != "unavailable":
-        links.append(f"[🌐]({website} \"Official website\")")
-    if tool.get("packagist"):
-        links.append(f"[📦]({tool['packagist']} \"Packagist package\")")
+        links.append(f"[![Website]({RESOURCE_BADGES['website']})]({website} \"Official website\")")
     if tool.get("website_status") == "unavailable":
-        links.append('<span title="Website unavailable">🌐×</span>')
-    return " · ".join(links) or "—"
+        links.append(f"![Website unavailable]({RESOURCE_BADGES['unavailable']})")
+    return " ".join(links) or "—"
 
 
 def tool_line(tool: dict, include_stats: bool = True) -> str:
@@ -428,7 +445,10 @@ def main() -> None:
             "",
             "⭐ shows GitHub stars; 🥇, 🥈, and 🥉 mark the first three repository entries in each section.",
             "",
-            "**Links:** &lt;/&gt; source code · 🌐 official website · 📦 package.",
+            f"**Links:** ![GitHub]({RESOURCE_BADGES['github']}) GitHub · "
+            f"![Packagist]({RESOURCE_BADGES['packagist']}) Packagist · "
+            f"![Website]({RESOURCE_BADGES['website']}) official website · "
+            f"![Website unavailable]({RESOURCE_BADGES['unavailable']}) unavailable website.",
             "",
             "**Activity:** Active = updated within 90 days; Quiet = 90–182 days; Inactive = 183–364 days; Unknown = no repository activity data. Projects inactive for at least a year move to In Memoriam.",
             "",
