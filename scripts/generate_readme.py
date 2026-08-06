@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import re
 from datetime import datetime, timezone
+from urllib.parse import urlparse
 
 from catalog_lib import (
     CATEGORY_ORDER,
@@ -141,9 +142,9 @@ def short_text(value: str, limit: int = 110) -> str:
     return f"{shortened}…"
 
 
-def purpose_value(tool: dict) -> str:
+def purpose_value(tool: dict, limit: int = 110) -> str:
     value = tool.get("best_for") or tool.get("description") or "No description available."
-    return md_escape(short_text(str(value)))
+    return md_escape(short_text(str(value), limit))
 
 
 def format_date(value: str | None) -> str:
@@ -153,10 +154,16 @@ def format_date(value: str | None) -> str:
     return f"{parsed.strftime('%b')} {parsed.day}, {parsed.year}"
 
 
-def activity_value(tool: dict, reference_time: datetime | None = None) -> str:
+def status_value(tool: dict, reference_time: datetime | None = None) -> str:
     label = lifecycle(tool, reference_time)[1]
+    details = []
     updated = format_date(tool.get("repo_updated_at"))
-    return f"{label} · {updated}" if updated else label
+    if updated:
+        details.append(updated)
+    release = latest_release_value(tool)
+    if release != "—":
+        details.append(release)
+    return f"{label}<br><sub>{' · '.join(details)}</sub>" if details else label
 
 
 def tool_name_value(tool: dict, position: int | None = None) -> str:
@@ -171,12 +178,18 @@ def tool_name_value(tool: dict, position: int | None = None) -> str:
 
 def resources_value(tool: dict) -> str:
     links = []
-    if tool.get("repository"):
-        links.append(f"[GitHub]({tool['repository']})")
+    repository = tool.get("repository")
+    if repository:
+        links.append(f"[&lt;/&gt;]({repository} \"GitHub source\")")
+    website = tool.get("public_url") or tool.get("website")
+    website_host = urlparse(website).netloc.casefold() if website else ""
+    website_is_github_duplicate = bool(repository and website_host in {"github.com", "www.github.com"})
+    if website and website != repository and not website_is_github_duplicate and tool.get("website_status") != "unavailable":
+        links.append(f"[🌐]({website} \"Official website\")")
     if tool.get("packagist"):
-        links.append(f"[Packagist]({tool['packagist']})")
+        links.append(f"[📦]({tool['packagist']} \"Packagist package\")")
     if tool.get("website_status") == "unavailable":
-        links.append("Website unavailable")
+        links.append('<span title="Website unavailable">🌐×</span>')
     return " · ".join(links) or "—"
 
 
@@ -201,22 +214,15 @@ def tool_line(tool: dict, include_stats: bool = True) -> str:
 
 def tool_row(tool: dict, reference_time: datetime | None = None, position: int | None = None) -> str:
     return (
-        f"| {tool_name_value(tool, position)} | {purpose_value(tool)} | {activity_value(tool, reference_time)} | "
-        f"{latest_release_value(tool)} | {resources_value(tool)} |"
+        f"| {tool_name_value(tool, position)} | {purpose_value(tool, 88)} | "
+        f"{status_value(tool, reference_time)} | {resources_value(tool)} |"
     )
-
-
-def service_availability(tool: dict) -> str:
-    return {
-        "available": "Website available",
-        "unavailable": "Website unavailable",
-    }.get(tool.get("website_status"), "Website not checked")
 
 
 def saas_row(tool: dict) -> str:
     service = f"[{md_escape(tool['name'])}]({link_for(tool)})"
     delivery = md_escape(short_text(str(tool.get("delivery") or "Hosted service"), 70))
-    return f"| {service} | {purpose_value(tool)} | {delivery} | {service_availability(tool)} |"
+    return f"| {service} | {purpose_value(tool, 88)} | {delivery} | {resources_value(tool)} |"
 
 
 def apply_editor_choice_copy(tools: list[dict], copy: dict[str, dict[str, str]]) -> list[dict]:
@@ -316,10 +322,10 @@ def section(
         lines.extend([f'<a id="{category_anchor(category, anchor_prefix)}"></a>', ""])
     lines.extend([f"{'#' * level} {category_title(category)}", "", CATEGORY_DESCRIPTIONS.get(category, ""), ""])
     if category == "SaaS":
-        lines.extend(["| Service | Best for | Delivery | Website status |", "|---|---|---|---|"])
+        lines.extend(["| Service | Best for | Delivery | Link |", "|---|---|---|---|"])
         lines.extend(saas_row(tool) for tool in sorted(tools, key=lambda item: item.get("name", "").casefold()))
     else:
-        lines.extend(["| Tool | What it does | Activity | Latest | Resources |", "|---|---|---|---|---|"])
+        lines.extend(["| Tool | Best for | Status | Links |", "|---|---|---|---|"])
         ranked_tools = sorted_for_table(tools, reference_time)
         lines.extend(tool_row(tool, reference_time, position) for position, tool in enumerate(ranked_tools, start=1))
     lines.append("")
@@ -421,6 +427,8 @@ def main() -> None:
             "Repository tables are sorted by activity, then GitHub stars. Hosted services are sorted alphabetically.",
             "",
             "⭐ shows GitHub stars; 🥇, 🥈, and 🥉 mark the first three repository entries in each section.",
+            "",
+            "**Links:** &lt;/&gt; source code · 🌐 official website · 📦 package.",
             "",
             "**Activity:** Active = updated within 90 days; Quiet = 90–182 days; Inactive = 183–364 days; Unknown = no repository activity data. Projects inactive for at least a year move to In Memoriam.",
             "",

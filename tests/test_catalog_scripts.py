@@ -33,6 +33,7 @@ from generate_readme import (
     latest_release_value,
     lifecycle,
     memorial_section,
+    resources_value,
     saas_row,
     section,
     sorted_for_table,
@@ -337,7 +338,7 @@ class CatalogScriptTests(unittest.TestCase):
         )
         self.assertFalse(generate_editor_choice.is_alive({}, self.REFERENCE_TIME))
 
-    def test_tool_row_combines_activity_and_uses_five_columns(self) -> None:
+    def test_tool_row_combines_activity_release_and_uses_four_columns(self) -> None:
         row = tool_row(
             {
                 "name": "PHP Stan",
@@ -351,12 +352,13 @@ class CatalogScriptTests(unittest.TestCase):
             },
             self.REFERENCE_TIME,
         )
-        self.assertIn("Active · Jul 25, 2026", row)
+        self.assertIn("Active<br><sub>Jul 25, 2026 · 2.2.5</sub>", row)
         self.assertIn("⭐ 14,042", row)
         self.assertNotIn("🥇", row)
-        self.assertIn("[GitHub](https://github.com/phpstan/phpstan)", row)
-        self.assertIn("[Packagist](https://packagist.org/packages/phpstan/phpstan)", row)
-        self.assertEqual(row.count("|"), 6)
+        self.assertIn('[&lt;/&gt;](https://github.com/phpstan/phpstan "GitHub source")', row)
+        self.assertIn('[🌐](https://phpstan.org "Official website")', row)
+        self.assertIn('[📦](https://packagist.org/packages/phpstan/phpstan "Packagist package")', row)
+        self.assertEqual(row.count("|"), 5)
 
     def test_editor_choice_row_uses_curated_copy_and_position_medal(self) -> None:
         tool = {
@@ -460,9 +462,20 @@ class CatalogScriptTests(unittest.TestCase):
         )
         self.assertIn("Hosted PHP security analysis", row)
         self.assertIn("Cloud dashboard and CI integration", row)
-        self.assertIn("Website available", row)
+        self.assertIn('[🌐](https://example.com "Official website")', row)
         self.assertNotIn("Stars", row)
         self.assertEqual(row.count("|"), 5)
+
+    def test_resources_do_not_duplicate_a_github_public_url_as_a_website(self) -> None:
+        links = resources_value(
+            {
+                "repository": "https://github.com/example/analyzer",
+                "public_url": "https://github.com/legacy/analyzer.git",
+                "website_status": "available",
+            }
+        )
+        self.assertIn("GitHub source", links)
+        self.assertNotIn("Official website", links)
 
     def test_diy_section_is_renamed_and_explained(self) -> None:
         output = section(
