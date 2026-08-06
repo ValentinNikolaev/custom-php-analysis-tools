@@ -1,0 +1,5 @@
+# Generated from .codex/skills/php-analysis-catalog-update/agents/openai.yaml; do not edit directly.
+interface:
+  display_name: "PHP Catalog Update"
+  short_description: "Refresh PHP tool catalog metadata"
+  default_prompt: "Use -analysis-catalog-update to refresh PHP analysis catalog metadata."

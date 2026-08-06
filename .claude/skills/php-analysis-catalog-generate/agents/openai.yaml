@@ -1,0 +1,5 @@
+# Generated from .codex/skills/php-analysis-catalog-generate/agents/openai.yaml; do not edit directly.
+interface:
+  display_name: "PHP Catalog Generate"
+  short_description: "Generate PHP catalog Markdown files"
+  default_prompt: "Use -analysis-catalog-generate to regenerate README and editor choice files."
