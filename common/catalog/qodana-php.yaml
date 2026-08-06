@@ -1,0 +1,24 @@
+slug: "qodana-php"
+name: "Qodana for PHP"
+category: "SaaS"
+description: "JetBrains code-quality platform for PHP projects, based on PhpStorm inspections."
+best_for: "PhpStorm-grade PHP inspections and quality gates in CI"
+delivery: "Cloud reports with native or Docker-based PHP linters"
+website: "https://www.jetbrains.com/qodana/"
+public_url: "https://www.jetbrains.com/qodana/"
+website_status: "available"
+website_status_code: 200
+website_checked_at: "2026-08-06T12:45:00Z"
+website_error: ""
+repository: null
+packagist: null
+stars: 0
+repo_updated_at: null
+metadata_updated_at: "2026-08-06T12:45:00Z"
+editor_choice: false
+quality_tags:
+  - "code-quality"
+  - "php"
+  - "static-analysis"
+source: "https://www.jetbrains.com/help/qodana/php.html"
+notes: "PHP support and the 2026.1 linter were verified from official documentation on 2026-08-06."

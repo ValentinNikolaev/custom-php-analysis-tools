@@ -1,0 +1,24 @@
+slug: "snyk-code"
+name: "Snyk Code"
+category: "SaaS"
+description: "A hosted security platform with static application security testing for PHP."
+best_for: "Security-focused PHP static application security testing"
+delivery: "Hosted dashboard with SCM, CLI, IDE, and CI integrations"
+website: "https://snyk.io/product/snyk-code/"
+public_url: "https://snyk.io/product/snyk-code/"
+website_status: "available"
+website_status_code: 200
+website_checked_at: "2026-08-06T12:45:00Z"
+website_error: ""
+repository: null
+packagist: null
+stars: 0
+repo_updated_at: null
+metadata_updated_at: "2026-08-06T12:45:00Z"
+editor_choice: false
+quality_tags:
+  - "php"
+  - "security"
+  - "static-analysis"
+source: "https://docs.snyk.io/supported-languages/supported-languages-list/php"
+notes: "PHP support and service availability verified from official documentation on 2026-08-06."

@@ -1,0 +1,25 @@
+slug: "skylos"
+name: "Skylos"
+category: "Bugs finders"
+description: "A local-first PR scanner for dead code, security defects, secrets, quality regressions, and AI-code mistakes."
+best_for: "Local pull-request scanning for dead code and security issues"
+website: "https://skylos.dev/"
+public_url: "https://skylos.dev/"
+website_status: "available"
+website_status_code: 200
+website_checked_at: "2026-08-06T12:45:00Z"
+website_error: ""
+repository: "https://github.com/duriantaco/skylos"
+packagist: null
+latest_version: ""
+latest_version_released_at: null
+stars: 482
+repo_updated_at: "2026-08-05T14:19:10Z"
+metadata_updated_at: "2026-08-06T12:45:00Z"
+editor_choice: false
+quality_tags:
+  - "code-quality"
+  - "php"
+  - "static-analysis"
+source: "https://github.com/duriantaco/skylos"
+notes: "Promoted after PHP support and current repository activity were verified on 2026-08-06."

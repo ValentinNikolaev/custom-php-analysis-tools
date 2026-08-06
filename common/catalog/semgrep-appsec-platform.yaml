@@ -1,0 +1,24 @@
+slug: "semgrep-appsec-platform"
+name: "Semgrep AppSec Platform"
+category: "SaaS"
+description: "A hosted application-security platform for SAST, dependency, and secrets scanning, including PHP."
+best_for: "Managed PHP security scans, triage, and policy enforcement"
+delivery: "Hosted managed scans with SCM and CI integrations"
+website: "https://semgrep.dev/products/semgrep-appsec-platform/"
+public_url: "https://semgrep.dev/products/semgrep-appsec-platform/"
+website_status: "available"
+website_status_code: 200
+website_checked_at: "2026-08-06T12:45:00Z"
+website_error: ""
+repository: null
+packagist: null
+stars: 0
+repo_updated_at: null
+metadata_updated_at: "2026-08-06T12:45:00Z"
+editor_choice: false
+quality_tags:
+  - "php"
+  - "security"
+  - "static-analysis"
+source: "https://semgrep.dev/products/semgrep-appsec-platform/"
+notes: "Hosted platform availability and PHP support were verified from official sources on 2026-08-06."

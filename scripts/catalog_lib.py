@@ -20,6 +20,7 @@ EDITOR_CHOICE_FILE = ROOT / "common" / "editor-choice.yaml"
 CATEGORY_ORDER = [
     "Bugs finders",
     "Coding standards",
+    "Architecture rules",
     "DIY",
     "Fixers",
     "Metrics",
@@ -144,6 +145,9 @@ def save_tool(tool: dict[str, Any]) -> None:
         "name",
         "category",
         "description",
+        "best_for",
+        "delivery",
+        "editor_reason",
         "website",
         "public_url",
         "website_status",

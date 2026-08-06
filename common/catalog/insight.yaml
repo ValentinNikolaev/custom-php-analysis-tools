@@ -6,14 +6,14 @@ website: "https://insight.sensiolabs.com/"
 public_url: "https://insight.sensiolabs.com/"
 website_status: "unavailable"
 website_status_code: 0
-website_checked_at: "2026-07-26T15:39:58Z"
-website_error: "[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] sslv3 alert handshake failure (_ssl.c:1010)"
+website_checked_at: "2026-08-06T12:31:13Z"
+website_error: "[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1082)"
 repository: null
 packagist: null
 stars: 0
 repo_updated_at: null
-metadata_updated_at: "2026-07-26T15:39:58Z"
+metadata_updated_at: "2026-08-06T12:31:13Z"
 editor_choice: false
-quality_tags:
+quality_tags: []
 source: "README.md"
 notes: ""

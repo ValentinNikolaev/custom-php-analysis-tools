@@ -15,8 +15,19 @@ import discover_tools
 import generate_editor_choice
 import import_exakat_catalog
 import update_catalog
-from catalog_lib import dump_yaml, load_yaml
-from generate_readme import is_dead, latest_release_value, lifecycle, memorial_section, sorted_for_table, tool_row
+import catalog_lib
+from catalog_lib import CATEGORY_ORDER, dump_yaml, load_yaml, save_tool
+from generate_readme import (
+    CATEGORY_TITLES,
+    is_dead,
+    latest_release_value,
+    lifecycle,
+    memorial_section,
+    saas_row,
+    section,
+    sorted_for_table,
+    tool_row,
+)
 
 
 class CatalogScriptTests(unittest.TestCase):
@@ -249,7 +260,7 @@ class CatalogScriptTests(unittest.TestCase):
                 keys = discover_tools.candidate_repository_keys()
         self.assertEqual(keys, {"jakzal/phpqa"})
 
-    def test_latest_release_renders_author_text_as_bold_link(self) -> None:
+    def test_latest_release_uses_compact_tag_link(self) -> None:
         tool = {
             "latest_release_name": "PHP 7.1 Support",
             "latest_release_tag": "v1.1.0",
@@ -257,15 +268,15 @@ class CatalogScriptTests(unittest.TestCase):
         }
         self.assertEqual(
             latest_release_value(tool),
-            "[**PHP 7.1 Support**](https://github.com/cwi-swat/php-analysis/releases/tag/v1.1.0)",
+            "[v1.1.0](https://github.com/cwi-swat/php-analysis/releases/tag/v1.1.0)",
         )
 
-    def test_lifecycle_badges_from_repo_update_age(self) -> None:
-        self.assertIn("alive", lifecycle({"repo_updated_at": "2026-07-01T00:00:00Z"}, self.REFERENCE_TIME)[1])
-        self.assertIn("dying", lifecycle({"repo_updated_at": "2026-03-01T00:00:00Z"}, self.REFERENCE_TIME)[1])
-        self.assertIn("almost_dead", lifecycle({"repo_updated_at": "2025-12-01T00:00:00Z"}, self.REFERENCE_TIME)[1])
-        self.assertIn("dead", lifecycle({"repo_updated_at": "2024-01-01T00:00:00Z"}, self.REFERENCE_TIME)[1])
-        self.assertIn("unknown", lifecycle({}, self.REFERENCE_TIME)[1])
+    def test_lifecycle_uses_readable_activity_labels(self) -> None:
+        self.assertEqual(lifecycle({"repo_updated_at": "2026-07-01T00:00:00Z"}, self.REFERENCE_TIME)[1], "Active")
+        self.assertEqual(lifecycle({"repo_updated_at": "2026-03-01T00:00:00Z"}, self.REFERENCE_TIME)[1], "Quiet")
+        self.assertEqual(lifecycle({"repo_updated_at": "2025-12-01T00:00:00Z"}, self.REFERENCE_TIME)[1], "Inactive")
+        self.assertEqual(lifecycle({"repo_updated_at": "2024-01-01T00:00:00Z"}, self.REFERENCE_TIME)[1], "Unmaintained")
+        self.assertEqual(lifecycle({}, self.REFERENCE_TIME)[1], "Unknown")
 
     def test_dead_and_archived_projects_are_classified_for_memorial(self) -> None:
         self.assertTrue(is_dead({"repo_updated_at": "2024-01-01T00:00:00Z"}, self.REFERENCE_TIME))
@@ -291,7 +302,7 @@ class CatalogScriptTests(unittest.TestCase):
         )
         self.assertIn("In Memoriam", output)
         self.assertIn("lasting contribution", output)
-        self.assertEqual(output.count("| Project | Contribution | Category | Last activity | Legacy links |"), 1)
+        self.assertEqual(output.count("| Project | Contribution | Category | Last activity | Legacy resources |"), 1)
 
     def test_table_sorting_groups_status_before_stars(self) -> None:
         tools = [
@@ -316,7 +327,7 @@ class CatalogScriptTests(unittest.TestCase):
         )
         self.assertFalse(generate_editor_choice.is_alive({}, self.REFERENCE_TIME))
 
-    def test_tool_row_contains_status_star_and_links(self) -> None:
+    def test_tool_row_combines_activity_and_uses_five_columns(self) -> None:
         row = tool_row(
             {
                 "name": "PHP Stan",
@@ -330,10 +341,59 @@ class CatalogScriptTests(unittest.TestCase):
             },
             self.REFERENCE_TIME,
         )
-        self.assertIn("![Alive]", row)
+        self.assertIn("Active · Jul 25, 2026", row)
         self.assertIn("14,042", row)
         self.assertIn("[GitHub](https://github.com/phpstan/phpstan)", row)
         self.assertIn("[Packagist](https://packagist.org/packages/phpstan/phpstan)", row)
+        self.assertEqual(row.count("|"), 6)
+
+    def test_saas_row_uses_service_specific_fields(self) -> None:
+        row = saas_row(
+            {
+                "name": "Hosted Analyzer",
+                "public_url": "https://example.com",
+                "best_for": "Hosted PHP security analysis",
+                "delivery": "Cloud dashboard and CI integration",
+                "website_status": "available",
+            }
+        )
+        self.assertIn("Hosted PHP security analysis", row)
+        self.assertIn("Cloud dashboard and CI integration", row)
+        self.assertIn("Website available", row)
+        self.assertNotIn("Stars", row)
+        self.assertEqual(row.count("|"), 5)
+
+    def test_diy_section_is_renamed_and_explained(self) -> None:
+        output = section(
+            "DIY",
+            [{"name": "Parser", "description": "A parser", "repo_updated_at": "2026-07-01T00:00:00Z"}],
+            reference_time=self.REFERENCE_TIME,
+            anchor_prefix="all",
+        )
+        self.assertIn('<a id="all-libraries-and-building-blocks"></a>', output)
+        self.assertIn("### Libraries and building blocks", output)
+        self.assertIn("developers building custom analysis rules", output)
+
+    def test_catalog_fields_survive_save_tool(self) -> None:
+        tool = {
+            "slug": "hosted-analyzer",
+            "name": "Hosted Analyzer",
+            "category": "SaaS",
+            "description": "Hosted analysis.",
+            "best_for": "PHP security analysis",
+            "delivery": "Hosted dashboard",
+            "editor_reason": "Strong PHP support",
+        }
+        with tempfile.TemporaryDirectory() as directory, patch.object(catalog_lib, "CATALOG_DIR", Path(directory)):
+            save_tool(tool)
+            saved = load_yaml(Path(directory) / "hosted-analyzer.yaml")
+        self.assertEqual(saved["best_for"], "PHP security analysis")
+        self.assertEqual(saved["delivery"], "Hosted dashboard")
+        self.assertEqual(saved["editor_reason"], "Strong PHP support")
+
+    def test_every_category_has_a_unique_reader_facing_title(self) -> None:
+        self.assertEqual(set(CATEGORY_TITLES), set(CATEGORY_ORDER))
+        self.assertEqual(len(set(CATEGORY_TITLES.values())), len(CATEGORY_TITLES))
 
 
 if __name__ == "__main__":

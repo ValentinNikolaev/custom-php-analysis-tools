@@ -1,0 +1,25 @@
+slug: "jakzal-phpqa"
+name: "jakzal/phpqa"
+category: "Misc"
+description: "A maintained Docker image that bundles static-analysis and code-quality tools for PHP projects."
+best_for: "Running a ready-made PHP analysis toolchain in Docker"
+website: "https://hub.docker.com/r/jakzal/phpqa/"
+public_url: "https://hub.docker.com/r/jakzal/phpqa/"
+website_status: "available"
+website_status_code: 200
+website_checked_at: "2026-08-06T12:45:00Z"
+website_error: ""
+repository: "https://github.com/jakzal/phpqa"
+packagist: null
+latest_version: ""
+latest_version_released_at: null
+stars: 1319
+repo_updated_at: "2026-08-03T06:22:09Z"
+metadata_updated_at: "2026-08-06T12:45:00Z"
+editor_choice: false
+quality_tags:
+  - "code-quality"
+  - "php"
+  - "static-analysis"
+source: "https://github.com/jakzal/phpqa"
+notes: "Promoted after current repository activity was verified on 2026-08-06; distinct from edgedesigncz/PHPQA."

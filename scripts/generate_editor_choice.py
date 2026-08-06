@@ -3,12 +3,13 @@ from __future__ import annotations
 from datetime import datetime, timezone
 
 from catalog_lib import CATEGORY_ORDER, ROOT, load_catalog, write_editor_choice_slugs
-from generate_readme import is_dead, lifecycle, section
+from generate_readme import editor_section, is_dead, lifecycle
 
 
 TARGETS = {
     "Bugs finders": 9,
     "Coding standards": 2,
+    "Architecture rules": 2,
     "DIY": 1,
     "Fixers": 2,
     "Metrics": 6,
@@ -67,7 +68,7 @@ def main() -> None:
         grouped = [tool for tool in selected if tool.get("category") == category]
         if not grouped:
             continue
-        lines.append(section(category, grouped, level=3, reference_time=reference_time))
+        lines.append(editor_section(category, grouped, level=2, reference_time=reference_time))
     (ROOT / "EDITOR-CHOISE.md").write_text("\n".join(lines).rstrip() + "\n", encoding="utf-8")
     print(f"Generated EDITOR-CHOISE.md with {len(selected)} tools")
 

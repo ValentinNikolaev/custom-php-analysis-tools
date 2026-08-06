@@ -1,0 +1,24 @@
+slug: "grumphp"
+name: "GrumPHP"
+category: "Misc"
+description: "A PHP code-quality task runner that executes configured checks on Git hooks and in CI."
+best_for: "Running a project’s PHP quality tools before code is committed"
+website: "https://github.com/phpro/grumphp"
+public_url: "https://github.com/phpro/grumphp"
+website_status: "available"
+website_status_code: 200
+website_checked_at: "2026-08-06T12:45:00Z"
+website_error: ""
+repository: "https://github.com/phpro/grumphp"
+packagist: "https://packagist.org/packages/phpro/grumphp"
+latest_version: ""
+latest_version_released_at: null
+stars: 4306
+repo_updated_at: "2026-07-22T11:37:34Z"
+metadata_updated_at: "2026-08-06T12:45:00Z"
+editor_choice: false
+quality_tags:
+  - "code-quality"
+  - "php"
+source: "https://github.com/phpro/grumphp"
+notes: "Promoted after current repository activity was verified on 2026-08-06."

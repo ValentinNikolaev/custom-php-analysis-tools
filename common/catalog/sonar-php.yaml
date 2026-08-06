@@ -1,12 +1,13 @@
 slug: "sonar-php"
-name: "sonar-php"
+name: "SonarPHP"
 category: "Bugs finders"
-description: " :elephant: SonarPHP: PHP static analyzer for SonarQube & SonarLint"
+description: "The PHP static analyzer used by SonarQube and SonarQube for IDE."
+best_for: "PHP analysis in SonarQube and SonarQube for IDE"
 website: "https://github.com/SonarSource/sonar-php"
 public_url: "https://github.com/SonarSource/sonar-php"
-website_status: "unknown"
-website_status_code: 0
-website_checked_at: null
+website_status: "available"
+website_status_code: 200
+website_checked_at: "2026-08-06T12:45:00Z"
 website_error: ""
 repository: "https://github.com/SonarSource/sonar-php"
 packagist: null
@@ -14,11 +15,11 @@ latest_version: ""
 latest_version_released_at: null
 stars: 430
 repo_updated_at: "2026-08-04T23:04:35Z"
-metadata_updated_at: "2026-08-06T04:22:18Z"
+metadata_updated_at: "2026-08-06T12:45:00Z"
 editor_choice: false
 quality_tags:
   - "code-quality"
   - "php"
   - "static-analysis"
-source: "github-search"
-notes: "Review category and description before promoting."
+source: "https://github.com/SonarSource/sonar-php"
+notes: "Promoted after current repository activity was verified on 2026-08-06."

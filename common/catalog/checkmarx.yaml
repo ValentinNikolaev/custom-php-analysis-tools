@@ -6,14 +6,14 @@ website: "http://lp.checkmarx.com/php-code-analysis/"
 public_url: "http://lp.checkmarx.com/php-code-analysis/"
 website_status: "unavailable"
 website_status_code: 0
-website_checked_at: "2026-07-26T15:39:56Z"
-website_error: "[Errno -2] Name or service not known"
+website_checked_at: "2026-08-06T12:31:12Z"
+website_error: "[Errno 11001] getaddrinfo failed"
 repository: null
 packagist: null
 stars: 0
 repo_updated_at: null
-metadata_updated_at: "2026-07-26T15:39:56Z"
+metadata_updated_at: "2026-08-06T12:31:12Z"
 editor_choice: false
-quality_tags:
+quality_tags: []
 source: "README.md"
 notes: ""

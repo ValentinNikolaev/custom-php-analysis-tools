@@ -1,8 +1,49 @@
 from __future__ import annotations
 
+import re
 from datetime import datetime, timezone
 
-from catalog_lib import CATEGORY_ORDER, ROOT, category_rank, load_catalog, read_editor_choice_slugs
+from catalog_lib import CATEGORY_ORDER, ROOT, category_rank, load_catalog, read_editor_choice_slugs, slugify
+
+
+CATEGORY_TITLES = {
+    "Bugs finders": "Bug finders",
+    "Coding standards": "Coding standards",
+    "Architecture rules": "Architecture rules",
+    "DIY": "Libraries and building blocks",
+    "Fixers": "Fixers and refactoring",
+    "Metrics": "Metrics and architecture",
+    "SaaS": "Hosted analysis services",
+    "Misc": "Specialized tools",
+}
+
+CATEGORY_DESCRIPTIONS = {
+    "Bugs finders": (
+        "Tools that inspect PHP code without running it to identify type errors, defects, dependency problems, "
+        "and potential vulnerabilities."
+    ),
+    "Coding standards": (
+        "Linters and rule-enforcement tools for formatting, naming, documentation, and project-specific coding conventions."
+    ),
+    "Architecture rules": (
+        "Ready-to-use tools that enforce dependency boundaries and architectural constraints in an application."
+    ),
+    "DIY": (
+        "Parsers, reflection libraries, and control-flow components for developers building custom analysis rules or tools."
+    ),
+    "Fixers": (
+        "Tools that automatically correct coding-standard violations, upgrade PHP syntax, or refactor existing code."
+    ),
+    "Metrics": (
+        "Tools that measure complexity, coupling, dependencies, maintainability, churn, and other structural properties."
+    ),
+    "SaaS": (
+        "Web-based services that analyze repositories through hosted scans, dashboards, or CI integrations."
+    ),
+    "Misc": (
+        "Wrappers, baseliners, multi-language engines, and focused analysis tools that do not fit the primary categories."
+    ),
+}
 
 
 def md_escape(value: str) -> str:
@@ -16,14 +57,21 @@ def md_link_text_escape(value: str) -> str:
     return md_escape(escaped)
 
 
+def category_title(category: str) -> str:
+    return CATEGORY_TITLES.get(category, category)
+
+
+def category_anchor(category: str, prefix: str) -> str:
+    return f"{prefix}-{slugify(category_title(category))}"
+
+
 def latest_release_value(tool: dict) -> str:
-    name = tool.get("latest_release_name") or tool.get("latest_release_tag")
+    version = tool.get("latest_release_tag") or tool.get("latest_version") or tool.get("latest_release_name")
+    if not version:
+        return "—"
+    value = md_link_text_escape(str(version))
     url = tool.get("latest_release_url")
-    if name and url:
-        return f"[**{md_link_text_escape(str(name))}**]({url})"
-    if name:
-        return f"**{md_link_text_escape(str(name))}**"
-    return md_escape(str(tool.get("latest_version") or "-"))
+    return f"[{value}]({url})" if url else value
 
 
 def link_for(tool: dict) -> str:
@@ -41,22 +89,24 @@ def parse_date(value: str | None) -> datetime | None:
 
 
 def lifecycle(tool: dict, reference_time: datetime | None = None) -> tuple[int, str]:
+    if "archived" in set(tool.get("quality_tags") or []):
+        return (3, "Archived")
     updated = parse_date(tool.get("repo_updated_at"))
     if not updated:
-        return (4, "![Unknown](https://img.shields.io/badge/status-unknown-lightgrey)")
+        return (4, "Unknown")
     reference_time = reference_time or datetime.now(timezone.utc)
     days = max((reference_time - updated).days, 0)
     if days >= 365:
-        return (3, "![Dead](https://img.shields.io/badge/status-dead-red)")
+        return (3, "Unmaintained")
     if days >= 183:
-        return (2, "![Almost dead](https://img.shields.io/badge/status-almost_dead-orange)")
+        return (2, "Inactive")
     if days >= 90:
-        return (1, "![Dying](https://img.shields.io/badge/status-dying-yellow)")
-    return (0, "![Alive](https://img.shields.io/badge/status-alive-brightgreen)")
+        return (1, "Quiet")
+    return (0, "Active")
 
 
 def is_dead(tool: dict, reference_time: datetime | None = None) -> bool:
-    return "archived" in set(tool.get("quality_tags") or []) or lifecycle(tool, reference_time)[0] == 3
+    return lifecycle(tool, reference_time)[0] == 3
 
 
 def sorted_for_table(tools: list[dict], reference_time: datetime | None = None) -> list[dict]:
@@ -67,19 +117,58 @@ def sorted_for_table(tools: list[dict], reference_time: datetime | None = None) 
     )
 
 
+def short_text(value: str, limit: int = 110) -> str:
+    value = re.sub(r"\s+", " ", value).strip()
+    if len(value) <= limit:
+        return value
+    shortened = value[: limit - 1].rsplit(" ", 1)[0].rstrip(".,;:—-")
+    return f"{shortened}…"
+
+
+def purpose_value(tool: dict) -> str:
+    value = tool.get("best_for") or tool.get("description") or "No description available."
+    return md_escape(short_text(str(value)))
+
+
+def format_date(value: str | None) -> str:
+    parsed = parse_date(value)
+    if not parsed:
+        return ""
+    return f"{parsed.strftime('%b')} {parsed.day}, {parsed.year}"
+
+
+def activity_value(tool: dict, reference_time: datetime | None = None) -> str:
+    label = lifecycle(tool, reference_time)[1]
+    updated = format_date(tool.get("repo_updated_at"))
+    return f"{label} · {updated}" if updated else label
+
+
+def tool_name_value(tool: dict) -> str:
+    name = f"[{md_escape(tool['name'])}]({link_for(tool)})"
+    stars = stars_value(tool)
+    return f"{name}<br><sub>★ {stars:,}</sub>" if stars else name
+
+
+def resources_value(tool: dict) -> str:
+    links = []
+    if tool.get("repository"):
+        links.append(f"[GitHub]({tool['repository']})")
+    if tool.get("packagist"):
+        links.append(f"[Packagist]({tool['packagist']})")
+    if tool.get("website_status") == "unavailable":
+        links.append("Website unavailable")
+    return " · ".join(links) or "—"
+
+
 def tool_line(tool: dict, include_stats: bool = True) -> str:
     stats: list[str] = []
     if include_stats and tool.get("stars"):
         stats.append(f"{tool['stars']:,} stars")
     if include_stats and tool.get("repo_updated_at"):
         stats.append(f"updated {tool['repo_updated_at'][:10]}")
-    if tool.get("latest_release_name") and tool.get("latest_release_url"):
-        stats.append(
-            f"latest release [{md_link_text_escape(str(tool['latest_release_name']))}]"
-            f"({tool['latest_release_url']})"
-        )
-    elif tool.get("latest_version"):
-        stats.append(f"latest {tool['latest_version']}")
+    release = latest_release_value(tool)
+    if release != "—":
+        stats.append(f"latest {release}")
     if tool.get("website_status") == "unavailable":
         stats.append("site unavailable")
     if tool.get("repository"):
@@ -87,49 +176,64 @@ def tool_line(tool: dict, include_stats: bool = True) -> str:
     if tool.get("packagist"):
         stats.append(f"[packagist]({tool['packagist']})")
     suffix = f" ({'; '.join(stats)})" if stats else ""
-    description = tool.get("description") or "No description available."
-    return f"* [{tool['name']}]({link_for(tool)}) - {description}{suffix}"
+    return f"* [{tool['name']}]({link_for(tool)}) - {purpose_value(tool)}{suffix}"
 
 
 def tool_row(tool: dict, reference_time: datetime | None = None) -> str:
-    name = f"[{md_escape(tool['name'])}]({link_for(tool)})"
-    description = md_escape(tool.get("description") or "No description available.")
-    stars = f"{stars_value(tool):,}" if stars_value(tool) else "-"
-    status = lifecycle(tool, reference_time)[1]
-    updated = (tool.get("repo_updated_at") or "")[:10] or "-"
-    latest = latest_release_value(tool)
-    links = []
-    if tool.get("repository"):
-        links.append(f"[GitHub]({tool['repository']})")
-    if tool.get("packagist"):
-        links.append(f"[Packagist]({tool['packagist']})")
-    if tool.get("website_status") == "unavailable":
-        links.append("Site unavailable")
-    return f"| {name} | {description} | {status} | {stars} | {updated} | {latest} | {'<br>'.join(links) or '-'} |"
+    return (
+        f"| {tool_name_value(tool)} | {purpose_value(tool)} | {activity_value(tool, reference_time)} | "
+        f"{latest_release_value(tool)} | {resources_value(tool)} |"
+    )
+
+
+def service_availability(tool: dict) -> str:
+    return {
+        "available": "Website available",
+        "unavailable": "Website unavailable",
+    }.get(tool.get("website_status"), "Website not checked")
+
+
+def saas_row(tool: dict) -> str:
+    service = f"[{md_escape(tool['name'])}]({link_for(tool)})"
+    delivery = md_escape(short_text(str(tool.get("delivery") or "Hosted service"), 70))
+    return f"| {service} | {purpose_value(tool)} | {delivery} | {service_availability(tool)} |"
+
+
+def editor_reason_value(tool: dict, reference_time: datetime | None = None) -> str:
+    if tool.get("editor_reason"):
+        return md_escape(short_text(str(tool["editor_reason"]), 110))
+    updated = format_date(tool.get("repo_updated_at"))
+    stars = stars_value(tool)
+    if stars >= 1000 and updated:
+        return f"High adoption and recent maintenance: ★ {stars:,}; updated {updated}."
+    if stars >= 100 and updated:
+        return f"Active community and recent maintenance: ★ {stars:,}; updated {updated}."
+    if updated:
+        return f"Recently maintained; updated {updated}."
+    return "Selected by the catalog's deterministic quality and relevance ranking."
+
+
+def editor_row(tool: dict, reference_time: datetime | None = None) -> str:
+    return f"| {tool_name_value(tool)} | {purpose_value(tool)} | {editor_reason_value(tool, reference_time)} |"
 
 
 def memorial_row(tool: dict) -> str:
     name = f"[🕯️ {md_escape(tool['name'])}]({link_for(tool)})"
-    contribution = md_escape(tool.get("description") or "A valued part of PHP's analysis-tooling history.")
-    category = md_escape(tool.get("category") or "Misc")
-    last_activity = (tool.get("repo_updated_at") or "")[:10] or "Unknown"
-    links = []
-    if tool.get("repository"):
-        links.append(f"[Source]({tool['repository']})")
-    if tool.get("packagist"):
-        links.append(f"[Packagist]({tool['packagist']})")
-    return f"| {name} | {contribution} | {category} | {last_activity} | {'<br>'.join(links) or '-'} |"
+    contribution = md_escape(short_text(str(tool.get("description") or "A valued part of PHP's analysis-tooling history.")))
+    category = md_escape(category_title(tool.get("category") or "Misc"))
+    last_activity = format_date(tool.get("repo_updated_at")) or "Unknown"
+    return f"| {name} | {contribution} | {category} | {last_activity} | {resources_value(tool)} |"
 
 
 def memorial_section(tools: list[dict]) -> str:
     lines = [
         '<a id="in-memoriam"></a>',
         "",
-        "## 🕯️ In Memoriam — PHP Analysis Pioneers",
+        "## 🕯️ In Memoriam — PHP analysis pioneers",
         "",
         "These projects are no longer actively maintained, but their ideas, code, and communities made a lasting contribution to the PHP ecosystem. We preserve them here with gratitude and respect.",
         "",
-        "| Project | Contribution | Category | Last activity | Legacy links |",
+        "| Project | Contribution | Category | Last activity | Legacy resources |",
         "|---|---|---|---|---|",
     ]
     lines.extend(
@@ -140,17 +244,50 @@ def memorial_section(tools: list[dict]) -> str:
     return "\n".join(lines)
 
 
-def section(title: str, tools: list[dict], level: int = 5, reference_time: datetime | None = None) -> str:
+def section(
+    category: str,
+    tools: list[dict],
+    level: int = 3,
+    reference_time: datetime | None = None,
+    anchor_prefix: str | None = None,
+) -> str:
     reference_time = reference_time or datetime.now(timezone.utc)
-    lines = [f"{'#' * level} {title}", ""]
+    lines: list[str] = []
+    if anchor_prefix:
+        lines.extend([f'<a id="{category_anchor(category, anchor_prefix)}"></a>', ""])
+    lines.extend([f"{'#' * level} {category_title(category)}", "", CATEGORY_DESCRIPTIONS.get(category, ""), ""])
+    if category == "SaaS":
+        lines.extend(["| Service | Best for | Delivery | Website status |", "|---|---|---|---|"])
+        lines.extend(saas_row(tool) for tool in sorted(tools, key=lambda item: item.get("name", "").casefold()))
+    else:
+        lines.extend(["| Tool | What it does | Activity | Latest | Resources |", "|---|---|---|---|---|"])
+        lines.extend(tool_row(tool, reference_time) for tool in sorted_for_table(tools, reference_time))
+    lines.append("")
+    return "\n".join(lines)
+
+
+def editor_section(
+    category: str,
+    tools: list[dict],
+    level: int = 3,
+    reference_time: datetime | None = None,
+    anchor_prefix: str | None = None,
+) -> str:
+    reference_time = reference_time or datetime.now(timezone.utc)
+    lines: list[str] = []
+    if anchor_prefix:
+        lines.extend([f'<a id="{category_anchor(category, anchor_prefix)}"></a>', ""])
     lines.extend(
         [
-            "| Tool | Description | Stars | Updated | Latest release | Links |",
-            "|---|---|---|---:|---|---|---|",
+            f"{'#' * level} {category_title(category)}",
+            "",
+            CATEGORY_DESCRIPTIONS.get(category, ""),
+            "",
+            "| Tool | Recommended for | Why it stands out |",
+            "|---|---|---|",
         ]
     )
-    lines[-2] = "| Tool | Description | Status | ⭐ Stars | Updated | Latest release | Links |"
-    lines.extend(tool_row(tool, reference_time) for tool in sorted_for_table(tools, reference_time))
+    lines.extend(editor_row(tool, reference_time) for tool in sorted_for_table(tools, reference_time))
     lines.append("")
     return "\n".join(lines)
 
@@ -175,7 +312,7 @@ def main() -> None:
         "",
         "# Static analysis tools for PHP",
         "",
-        "A generated catalog of PHP static analysis, code quality, coding standards, metrics, refactoring, and SaaS tools.",
+        "A generated catalog of PHP static analysis, code quality, coding standards, metrics, refactoring, and hosted analysis tools.",
         "",
         "Inspired by the pioneering [PHP Static Analysis Tools catalog by Exakat](https://github.com/exakat/php-static-analysis-tools) and its contributors.",
         "",
@@ -183,21 +320,48 @@ def main() -> None:
         "",
         "To review and import newly listed active projects from Exakat, run `python scripts/full_workflow.py --import-exakat`.",
         "",
-        "## Table of Contents",
+        "## Table of contents",
         "",
+        "- [Editors' Choice](#editors-choice)",
+        "- [Complete catalog](#complete-catalog)",
     ]
-    lines.extend(f"* [{category}](#{category.lower().replace(' ', '-')})" for category in CATEGORY_ORDER)
-    lines.append("* [In Memoriam](#in-memoriam)")
-    lines.extend(["", "### Editors' Choice", ""])
+    lines.extend(
+        f"  - [{category_title(category)}](#{category_anchor(category, 'all')})"
+        for category in CATEGORY_ORDER
+        if by_category.get(category)
+    )
+    lines.extend(
+        [
+            "- [In Memoriam](#in-memoriam)",
+            "",
+            '<a id="editors-choice"></a>',
+            "",
+            "## Editors' Choice",
+            "",
+            "A decision-oriented shortlist of active projects selected by category, adoption, repository freshness, and archive signals.",
+            "",
+        ]
+    )
     for category in CATEGORY_ORDER:
         grouped = [tool for tool in editor_tools if tool.get("category") == category]
         if grouped:
-            lines.append(section(category, grouped, reference_time=reference_time))
-    lines.extend(["### Whole list", ""])
+            lines.append(editor_section(category, grouped, reference_time=reference_time, anchor_prefix="editors"))
+    lines.extend(
+        [
+            '<a id="complete-catalog"></a>',
+            "",
+            "## Complete catalog",
+            "",
+            "Repository tables are sorted by activity, then GitHub stars. Hosted services are sorted alphabetically.",
+            "",
+            "**Activity:** Active = updated within 90 days; Quiet = 90–182 days; Inactive = 183–364 days; Unknown = no repository activity data. Projects inactive for at least a year move to In Memoriam.",
+            "",
+        ]
+    )
     for category in CATEGORY_ORDER:
         grouped = by_category.get(category) or []
         if grouped:
-            lines.append(section(category, grouped, reference_time=reference_time))
+            lines.append(section(category, grouped, reference_time=reference_time, anchor_prefix="all"))
     if dead_tools:
         lines.append(memorial_section(dead_tools))
     (ROOT / "README.md").write_text("\n".join(lines).rstrip() + "\n", encoding="utf-8")

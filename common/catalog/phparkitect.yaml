@@ -1,6 +1,6 @@
 slug: "phparkitect"
 name: "PHPArkitect"
-category: "Coding standards"
+category: "Architecture rules"
 description: "Put your architectural rules under test!"
 website: "https://github.com/phparkitect/arkitect"
 public_url: "https://github.com/phparkitect/arkitect"

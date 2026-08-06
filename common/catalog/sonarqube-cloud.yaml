@@ -1,0 +1,25 @@
+slug: "sonarqube-cloud"
+name: "SonarQube Cloud"
+category: "SaaS"
+description: "Sonar's hosted code-quality and security analysis service with first-class PHP support."
+best_for: "Hosted PHP quality gates, maintainability checks, and security analysis"
+delivery: "Hosted dashboard with repository and CI integrations"
+website: "https://www.sonarsource.com/products/sonarqube/cloud/"
+public_url: "https://www.sonarsource.com/products/sonarqube/cloud/"
+website_status: "available"
+website_status_code: 200
+website_checked_at: "2026-08-06T12:45:00Z"
+website_error: ""
+repository: null
+packagist: null
+stars: 0
+repo_updated_at: null
+metadata_updated_at: "2026-08-06T12:45:00Z"
+editor_choice: false
+quality_tags:
+  - "code-quality"
+  - "php"
+  - "security"
+  - "static-analysis"
+source: "https://docs.sonarsource.com/sonarqube-cloud/advanced-setup/languages/php"
+notes: "PHP support and service availability verified from official documentation on 2026-08-06."

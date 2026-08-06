@@ -4,9 +4,9 @@ category: "Misc"
 description: ":herb: NodeJS PHP Parser - extract AST or tokens"
 website: "https://php-parser.glayzzle.com/"
 public_url: "https://php-parser.glayzzle.com/"
-website_status: "unknown"
-website_status_code: 0
-website_checked_at: null
+website_status: "available"
+website_status_code: 200
+website_checked_at: "2026-08-06T12:32:16Z"
 website_error: ""
 repository: "https://github.com/glayzzle/php-parser"
 packagist: null
@@ -14,7 +14,7 @@ latest_version: ""
 latest_version_released_at: null
 stars: 563
 repo_updated_at: "2026-08-05T18:20:34Z"
-metadata_updated_at: "2026-08-06T00:38:40Z"
+metadata_updated_at: "2026-08-06T12:32:16Z"
 editor_choice: false
 quality_tags:
   - "php"

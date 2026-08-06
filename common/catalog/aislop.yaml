@@ -1,0 +1,25 @@
+slug: "aislop"
+name: "aislop"
+category: "Misc"
+description: "Deterministic scanner for AI-generated code issues, dead code, swallowed exceptions, secrets, and oversized functions across PHP and seven other languages."
+best_for: "Detecting AI-code mistakes and quality regressions before merge"
+website: "https://scanaislop.com"
+public_url: "https://scanaislop.com"
+website_status: "available"
+website_status_code: 200
+website_checked_at: "2026-08-06T12:45:00Z"
+website_error: ""
+repository: "https://github.com/scanaislop/aislop"
+packagist: null
+latest_version: ""
+latest_version_released_at: null
+stars: 537
+repo_updated_at: "2026-08-01T06:10:35Z"
+metadata_updated_at: "2026-08-06T12:45:00Z"
+editor_choice: false
+quality_tags:
+  - "code-quality"
+  - "php"
+  - "static-analysis"
+source: "https://github.com/scanaislop/aislop"
+notes: "Promoted after PHP support and current repository activity were verified on 2026-08-06."

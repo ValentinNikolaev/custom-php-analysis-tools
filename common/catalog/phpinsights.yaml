@@ -4,9 +4,9 @@ category: "Metrics"
 description: "🔰 Instant PHP quality checks from your console"
 website: "https://youtube.com/@nunomaduro?sub_confirmation=1"
 public_url: "https://youtube.com/@nunomaduro?sub_confirmation=1"
-website_status: "unknown"
-website_status_code: 0
-website_checked_at: null
+website_status: "available"
+website_status_code: 200
+website_checked_at: "2026-08-06T12:30:54Z"
 website_error: ""
 repository: "https://github.com/nunomaduro/phpinsights"
 packagist: "https://packagist.org/packages/nunomaduro/phpinsights"
@@ -14,7 +14,7 @@ latest_version: "v2.14.2"
 latest_version_released_at: "2026-04-12T18:08:30+00:00"
 stars: 5626
 repo_updated_at: "2026-08-04T15:14:22Z"
-metadata_updated_at: "2026-08-06T00:38:37Z"
+metadata_updated_at: "2026-08-06T12:30:54Z"
 editor_choice: false
 quality_tags:
   - "php"

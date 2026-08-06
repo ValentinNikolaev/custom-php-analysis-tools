@@ -1,0 +1,24 @@
+slug: "pdepend"
+name: "PDepend"
+category: "Metrics"
+description: "Analyzes PHP design quality through dependency, complexity, coupling, and maintainability metrics."
+best_for: "Measuring PHP design quality and dependency structure"
+website: "https://pdepend.org/"
+public_url: "https://pdepend.org/"
+website_status: "available"
+website_status_code: 200
+website_checked_at: "2026-08-06T12:45:00Z"
+website_error: ""
+repository: "https://github.com/pdepend/pdepend"
+packagist: "https://packagist.org/packages/pdepend/pdepend"
+latest_version: "2.16.2"
+latest_version_released_at: "2023-12-17T18:09:59+00:00"
+stars: 958
+repo_updated_at: "2026-08-02T20:09:30Z"
+metadata_updated_at: "2026-08-06T12:41:59Z"
+editor_choice: false
+quality_tags:
+  - "code-quality"
+  - "php"
+source: "https://github.com/pdepend/pdepend"
+notes: "Promoted after current repository activity was verified on 2026-08-06."
