@@ -10,11 +10,11 @@ website_checked_at: "2026-08-05T15:56:02Z"
 website_error: ""
 repository: "https://github.com/carthage-software/mago"
 packagist: "https://packagist.org/packages/carthage-software/mago"
-latest_version: "1.45.0"
-latest_version_released_at: "2026-07-24T04:43:42+00:00"
+latest_version: "1.46.0"
+latest_version_released_at: "2026-08-05T22:31:08+00:00"
 stars: 3361
 repo_updated_at: "2026-08-04T16:45:44Z"
-metadata_updated_at: "2026-08-05T15:56:02Z"
+metadata_updated_at: "2026-08-06T04:22:00Z"
 editor_choice: false
 quality_tags:
   - "php"
