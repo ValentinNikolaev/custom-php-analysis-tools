@@ -9,13 +9,18 @@ website_status_code: 200
 website_checked_at: "2026-08-07T10:17:11Z"
 website_error: ""
 repository: "https://github.com/tighten/tlint"
+latest_release_name: "v9.6.1"
+latest_release_tag: "v9.6.1"
+latest_release_url: "https://github.com/tighten/tlint/releases/tag/v9.6.1"
+latest_release_published_at: "2026-04-30T16:27:48Z"
+latest_release_checked_at: "2026-08-07T12:30:54Z"
 packagist: "https://packagist.org/packages/tightenco/tlint"
 latest_version: "v9.6.1"
 latest_version_released_at: "2026-04-30T16:26:46+00:00"
 packagist_checked_at: "2026-08-07T04:09:39Z"
 stars: 526
 repo_updated_at: "2026-04-30T16:27:48Z"
-metadata_updated_at: "2026-08-06T12:10:12Z"
+metadata_updated_at: "2026-08-07T12:30:54Z"
 editor_choice: false
 quality_tags:
   - "php"

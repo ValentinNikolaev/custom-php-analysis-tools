@@ -9,13 +9,18 @@ website_status_code: 200
 website_checked_at: "2026-08-07T10:17:11Z"
 website_error: ""
 repository: "https://github.com/designsecurity/progpilot"
+latest_release_name: "Progpilot v1.3.0"
+latest_release_tag: "v1.3.0"
+latest_release_url: "https://github.com/designsecurity/progpilot/releases/tag/v1.3.0"
+latest_release_published_at: "2025-08-17T18:33:26Z"
+latest_release_checked_at: "2026-08-07T12:30:54Z"
 packagist: "https://packagist.org/packages/designsecurity/progpilot"
 latest_version: "v1.3.0"
 latest_version_released_at: "2025-08-17T18:31:08+00:00"
 packagist_checked_at: "2026-08-07T04:09:39Z"
 stars: 365
 repo_updated_at: "2025-08-17T18:31:51Z"
-metadata_updated_at: "2026-08-06T12:09:00Z"
+metadata_updated_at: "2026-08-07T12:30:54Z"
 editor_choice: false
 quality_tags:
   - "php"

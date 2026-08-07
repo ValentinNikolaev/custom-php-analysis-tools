@@ -9,13 +9,14 @@ website_status_code: 0
 website_checked_at: "2026-08-07T10:17:11Z"
 website_error: "[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1082)"
 repository: "https://github.com/Jumping-Beaver/PHP_Static_Type_Checker"
+latest_release_checked_at: "2026-08-07T12:30:54Z"
 packagist: null
 latest_version: ""
 latest_version_released_at: null
 packagist_checked_at: "2026-08-07T04:09:39Z"
 stars: 0
 repo_updated_at: "2026-04-08T16:22:23Z"
-metadata_updated_at: "2026-08-06T12:08:05Z"
+metadata_updated_at: "2026-08-07T12:30:54Z"
 editor_choice: false
 quality_tags: []
 source: "https://github.com/exakat/php-static-analysis-tools"

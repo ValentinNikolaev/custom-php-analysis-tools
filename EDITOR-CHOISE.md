@@ -12,7 +12,7 @@ Tools that inspect PHP code without running it to identify type errors, defects,
 | Tool | Recommended for | Why it stands out |
 |---|---|---|
 | [PHP Stan](https://github.com/phpstan/phpstan)<br><sub>🥇 ⭐ 14,061</sub> | PHP applications that need configurable type-safety checks and framework extensions | Extensions add framework-specific types, while baselines and rule levels support gradual adoption. |
-| [jscpd](https://github.com/kucherenko/jscpd)<br><sub>🥈 ⭐ 5,972</sub> | Polyglot repositories that need duplicate-code checks across PHP and other file formats | One CLI detects copy-paste across 223 formats and provides CI, token-efficient, and MCP reporting options. |
+| [jscpd](https://github.com/kucherenko/jscpd)<br><sub>🥈 ⭐ 5,974</sub> | Polyglot repositories that need duplicate-code checks across PHP and other file formats | One CLI detects copy-paste across 223 formats and provides CI, token-efficient, and MCP reporting options. |
 | [psalm](https://psalm.dev)<br><sub>🥉 ⭐ 5,876</sub> | Projects needing advanced type modelling, taint analysis, and security checks | Psalm combines an expressive type system with taint analysis for application and security defects. |
 
 ## Coding standards
@@ -22,7 +22,7 @@ Linters and rule-enforcement tools for formatting, naming, documentation, and pr
 | Tool | Recommended for | Why it stands out |
 |---|---|---|
 | [EasyCodingStandard](https://github.com/Symplify/EasyCodingStandard)<br><sub>🥇 ⭐ 1,619</sub> | Teams running PHP-CS-Fixer and PHP_CodeSniffer through one configuration | One PHP config runs both rule engines in parallel and supports prepared rule sets and gradual adoption. |
-| [PHP Code Sniffer](https://github.com/PHPCSStandards/PHP_CodeSniffer)<br><sub>🥈 ⭐ 1,537</sub> | Projects enforcing published standards or detailed custom coding rules | An extensible sniff API supports established standards and project-specific rules. |
+| [PHP Code Sniffer](https://github.com/PHPCSStandards/PHP_CodeSniffer)<br><sub>🥈 ⭐ 1,541</sub> | Projects enforcing published standards or detailed custom coding rules | An extensible sniff API supports established standards and project-specific rules. |
 | [composer-normalize](https://github.com/ergebnis/composer-normalize)<br><sub>🥉 ⭐ 1,115</sub> | Composer projects that want a stable, review-friendly manifest layout | A focused Composer plugin rewrites manifests into one deterministic format and catches drift in CI. |
 
 ## Architecture rules
@@ -33,7 +33,7 @@ Ready-to-use tools that enforce dependency boundaries and architectural constrai
 |---|---|---|
 | [Deptrac](https://github.com/sensiolabs-de/deptrac.git)<br><sub>🥇 ⭐ 2,988</sub> | Layered applications and modular monoliths that enforce dependency boundaries in CI | Dependency rules turn layer and module boundaries into repeatable CI checks. |
 | [PHP Architecture Tester](https://phpat.dev)<br><sub>🥈 ⭐ 1,273</sub> | Teams that prefer to express architecture constraints as readable PHP tests | A fluent PHP API keeps architecture tests in the same language and workflow as application tests. |
-| [PHPArkitect](https://github.com/phparkitect/arkitect)<br><sub>🥉 ⭐ 923</sub> | Applications that express dependency and naming constraints as fluent PHP tests | A fluent PHP API keeps architecture constraints readable and close to the project's tests. |
+| [PHPArkitect](https://github.com/phparkitect/arkitect)<br><sub>🥉 ⭐ 924</sub> | Applications that express dependency and naming constraints as fluent PHP tests | A fluent PHP API keeps architecture constraints readable and close to the project's tests. |
 
 ## Libraries and building blocks
 
@@ -53,7 +53,7 @@ Tools that automatically correct coding-standard violations, upgrade PHP syntax,
 |---|---|---|
 | [PHP CS Fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer)<br><sub>🥇 ⭐ 13,545</sub> | Projects that automatically apply PHP formatting and coding-standard fixes | A broad fixer catalog and custom rule sets cover published standards and project-specific formatting. |
 | [Rector](https://github.com/rectorphp/rector)<br><sub>🥈 ⭐ 10,397</sub> | Teams automating PHP upgrades, framework migrations, or repeatable refactoring | AST-based rules turn upgrade and refactoring recipes into reviewable code changes across a project. |
-| [Phpactor](https://github.com/phpactor/phpactor)<br><sub>🥉 ⭐ 1,908</sub> | Developers who want language-server features and refactoring in their editor | One language server combines navigation, completion, code actions, and project-wide refactoring. |
+| [Phpactor](https://github.com/phpactor/phpactor)<br><sub>🥉 ⭐ 1,909</sub> | Developers who want language-server features and refactoring in their editor | One language server combines navigation, completion, code actions, and project-wide refactoring. |
 
 ## Metrics and architecture
 

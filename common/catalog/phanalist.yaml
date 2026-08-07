@@ -9,13 +9,18 @@ website_status_code: 200
 website_checked_at: "2026-08-07T10:17:11Z"
 website_error: ""
 repository: "https://github.com/denzyldick/phanalist"
+latest_release_name: "v1.1.10"
+latest_release_tag: "v1.1.10"
+latest_release_url: "https://github.com/denzyldick/phanalist/releases/tag/v1.1.10"
+latest_release_published_at: "2026-07-25T00:11:55Z"
+latest_release_checked_at: "2026-08-07T12:30:54Z"
 packagist: "https://packagist.org/packages/denzyl/phanalist"
 latest_version: "v1.1.10"
 latest_version_released_at: "2026-07-24T10:25:34+00:00"
 packagist_checked_at: "2026-08-07T04:09:39Z"
 stars: 161
 repo_updated_at: "2026-08-04T20:30:49Z"
-metadata_updated_at: "2026-08-06T12:07:49Z"
+metadata_updated_at: "2026-08-07T12:30:54Z"
 editor_choice: false
 quality_tags:
   - "php"

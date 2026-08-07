@@ -9,13 +9,18 @@ website_status_code: 200
 website_checked_at: "2026-08-07T10:17:11Z"
 website_error: ""
 repository: "https://github.com/phpactor/phpactor"
+latest_release_name: "2026.07.22.0"
+latest_release_tag: "2026.07.22.0"
+latest_release_url: "https://github.com/phpactor/phpactor/releases/tag/2026.07.22.0"
+latest_release_published_at: "2026-07-22T20:43:05Z"
+latest_release_checked_at: "2026-08-07T12:30:54Z"
 packagist: "https://packagist.org/packages/phpactor/phpactor"
 latest_version: "2026.07.22.0"
 latest_version_released_at: "2026-07-22T20:41:58+00:00"
 packagist_checked_at: "2026-08-07T04:09:39Z"
-stars: 1908
+stars: 1909
 repo_updated_at: "2026-08-01T15:32:44Z"
-metadata_updated_at: "2026-08-06T12:11:50Z"
+metadata_updated_at: "2026-08-07T12:30:54Z"
 editor_choice: false
 quality_tags:
   - "php"
