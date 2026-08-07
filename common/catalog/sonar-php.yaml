@@ -13,6 +13,7 @@ repository: "https://github.com/SonarSource/sonar-php"
 packagist: null
 latest_version: ""
 latest_version_released_at: null
+packagist_checked_at: "2026-08-07T04:09:39Z"
 stars: 430
 repo_updated_at: "2026-08-04T23:04:35Z"
 metadata_updated_at: "2026-08-06T12:45:00Z"

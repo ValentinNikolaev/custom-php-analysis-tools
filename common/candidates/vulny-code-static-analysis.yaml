@@ -1,0 +1,23 @@
+slug: "vulny-code-static-analysis"
+name: "Vulny-Code-Static-Analysis"
+category: "Bugs finders"
+description: "Python script to detect vulnerabilities inside PHP source code using static analysis, based on regex"
+website: "https://github.com/swisskyrepo/Vulny-Code-Static-Analysis"
+public_url: "https://github.com/swisskyrepo/Vulny-Code-Static-Analysis"
+website_status: "unknown"
+website_status_code: 0
+website_checked_at: null
+website_error: ""
+repository: "https://github.com/swisskyrepo/Vulny-Code-Static-Analysis"
+packagist: null
+latest_version: ""
+latest_version_released_at: null
+stars: 425
+repo_updated_at: "2025-02-27T16:11:07Z"
+metadata_updated_at: "2026-08-07T04:09:54Z"
+editor_choice: false
+quality_tags:
+  - "php"
+  - "static-analysis"
+source: "github-search"
+notes: "Review category and description before promoting."

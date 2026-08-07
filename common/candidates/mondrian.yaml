@@ -1,0 +1,21 @@
+slug: "mondrian"
+name: "Mondrian"
+category: "Bugs finders"
+description: "A static php code analysis tool using the Graph Theory"
+website: "http://trismegiste.github.io/Mondrian/"
+public_url: "http://trismegiste.github.io/Mondrian/"
+website_status: "unknown"
+website_status_code: 0
+website_checked_at: null
+website_error: ""
+repository: "https://github.com/Trismegiste/Mondrian"
+packagist: null
+latest_version: ""
+latest_version_released_at: null
+stars: 393
+repo_updated_at: "2021-10-22T11:02:05Z"
+metadata_updated_at: "2026-08-07T04:09:54Z"
+editor_choice: false
+quality_tags: []
+source: "github-search"
+notes: "Review category and description before promoting."

@@ -12,6 +12,7 @@ repository: "https://github.com/php-parallel-lint/PHP-Parallel-Lint"
 packagist: "https://packagist.org/packages/php-parallel-lint/php-parallel-lint"
 latest_version: "v1.4.0"
 latest_version_released_at: "2024-03-27T12:14:49+00:00"
+packagist_checked_at: "2026-08-07T04:09:39Z"
 stars: 356
 repo_updated_at: "2026-07-26T21:37:41Z"
 metadata_updated_at: "2026-08-06T12:08:24Z"

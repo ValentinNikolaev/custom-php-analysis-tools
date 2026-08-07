@@ -6,14 +6,15 @@ website: "https://github.com/schmittjoh/php-manipulator"
 public_url: "https://github.com/schmittjoh/php-manipulator"
 website_status: "available"
 website_status_code: 200
-website_checked_at: "2026-08-05T15:57:01Z"
+website_checked_at: "2026-08-07T04:09:39Z"
 website_error: ""
 repository: "https://github.com/schmittjoh/php-manipulator"
 packagist: "https://packagist.org/packages/jms/php-manipulator"
+packagist_checked_at: "2026-08-07T04:09:39Z"
 stars: 105
 repo_updated_at: "2014-09-27T18:10:16Z"
-metadata_updated_at: "2026-08-05T15:57:01Z"
+metadata_updated_at: "2026-08-07T04:09:39Z"
 editor_choice: true
-quality_tags:
+quality_tags: []
 source: "README.md"
 notes: ""

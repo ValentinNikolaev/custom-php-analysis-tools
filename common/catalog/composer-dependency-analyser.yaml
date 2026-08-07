@@ -12,6 +12,7 @@ repository: "https://github.com/shipmonk-rnd/composer-dependency-analyser"
 packagist: "https://packagist.org/packages/shipmonk/composer-dependency-analyser"
 latest_version: "1.8.4"
 latest_version_released_at: "2025-11-25T14:38:16+00:00"
+packagist_checked_at: "2026-08-07T04:09:39Z"
 stars: 623
 repo_updated_at: "2026-08-04T15:30:38Z"
 metadata_updated_at: "2026-08-06T12:07:30Z"

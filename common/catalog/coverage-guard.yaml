@@ -12,6 +12,7 @@ repository: "https://github.com/shipmonk-rnd/coverage-guard"
 packagist: "https://packagist.org/packages/shipmonk/coverage-guard"
 latest_version: "1.1.0"
 latest_version_released_at: "2026-07-17T10:37:46+00:00"
+packagist_checked_at: "2026-08-07T04:09:39Z"
 stars: 56
 repo_updated_at: "2026-07-17T13:17:04Z"
 metadata_updated_at: "2026-08-06T12:07:32Z"

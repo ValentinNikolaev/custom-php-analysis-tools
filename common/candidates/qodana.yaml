@@ -1,0 +1,24 @@
+slug: "qodana"
+name: "Qodana"
+category: "Bugs finders"
+description: "📝 Source repository of Qodana Help"
+website: "https://www.jetbrains.com/help/qodana"
+public_url: "https://www.jetbrains.com/help/qodana"
+website_status: "unknown"
+website_status_code: 0
+website_checked_at: null
+website_error: ""
+repository: "https://github.com/JetBrains/Qodana"
+packagist: null
+latest_version: ""
+latest_version_released_at: null
+stars: 403
+repo_updated_at: "2026-08-06T16:04:06Z"
+metadata_updated_at: "2026-08-07T04:09:54Z"
+editor_choice: false
+quality_tags:
+  - "code-quality"
+  - "php"
+  - "static-analysis"
+source: "github-search"
+notes: "Review category and description before promoting."

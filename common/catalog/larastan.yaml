@@ -12,6 +12,7 @@ repository: "https://github.com/larastan/larastan"
 packagist: "https://packagist.org/packages/larastan/larastan"
 latest_version: "v3.10.0"
 latest_version_released_at: "2026-05-28T08:00:58+00:00"
+packagist_checked_at: "2026-08-07T04:09:39Z"
 stars: 6479
 repo_updated_at: "2026-07-30T01:36:43Z"
 metadata_updated_at: "2026-08-06T12:31:41Z"

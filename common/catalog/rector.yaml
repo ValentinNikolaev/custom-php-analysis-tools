@@ -6,15 +6,20 @@ website: "https://github.com/rectorphp/rector"
 public_url: "https://github.com/rectorphp/rector"
 website_status: "available"
 website_status_code: 200
-website_checked_at: "2026-08-06T04:22:09Z"
+website_checked_at: "2026-08-07T04:09:39Z"
 website_error: ""
 repository: "https://github.com/rectorphp/rector"
+latest_release_name: "Released Rector 2.6.1"
+latest_release_tag: "2.6.1"
+latest_release_url: "https://github.com/rectorphp/rector/releases/tag/2.6.1"
+latest_release_published_at: "2026-08-03T17:40:06Z"
 packagist: "https://packagist.org/packages/rector/rector"
 latest_version: "2.6.1"
 latest_version_released_at: "2026-08-03T17:30:34+00:00"
-stars: 10396
-repo_updated_at: "2026-08-05T23:11:55Z"
-metadata_updated_at: "2026-08-06T04:22:09Z"
+packagist_checked_at: "2026-08-07T04:09:39Z"
+stars: 10397
+repo_updated_at: "2026-08-06T23:28:56Z"
+metadata_updated_at: "2026-08-07T04:09:39Z"
 editor_choice: false
 quality_tags:
   - "php"

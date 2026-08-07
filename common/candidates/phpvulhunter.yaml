@@ -1,0 +1,21 @@
+slug: "phpvulhunter"
+name: "phpvulhunter"
+category: "Bugs finders"
+description: "A tool that can scan php vulnerabilities automatically using static analysis methods"
+website: "https://github.com/OneSourceCat/phpvulhunter"
+public_url: "https://github.com/OneSourceCat/phpvulhunter"
+website_status: "unknown"
+website_status_code: 0
+website_checked_at: null
+website_error: ""
+repository: "https://github.com/OneSourceCat/phpvulhunter"
+packagist: null
+latest_version: ""
+latest_version_released_at: null
+stars: 487
+repo_updated_at: "2018-03-20T03:12:43Z"
+metadata_updated_at: "2026-08-07T04:09:54Z"
+editor_choice: false
+quality_tags: []
+source: "github-search"
+notes: "Review category and description before promoting."
