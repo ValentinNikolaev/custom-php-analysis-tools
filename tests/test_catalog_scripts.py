@@ -74,6 +74,7 @@ class CatalogScriptTests(unittest.TestCase):
             "latest_release_tag": "v1.2.3",
             "latest_release_url": "https://github.com/example/sample/releases/tag/v1.2.3",
             "latest_release_published_at": "2026-07-20T00:00:00Z",
+            "latest_release_checked_at": "2026-08-06T00:00:00Z",
             "quality_tags": ["php", "static-analysis"],
         }
         with tempfile.TemporaryDirectory() as directory:
@@ -139,7 +140,9 @@ class CatalogScriptTests(unittest.TestCase):
                     "published_at": "2026-07-20T00:00:00Z",
                 }
                 with patch("update_catalog.http_json", return_value=release):
-                    self.assertTrue(update_catalog.update_github_release(tool, "example/sample", None))
+                    result = update_catalog.update_github_release(tool, "example/sample", None)
+                self.assertTrue(result.checked)
+                self.assertTrue(result.changed)
                 self.assertEqual(tool["latest_release_name"], name)
                 self.assertEqual(tool["latest_release_tag"], tag)
 
@@ -154,6 +157,22 @@ class CatalogScriptTests(unittest.TestCase):
         with patch("update_catalog.http_json", return_value=release):
             update_catalog.update_github_release(tool, "example/sample", None)
         self.assertEqual(tool["latest_release_name"], "v2.0.0")
+
+    def test_rate_limited_github_release_check_is_not_marked_fresh(self) -> None:
+        tool = {"slug": "sample"}
+        error = urllib.error.HTTPError(
+            "https://api.github.com/repos/example/sample/releases/latest",
+            403,
+            "rate limit exceeded",
+            Message(),
+            None,
+        )
+        self.addCleanup(error.close)
+        with patch("update_catalog.http_json", side_effect=error):
+            result = update_catalog.update_github_release(tool, "example/sample", None)
+
+        self.assertFalse(result.checked)
+        self.assertFalse(result.changed)
 
     def test_mismatched_packagist_package_is_removed(self) -> None:
         tool = {
@@ -276,6 +295,98 @@ class CatalogScriptTests(unittest.TestCase):
 
         self.assertFalse(plan.has_work)
         self.assertFalse(plan.packagist)
+
+    def test_github_sources_become_stale_at_twenty_four_hours(self) -> None:
+        tool = {
+            "slug": "sample",
+            "repository": "https://github.com/example/sample",
+            "metadata_updated_at": "2026-08-05T00:00:00Z",
+            "latest_release_checked_at": "2026-08-05T00:00:00Z",
+        }
+        args = Namespace(
+            force=False,
+            max_age_hours=update_catalog.DEFAULT_GITHUB_MAX_AGE_HOURS,
+            packagist_max_age_hours=20,
+            website_max_age_hours=20,
+            skip_packagist=True,
+            skip_website=True,
+        )
+
+        fresh_plan = update_catalog.refresh_plan(
+            tool,
+            args,
+            self.REFERENCE_TIME - timedelta(hours=1),
+        )
+        stale_plan = update_catalog.refresh_plan(tool, args, self.REFERENCE_TIME)
+
+        self.assertEqual(update_catalog.DEFAULT_GITHUB_MAX_AGE_HOURS, 24)
+        self.assertFalse(fresh_plan.github)
+        self.assertFalse(fresh_plan.github_release)
+        self.assertTrue(stale_plan.github)
+        self.assertTrue(stale_plan.github_release)
+
+    def test_failed_release_is_retried_without_refreshing_fresh_repository_metadata(self) -> None:
+        tool = {
+            "slug": "sample",
+            "repository": "https://github.com/example/sample",
+            "metadata_updated_at": "2026-07-01T00:00:00Z",
+        }
+        plan = update_catalog.RefreshPlan(
+            github=True,
+            github_release=True,
+            packagist=False,
+            website=False,
+        )
+        checked_at = "2026-08-06T00:00:00Z"
+        with (
+            patch("update_catalog.update_from_github", return_value=update_catalog.SourceResult(False, True)),
+            patch("update_catalog.update_github_release", return_value=update_catalog.SourceResult(False, False)),
+        ):
+            result = update_catalog.refresh_tool(tool, plan, None, checked_at)
+
+        args = Namespace(
+            force=False,
+            max_age_hours=24,
+            packagist_max_age_hours=20,
+            website_max_age_hours=20,
+            skip_packagist=True,
+            skip_website=True,
+        )
+        next_plan = update_catalog.refresh_plan(
+            result.tool,
+            args,
+            self.REFERENCE_TIME + timedelta(hours=1),
+        )
+
+        self.assertEqual(result.tool["metadata_updated_at"], checked_at)
+        self.assertIsNone(result.tool["latest_release_checked_at"])
+        self.assertFalse(next_plan.github)
+        self.assertTrue(next_plan.github_release)
+
+    def test_successful_release_retry_updates_only_its_own_timestamp(self) -> None:
+        tool = {
+            "slug": "sample",
+            "repository": "https://github.com/example/sample",
+            "metadata_updated_at": "2026-08-06T00:00:00Z",
+            "latest_release_checked_at": None,
+        }
+        plan = update_catalog.RefreshPlan(
+            github=False,
+            github_release=True,
+            packagist=False,
+            website=False,
+        )
+        checked_at = "2026-08-06T01:00:00Z"
+        with (
+            patch("update_catalog.update_from_github") as repo_update,
+            patch("update_catalog.update_github_release", return_value=update_catalog.SourceResult(True, True)),
+        ):
+            result = update_catalog.refresh_tool(tool, plan, None, checked_at)
+
+        repo_update.assert_not_called()
+        self.assertEqual(result.tool["metadata_updated_at"], "2026-08-06T00:00:00Z")
+        self.assertEqual(result.tool["latest_release_checked_at"], checked_at)
+        self.assertTrue(result.github_release_checked)
 
     def test_refresh_tool_records_timestamps_only_for_successful_sources(self) -> None:
         tool = {
@@ -742,6 +853,9 @@ class CatalogScriptTests(unittest.TestCase):
             "best_for": "PHP security analysis",
             "delivery": "Hosted dashboard",
             "editor_reason": "Strong PHP support",
+            "title_icon": "assets/tool-icons/service.png",
+            "title_icon_label": "Hosted service",
+            "latest_release_checked_at": "2026-08-06T00:00:00Z",
             "packagist_checked_at": "2026-08-06T00:00:00Z",
         }
         with tempfile.TemporaryDirectory() as directory, patch.object(catalog_lib, "CATALOG_DIR", Path(directory)):
@@ -750,10 +864,23 @@ class CatalogScriptTests(unittest.TestCase):
         self.assertEqual(saved["best_for"], "PHP security analysis")
         self.assertEqual(saved["delivery"], "Hosted dashboard")
         self.assertEqual(saved["editor_reason"], "Strong PHP support")
+        self.assertEqual(saved["title_icon"], "assets/tool-icons/service.png")
+        self.assertEqual(saved["title_icon_label"], "Hosted service")
+        self.assertEqual(saved["latest_release_checked_at"], "2026-08-06T00:00:00Z")
         self.assertEqual(saved["packagist_checked_at"], "2026-08-06T00:00:00Z")
 
     def test_every_category_has_a_unique_reader_facing_title(self) -> None:
         self.assertEqual(set(CATEGORY_TITLES), set(CATEGORY_ORDER))
+
+    def test_memorial_section_orders_projects_by_name(self) -> None:
+        output = memorial_section(
+            [
+                {"name": "Zulu Analyzer", "category": "Misc", "repo_updated_at": "2026-01-01"},
+                {"name": "alpha Analyzer", "category": "Misc", "repo_updated_at": "2020-01-01"},
+            ]
+        )
+
+        self.assertLess(output.index("alpha Analyzer"), output.index("Zulu Analyzer"))
         self.assertEqual(len(set(CATEGORY_TITLES.values())), len(CATEGORY_TITLES))
 
 

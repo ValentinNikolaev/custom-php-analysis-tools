@@ -6,7 +6,7 @@ website: "https://github.com/etsy/phan"
 public_url: "https://github.com/etsy/phan"
 website_status: "available"
 website_status_code: 200
-website_checked_at: "2026-08-06T12:07:48Z"
+website_checked_at: "2026-08-07T10:17:11Z"
 website_error: ""
 repository: "https://github.com/phan/phan"
 latest_release_name: "6.0.7"

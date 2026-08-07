@@ -1,14 +1,14 @@
 slug: "deepsource"
 name: "DeepSource"
 category: "SaaS"
-description: "A hosted code-review platform with PHP static analysis, SAST, coverage, and complexity reporting."
+description: "DeepSource checks PHP projects for code-health and security issues, then reports test coverage and maintainability."
 best_for: "Continuous PHP static analysis, SAST, and coverage reporting"
 delivery: "Hosted repository analysis with pull-request integrations"
 website: "https://deepsource.com/directory/php"
 public_url: "https://deepsource.com/directory/php"
 website_status: "available"
 website_status_code: 200
-website_checked_at: "2026-08-06T12:45:00Z"
+website_checked_at: "2026-08-07T09:46:41Z"
 website_error: ""
 repository: null
 packagist: null
@@ -22,4 +22,4 @@ quality_tags:
   - "security"
   - "static-analysis"
 source: "https://deepsource.com/directory/php"
-notes: "PHP analyzer and service availability verified from official documentation on 2026-08-06."
+notes: "PHP analysis capabilities verified from DeepSource's official language directory."

@@ -6,18 +6,22 @@ website: "https://semgrep.dev"
 public_url: "https://semgrep.dev"
 website_status: "available"
 website_status_code: 200
-website_checked_at: "2026-08-06T12:32:19Z"
+website_checked_at: "2026-08-07T09:46:41Z"
 website_error: ""
 repository: "https://github.com/semgrep/semgrep"
+latest_release_name: "Release v1.172.0"
+latest_release_tag: "v1.172.0"
+latest_release_url: "https://github.com/semgrep/semgrep/releases/tag/v1.172.0"
+latest_release_published_at: "2026-07-28T22:40:28Z"
 packagist: null
 latest_version: ""
 latest_version_released_at: null
 packagist_checked_at: "2026-08-07T04:09:39Z"
-stars: 16123
-repo_updated_at: "2026-08-06T00:23:44Z"
-metadata_updated_at: "2026-08-06T12:32:19Z"
+stars: 16138
+repo_updated_at: "2026-08-07T01:13:57Z"
+metadata_updated_at: "2026-08-07T09:46:41Z"
 editor_choice: false
 quality_tags:
   - "static-analysis"
-source: "https://github.com/exakat/php-static-analysis-tools"
-notes: "Imported from Exakat's PHP static-analysis tools catalog after active-project verification."
+source: "https://github.com/semgrep/semgrep"
+notes: "Repository activity and the latest GitHub release were verified on 2026-08-07."

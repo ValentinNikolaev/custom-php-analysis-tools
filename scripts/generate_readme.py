@@ -345,7 +345,7 @@ def memorial_section(tools: list[dict]) -> str:
     ]
     lines.extend(
         memorial_row(tool)
-        for tool in sorted(tools, key=lambda item: ((item.get("repo_updated_at") or ""), item.get("name", "").casefold()), reverse=True)
+        for tool in sorted(tools, key=lambda item: item.get("name", "").casefold())
     )
     lines.append("")
     return "\n".join(lines)

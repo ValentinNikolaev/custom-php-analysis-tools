@@ -1,19 +1,31 @@
 slug: "sonarqube"
-name: "SonarQube"
+name: "SonarQube PHP"
 category: "Bugs finders"
-description: "An open platform to manage code quality. It covers PHP code"
-website: "http://www.sonarqube.org/"
-public_url: "http://www.sonarqube.org/"
+description: "The SonarPHP analyzer that powers PHP code-quality and security analysis in SonarQube and SonarQube for IDE."
+best_for: "PHP quality and security analysis in the SonarQube ecosystem"
+delivery: "Analyzer for SonarQube Server and SonarQube for IDE"
+title_icon: "assets/tool-icons/sonar.png"
+title_icon_label: "SonarQube analyzer"
+website: "https://www.sonarsource.com/products/sonarqube/"
+public_url: "https://www.sonarsource.com/products/sonarqube/"
 website_status: "available"
 website_status_code: 200
 website_checked_at: "2026-08-07T04:09:39Z"
 website_error: ""
-repository: null
+repository: "https://github.com/SonarSource/sonar-php"
+latest_release_name: "3.60.0.16641"
+latest_release_tag: "3.60.0.16641"
+latest_release_url: "https://github.com/SonarSource/sonar-php/releases/tag/3.60.0.16641"
+latest_release_published_at: "2026-08-03T13:53:35Z"
 packagist: null
-stars: 0
-repo_updated_at: null
-metadata_updated_at: "2026-07-25T18:36:50Z"
+packagist_checked_at: "2026-08-07T09:46:41Z"
+stars: 430
+repo_updated_at: "2026-08-06T09:42:43Z"
+metadata_updated_at: "2026-08-07T09:46:41Z"
 editor_choice: false
-quality_tags: []
-source: "README.md"
-notes: ""
+quality_tags:
+  - "code-quality"
+  - "php"
+  - "static-analysis"
+source: "https://github.com/sonarsource/sonar-php"
+notes: "Canonical catalog entry for the SonarPHP analyzer; the hosted SonarQube Cloud product is listed separately."

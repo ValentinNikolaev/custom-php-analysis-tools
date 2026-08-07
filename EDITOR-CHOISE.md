@@ -18,6 +18,7 @@ Tools that inspect PHP code without running it to identify type errors, defects,
 | [mago](http://mago.carthage.software/)<br><sub>⭐ 3,368</sub> | Teams that want a Rust-based PHP linter, formatter, and static analyzer | Mago combines customizable linting, static analysis, automatic fixes, formatting, and AST visualization. |
 | [PHP Mess Detector](https://phpmd.org)<br><sub>⭐ 2,443</sub> | Finding complexity, naming, unused-code, and design problems with configurable rules | PHPMD turns PDepend metrics into configurable rules for complexity, naming, and maintainability problems. |
 | [PHP Compatibility](http://techblog.wimgodden.be/tag/codesniffer/)<br><sub>⭐ 2,299</sub> | Libraries and applications that must support specific PHP version ranges | Dedicated PHP_CodeSniffer rules detect syntax and API usage that conflicts with a target PHP version. |
+| [PHP Inspections (EA Extended)](https://plugins.jetbrains.com/plugin/7622?pr=phpStorm)<br><sub>⭐ 1,485</sub> | Developers who want broad PHP correctness and maintainability checks inside JetBrains IDEs | The plugin adds configurable inspections and quick fixes directly to PhpStorm and IntelliJ IDEA Ultimate. |
 | [composer-dependency-analyser](https://github.com/shipmonk-rnd/composer-dependency-analyser)<br><sub>⭐ 623</sub> | Composer projects checking for unused, shadow, and misplaced dependencies | Separate checks identify unused, shadow, and misplaced Composer dependencies. |
 
 ## Coding standards
@@ -71,5 +72,5 @@ Wrappers, baseliners, multi-language engines, and focused analysis tools that do
 
 | Tool | Recommended for | Why it stands out |
 |---|---|---|
-| [Semgrep](https://semgrep.dev)<br><sub>🥇 ⭐ 16,123</sub> | Security teams writing custom checks for PHP and polyglot repositories | Source-like rules make custom bug and security checks quicker to write than compiler-style analyzers. |
+| [Semgrep](https://semgrep.dev)<br><sub>🥇 ⭐ 16,138</sub> | Security teams writing custom checks for PHP and polyglot repositories | Source-like rules make custom bug and security checks quicker to write than compiler-style analyzers. |
 | [Larastan](https://github.com/larastan/larastan)<br><sub>🥈 ⭐ 6,479</sub> | Laravel applications that need PHPStan to understand framework conventions | Laravel-specific type information covers containers, facades, Eloquent, and other framework conventions. |

@@ -4,11 +4,13 @@ category: "SaaS"
 description: "JetBrains code-quality platform for PHP projects, based on PhpStorm inspections."
 best_for: "PhpStorm-grade PHP inspections and quality gates in CI"
 delivery: "Cloud reports with native or Docker-based PHP linters"
+title_icon: "assets/tool-icons/qodana.png"
+title_icon_label: "JetBrains Qodana service"
 website: "https://www.jetbrains.com/qodana/"
 public_url: "https://www.jetbrains.com/qodana/"
 website_status: "available"
 website_status_code: 200
-website_checked_at: "2026-08-06T12:45:00Z"
+website_checked_at: "2026-08-07T09:46:41Z"
 website_error: ""
 repository: null
 packagist: null

@@ -1,13 +1,13 @@
 slug: "checkmarx"
 name: "Checkmarx"
 category: "SaaS"
-description: "Get a full PHP static security code analysis and prevent security vulnerabilities"
-website: "http://lp.checkmarx.com/php-code-analysis/"
-public_url: "http://lp.checkmarx.com/php-code-analysis/"
-website_status: "unavailable"
-website_status_code: 0
-website_checked_at: "2026-08-06T12:31:12Z"
-website_error: "[Errno 11001] getaddrinfo failed"
+description: "Checkmarx scans PHP source code for security vulnerabilities and helps teams review and remediate findings."
+website: "https://checkmarx.com/glossary/php-static-code-analysis/"
+public_url: "https://checkmarx.com/glossary/php-static-code-analysis/"
+website_status: "available"
+website_status_code: 200
+website_checked_at: "2026-08-07T09:46:41Z"
+website_error: ""
 repository: null
 packagist: null
 stars: 0
@@ -15,5 +15,5 @@ repo_updated_at: null
 metadata_updated_at: "2026-08-06T12:31:12Z"
 editor_choice: false
 quality_tags: []
-source: "README.md"
-notes: ""
+source: "https://checkmarx.com/glossary/php-static-code-analysis/"
+notes: "PHP static-analysis capability verified from the official Checkmarx glossary."

@@ -55,12 +55,19 @@ def safe_url(value: object) -> str | None:
 
 
 def primary_url(tool: dict) -> str:
-    keys = ("repository", "packagist") if tool.get("website_status") == "unavailable" else (
-        "public_url",
-        "website",
-        "repository",
-        "packagist",
-    )
+    website_available = tool.get("website_status") != "unavailable"
+    if tool.get("category") == "SaaS":
+        keys = (
+            ("public_url", "website", "repository", "packagist")
+            if website_available
+            else ("repository", "packagist")
+        )
+    else:
+        keys = (
+            ("repository", "public_url", "website", "packagist")
+            if website_available
+            else ("repository", "packagist")
+        )
     for key in keys:
         url = safe_url(tool.get(key))
         if url:
@@ -113,6 +120,23 @@ def compact_date(value: str | None) -> str:
     return parsed.strftime("%d.%m.%y") if parsed else ""
 
 
+def title_icon(tool: dict) -> str:
+    icon = str(tool.get("title_icon") or "").strip()
+    label = str(tool.get("title_icon_label") or "Tool type").strip()
+    if not icon.startswith("assets/tool-icons/") or "/../" in f"/{icon}/":
+        return ""
+    return (
+        f'<img class="tool-title-icon" src="{escape(icon)}" '
+        f'alt="{escape(label)}" title="{escape(label)}">'
+    )
+
+
+def status_badge(tool: dict, status: str) -> str:
+    if tool.get("category") == "SaaS" and status == "Unknown":
+        return ""
+    return f'<span class="status status--{escape(status.casefold())}">{escape(status)}</span>'
+
+
 def tool_card(tool: dict, reference_time: datetime, rank: int) -> str:
     status = lifecycle(tool, reference_time)[1]
     name = str(tool.get("name") or "Unnamed tool")
@@ -129,6 +153,18 @@ def tool_card(tool: dict, reference_time: datetime, rank: int) -> str:
     search_text = " ".join((name, category_title(category), description, tags)).casefold()
     version = latest_version(tool)
     website_unavailable = tool.get("website_status") == "unavailable"
+    show_repository_metadata = category != "SaaS" or safe_url(tool.get("repository")) is not None
+    metadata = (
+        f"""
+  <dl class="tool-meta">
+    <div><dt><span aria-hidden="true">⭐</span> Stars</dt><dd>{stars:,}</dd></div>
+    <div><dt>Latest</dt><dd title="{escape(version)}">{escape(version)}</dd></div>
+    <div><dt>Last commit</dt><dd>{escape(updated)}</dd></div>
+    <div><dt>Last release</dt><dd>{escape(released)}</dd></div>
+  </dl>"""
+        if show_repository_metadata
+        else ""
+    )
 
     return f"""
 <article class="tool-card" id="tool-{escape(slug)}"
@@ -142,17 +178,12 @@ def tool_card(tool: dict, reference_time: datetime, rank: int) -> str:
   <div class="tool-card__heading">
     <div>
       <span class="eyebrow">{escape(category_title(category))}</span>
-      <h3><a href="{escape(primary_url(tool))}">{escape(name)}</a></h3>
+      <h3><a href="{escape(primary_url(tool))}">{escape(name)}</a>{title_icon(tool)}</h3>
     </div>
-    <span class="status status--{escape(status.casefold())}">{escape(status)}</span>
+    {status_badge(tool, status)}
   </div>
   <p class="tool-description">{escape(description)}</p>
-  <dl class="tool-meta">
-    <div><dt><span aria-hidden="true">⭐</span> Stars</dt><dd>{stars:,}</dd></div>
-    <div><dt>Latest</dt><dd title="{escape(version)}">{escape(version)}</dd></div>
-    <div><dt>Last commit</dt><dd>{escape(updated)}</dd></div>
-    <div><dt>Last release</dt><dd>{escape(released)}</dd></div>
-  </dl>
+  {metadata}
   {f'<p class="availability-note">Official website currently unavailable</p>' if website_unavailable else ''}
   <div class="resource-links" aria-label="Resources for {escape(name)}">{resource_links(tool)}</div>
 </article>""".strip()
@@ -169,9 +200,9 @@ def editor_card(tool: dict, reference_time: datetime) -> str:
 <article class="editor-card">
   <div class="editor-card__meta">
     <span class="eyebrow">{escape(category_title(category))}</span>
-    <span class="status status--{escape(status.casefold())}">{escape(status)}</span>
+    {status_badge(tool, status)}
   </div>
-  <h3><a href="{escape(primary_url(tool))}">{escape(name)}</a></h3>
+  <h3><a href="{escape(primary_url(tool))}">{escape(name)}</a>{title_icon(tool)}</h3>
   <p class="editor-card__audience">{escape(recommended_for)}</p>
   <p>{escape(reason)}</p>
   <a class="text-link" href="#tool-{escape(tool.get('slug') or 'tool')}">View catalog details<span aria-hidden="true"> ↓</span></a>
@@ -248,8 +279,7 @@ def render_index(tools: list[dict], reference_time: datetime) -> str:
             for rank, tool in enumerate(
                 sorted(
                     memorial_tools,
-                    key=lambda item: ((item.get("repo_updated_at") or ""), item.get("name", "").casefold()),
-                    reverse=True,
+                    key=lambda item: item.get("name", "").casefold(),
                 ),
                 start=1,
             )

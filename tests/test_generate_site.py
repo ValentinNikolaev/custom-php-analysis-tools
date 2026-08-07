@@ -98,6 +98,18 @@ class GenerateSiteTests(unittest.TestCase):
         self.assertIn(f"<dt>{current}</dt><dd>current tools</dd>", index)
         self.assertIn(f"View {memorial} preserved projects", index)
 
+    def test_memorial_cards_are_ordered_by_project_name(self) -> None:
+        directory, output = self.build_in_temp()
+        self.addCleanup(directory.cleanup)
+        index = (output / "index.html").read_text(encoding="utf-8")
+        memorial_tools = sorted(
+            (tool for tool in load_catalog() if is_dead(tool, self.REFERENCE_TIME)),
+            key=lambda tool: tool.get("name", "").casefold(),
+        )
+        positions = [index.index(f'id="tool-{tool["slug"]}"') for tool in memorial_tools]
+
+        self.assertEqual(positions, sorted(positions))
+
     def test_custom_base_path_is_applied_to_not_found_assets_and_home_link(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             output = Path(directory) / "site"
@@ -146,6 +158,65 @@ class GenerateSiteTests(unittest.TestCase):
         self.assertEqual(primary_url(tool), "https://github.com/example/offline")
         self.assertNotIn("https://offline.example.com", card)
         self.assertIn("Official website currently unavailable", card)
+
+    def test_primary_link_priority_depends_on_category(self) -> None:
+        links = {
+            "website_status": "available",
+            "website": "https://example.com/tool",
+            "repository": "https://github.com/example/tool",
+        }
+        self.assertEqual(
+            primary_url({**links, "category": "SaaS"}),
+            "https://example.com/tool",
+        )
+        self.assertEqual(
+            primary_url({**links, "category": "Misc"}),
+            "https://github.com/example/tool",
+        )
+
+    def test_hosted_tool_without_repository_does_not_show_unknown_badge(self) -> None:
+        card = tool_card(
+            {
+                "slug": "hosted",
+                "name": "Hosted tool",
+                "description": "A hosted tool without a repository",
+                "website": "https://example.com/hosted",
+                "category": "SaaS",
+            },
+            self.REFERENCE_TIME,
+            1,
+        )
+
+        self.assertNotIn('class="status status--unknown"', card)
+        self.assertNotIn('class="tool-meta"', card)
+        self.assertEqual(
+            primary_url({
+                "website": "https://example.com/hosted",
+                "category": "SaaS",
+            }),
+            "https://example.com/hosted",
+        )
+
+    def test_tool_title_can_include_a_local_type_icon(self) -> None:
+        card = tool_card(
+            {
+                "slug": "plugin",
+                "name": "IDE plugin",
+                "description": "An IDE plugin",
+                "repository": "https://github.com/example/plugin",
+                "category": "Misc",
+                "title_icon": "assets/tool-icons/plugin.png",
+                "title_icon_label": "IDE plugin",
+            },
+            self.REFERENCE_TIME,
+            1,
+        )
+
+        self.assertIn(
+            '<img class="tool-title-icon" src="assets/tool-icons/plugin.png" '
+            'alt="IDE plugin" title="IDE plugin">',
+            card,
+        )
 
     def test_tool_card_formats_latest_release_and_resource_links(self) -> None:
         card = tool_card(

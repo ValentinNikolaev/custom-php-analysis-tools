@@ -6,7 +6,7 @@ website: "https://php-parser.glayzzle.com/"
 public_url: "https://php-parser.glayzzle.com/"
 website_status: "available"
 website_status_code: 200
-website_checked_at: "2026-08-06T12:32:16Z"
+website_checked_at: "2026-08-07T10:17:11Z"
 website_error: ""
 repository: "https://github.com/glayzzle/php-parser"
 packagist: null

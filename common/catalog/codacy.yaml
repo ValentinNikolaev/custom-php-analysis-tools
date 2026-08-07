@@ -1,7 +1,9 @@
 slug: "codacy"
 name: "Codacy"
 category: "SaaS"
-description: "Codacy: Automated Code Review"
+description: "Codacy checks pull requests for code-quality issues, vulnerabilities, secrets, and risky dependencies, then enforces quality gates."
+best_for: "Continuous code quality and security checks across repositories"
+delivery: "Hosted dashboard with SCM and CI integrations"
 website: "https://www.codacy.com/"
 public_url: "https://www.codacy.com/"
 website_status: "available"
@@ -15,5 +17,5 @@ repo_updated_at: null
 metadata_updated_at: "2026-07-25T18:37:15Z"
 editor_choice: false
 quality_tags: []
-source: "README.md"
-notes: ""
+source: "https://www.codacy.com/"
+notes: "Description refreshed from Codacy's official product site."

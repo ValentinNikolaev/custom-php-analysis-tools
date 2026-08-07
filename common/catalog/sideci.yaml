@@ -1,19 +1,20 @@
 slug: "sideci"
 name: "SideCI"
 category: "SaaS"
-description: "CI for automated code review by code analysis"
-website: "https://sideci.com/"
-public_url: "https://sideci.com/"
-website_status: "unavailable"
-website_status_code: 0
-website_checked_at: "2026-08-06T12:31:14Z"
-website_error: "[Errno 11001] getaddrinfo failed"
+description: "Retired continuous-integration service for automated code review and static analysis."
+website: "https://github.com/sideci"
+public_url: "https://github.com/sideci"
+website_status: "available"
+website_status_code: 200
+website_checked_at: "2026-08-07T09:46:41Z"
+website_error: ""
 repository: null
 packagist: null
 stars: 0
 repo_updated_at: null
 metadata_updated_at: "2026-08-06T12:31:14Z"
 editor_choice: false
-quality_tags: []
-source: "README.md"
-notes: ""
+quality_tags:
+  - "archived"
+source: "https://github.com/sideci"
+notes: "SideCI was renamed to Sider; the former GitHub organization is retained as the historical link."

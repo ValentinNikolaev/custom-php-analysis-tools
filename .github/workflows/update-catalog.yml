@@ -2,7 +2,7 @@ name: Update PHP analysis catalog
 
 on:
   schedule:
-    - cron: "17 3,15 * * *"
+    - cron: "17 */6 * * *"
   workflow_dispatch:
 
 jobs:

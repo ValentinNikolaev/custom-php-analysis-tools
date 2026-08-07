@@ -6,6 +6,7 @@ slugs:
   - "mago"
   - "php-mess-detector"
   - "php-compatibility"
+  - "php-inspection"
   - "composer-dependency-analyser"
   - "easycodingstandard"
   - "phpcsstandards-php-codesniffer"

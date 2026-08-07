@@ -383,6 +383,15 @@ h3 {
   font-size: 1.35rem;
 }
 
+.tool-title-icon {
+  display: inline-block;
+  width: 1.2rem;
+  height: 1.2rem;
+  margin-left: 0.4rem;
+  object-fit: contain;
+  vertical-align: -0.18rem;
+}
+
 .editor-card h3 a,
 .tool-card h3 a {
   color: var(--text);

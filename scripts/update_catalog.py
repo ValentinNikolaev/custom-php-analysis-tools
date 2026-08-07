@@ -31,7 +31,13 @@ RELEASE_FIELDS = (
     "latest_release_url",
     "latest_release_published_at",
 )
-CHECK_TIMESTAMP_FIELDS = {"metadata_updated_at", "packagist_checked_at", "website_checked_at"}
+DEFAULT_GITHUB_MAX_AGE_HOURS = 24
+CHECK_TIMESTAMP_FIELDS = {
+    "metadata_updated_at",
+    "latest_release_checked_at",
+    "packagist_checked_at",
+    "website_checked_at",
+}
 
 
 @dataclass(frozen=True)
@@ -52,10 +58,11 @@ class RefreshPlan:
     github: bool
     packagist: bool
     website: bool
+    github_release: bool = False
 
     @property
     def has_work(self) -> bool:
-        return self.github or self.packagist or self.website
+        return self.github or self.github_release or self.packagist or self.website
 
 
 @dataclass(frozen=True)
@@ -66,28 +73,29 @@ class ToolRefreshResult:
     packagist_checked: bool
     website_checked: bool
     save_needed: bool
+    github_release_checked: bool = False
 
 
-def update_github_release(tool: dict, repo_key: str, token: str | None) -> bool:
+def update_github_release(tool: dict, repo_key: str, token: str | None) -> SourceResult:
     old_values = tuple(tool.get(field) for field in RELEASE_FIELDS)
     try:
         release = http_json(github_api_latest_release_url(repo_key), token=token)
     except urllib.error.HTTPError as exc:
         if exc.code != 404:
             print(f"  GitHub release skipped {tool['slug']}: {exc}")
-            return False
+            return SourceResult(changed=False, checked=False)
         for field in RELEASE_FIELDS:
             tool.pop(field, None)
-        return old_values != (None,) * len(RELEASE_FIELDS)
+        return SourceResult(changed=old_values != (None,) * len(RELEASE_FIELDS), checked=True)
     except (urllib.error.URLError, TimeoutError) as exc:
         print(f"  GitHub release skipped {tool['slug']}: {exc}")
-        return False
+        return SourceResult(changed=False, checked=False)
 
     name = str(release.get("name") or release.get("tag_name") or "").strip()
     url = release.get("html_url")
     if not name or not url:
         print(f"  GitHub release skipped {tool['slug']}: release has no name/tag or public URL")
-        return False
+        return SourceResult(changed=False, checked=False)
 
     tool["latest_release_name"] = name
     tool["latest_release_tag"] = str(release.get("tag_name") or "").strip()
@@ -97,7 +105,10 @@ def update_github_release(tool: dict, repo_key: str, token: str | None) -> bool:
         f"  GitHub release: {tool['slug']} | name={name} | "
         f"tag={tool['latest_release_tag']} | published_at={tool.get('latest_release_published_at')}"
     )
-    return old_values != tuple(tool.get(field) for field in RELEASE_FIELDS)
+    return SourceResult(
+        changed=old_values != tuple(tool.get(field) for field in RELEASE_FIELDS),
+        checked=True,
+    )
 
 
 def update_from_github(tool: dict, token: str | None) -> SourceResult:
@@ -125,7 +136,6 @@ def update_from_github(tool: dict, token: str | None) -> SourceResult:
         if topic in {"static-analysis", "code-quality", "phpstan", "php", "security"} and topic not in tags:
             tags.append(topic)
     tool["quality_tags"] = sorted(tags)
-    update_github_release(tool, repo_key, token)
     print(
         f"  GitHub: {tool['slug']} | stars={tool['stars']} | "
         f"repo_updated_at={tool.get('repo_updated_at')} | repo={tool.get('repository')}"
@@ -360,11 +370,24 @@ def timestamp_is_stale(value: str | None, max_age_hours: int, reference_time: da
     if not checked:
         return True
     current = reference_time or datetime.now(timezone.utc)
-    return current - checked > timedelta(hours=max_age_hours)
+    return current - checked >= timedelta(hours=max_age_hours)
 
 
 def is_stale(tool: dict, max_age_hours: int, reference_time: datetime | None = None) -> bool:
     return timestamp_is_stale(tool.get("metadata_updated_at"), max_age_hours, reference_time)
+
+
+def github_release_is_stale(
+    tool: dict,
+    max_age_hours: int,
+    reference_time: datetime | None = None,
+) -> bool:
+    checked_at = (
+        tool.get("latest_release_checked_at")
+        if "latest_release_checked_at" in tool
+        else tool.get("metadata_updated_at")
+    )
+    return timestamp_is_stale(checked_at, max_age_hours, reference_time)
 
 
 def packagist_is_stale(tool: dict, max_age_hours: int, reference_time: datetime | None = None) -> bool:
@@ -398,6 +421,10 @@ def refresh_plan(tool: dict, args: argparse.Namespace, reference_time: datetime 
             and has_website
             and (args.force or website_is_stale(tool, args.website_max_age_hours, reference_time))
         ),
+        github_release=(
+            has_github_repository
+            and (args.force or github_release_is_stale(tool, args.max_age_hours, reference_time))
+        ),
     )
 
 
@@ -410,11 +437,13 @@ def refresh_tool(
     original = copy.deepcopy(tool)
     refreshed = copy.deepcopy(tool)
     github_checked = False
+    github_release_checked = False
     packagist_checked = False
     website_checked = False
 
     print(
         f"Checking: {refreshed['slug']} | github={'yes' if plan.github else 'no'} | "
+        f"release={'yes' if plan.github_release else 'no'} | "
         f"packagist={'yes' if plan.packagist else 'no'} | website={'yes' if plan.website else 'no'}"
     )
     if plan.github:
@@ -422,6 +451,15 @@ def refresh_tool(
         github_checked = github_result.checked
         if github_checked:
             refreshed["metadata_updated_at"] = checked_at
+    if plan.github_release and not (plan.github and not github_checked):
+        repo_key = github_repo_key(refreshed.get("repository") or refreshed.get("website"))
+        if repo_key:
+            release_result = update_github_release(refreshed, repo_key, token)
+            github_release_checked = release_result.checked
+            if github_release_checked:
+                refreshed["latest_release_checked_at"] = checked_at
+            elif "latest_release_checked_at" not in refreshed:
+                refreshed["latest_release_checked_at"] = None
     if plan.packagist:
         packagist_result = update_from_packagist(refreshed, token)
         packagist_checked = packagist_result.checked
@@ -441,6 +479,7 @@ def refresh_tool(
         packagist_checked=packagist_checked,
         website_checked=website_checked,
         save_needed=refreshed != original,
+        github_release_checked=github_release_checked,
     )
 
 
@@ -465,7 +504,12 @@ def main() -> None:
     parser.add_argument("--limit", type=positive_int, default=0, help="Maximum number of tools to check. 0 means all.")
     parser.add_argument("--workers", type=worker_count, default=8, help="Maximum concurrent tool checks.")
     parser.add_argument("--skip-packagist", action="store_true")
-    parser.add_argument("--max-age-hours", type=positive_int, default=20, help="Skip entries refreshed more recently than this.")
+    parser.add_argument(
+        "--max-age-hours",
+        type=positive_int,
+        default=DEFAULT_GITHUB_MAX_AGE_HOURS,
+        help="Skip GitHub repository and release checks newer than this.",
+    )
     parser.add_argument(
         "--packagist-max-age-hours",
         type=positive_int,
@@ -489,6 +533,7 @@ def main() -> None:
             skipped_recent += 1
             print(
                 f"Recent: {tool['slug']} | metadata_updated_at={tool.get('metadata_updated_at')} | "
+                f"latest_release_checked_at={tool.get('latest_release_checked_at')} | "
                 f"packagist_checked_at={tool.get('packagist_checked_at')} | "
                 f"website_checked_at={tool.get('website_checked_at')}"
             )
@@ -513,6 +558,7 @@ def main() -> None:
 
     failed_checks = sum(
         int(plan.github and not result.github_checked)
+        + int(plan.github_release and not result.github_release_checked)
         + int(plan.packagist and not result.packagist_checked)
         + int(plan.website and not result.website_checked)
         for (_, plan), result in zip(work_items, results)

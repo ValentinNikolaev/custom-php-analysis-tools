@@ -1,13 +1,13 @@
 slug: "insight"
 name: "Insight"
 category: "SaaS"
-description: "A SensioLabs tool to analyzes source code to find problems that degrade the overall quality of your projects"
-website: "https://insight.sensiolabs.com/"
-public_url: "https://insight.sensiolabs.com/"
-website_status: "unavailable"
-website_status_code: 0
-website_checked_at: "2026-08-06T12:31:13Z"
-website_error: "[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1082)"
+description: "Sensio Insight turns project data into decision support for software quality and delivery."
+website: "https://www.sensio.com/products/sensio-insight"
+public_url: "https://www.sensio.com/products/sensio-insight"
+website_status: "available"
+website_status_code: 200
+website_checked_at: "2026-08-07T09:46:41Z"
+website_error: ""
 repository: null
 packagist: null
 stars: 0
@@ -15,5 +15,5 @@ repo_updated_at: null
 metadata_updated_at: "2026-08-06T12:31:13Z"
 editor_choice: false
 quality_tags: []
-source: "README.md"
-notes: ""
+source: "https://www.sensio.com/products/sensio-insight"
+notes: "Link and description refreshed from the official Sensio Insight product page."
