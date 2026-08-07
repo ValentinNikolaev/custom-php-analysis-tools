@@ -19,7 +19,7 @@ Prefer this skill when the user asks for the complete daily/update workflow.
 
 ## Daily Automation
 
-`.github/workflows/update-catalog.yml` runs daily at 03:17 UTC and also supports manual `workflow_dispatch`. It commits changes only when generated files or catalog data differ.
+`.github/workflows/update-catalog.yml` runs every six hours at minute 17 and also supports manual `workflow_dispatch`. Successful GitHub metadata remains fresh for 24 hours, so intermediate runs primarily retry stale or previously failed entries. The workflow commits changes only when generated files or catalog data differ.
 
 ## Token Budget
 

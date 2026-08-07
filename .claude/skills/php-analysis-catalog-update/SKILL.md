@@ -12,7 +12,7 @@ Use deterministic scripts; do not rewrite catalog entries by hand unless fixing 
 ## Workflow
 
 1. Run `python scripts/update_catalog.py`.
-2. If GitHub rate limit is tight, rerun later or use `GITHUB_TOKEN`; the script skips entries refreshed in the last 20 hours.
+2. The scheduled workflow runs every 6 hours. Successful GitHub repository and release checks stay fresh for 24 hours, so intermediate runs only retry stale or failed sources. If a local unauthenticated run reaches the GitHub rate limit, rerun later or use `GITHUB_TOKEN`.
 3. For candidate discovery, run `python scripts/discover_tools.py --write --limit 5`; review `common/candidates/*.yaml` before promoting anything into `common/catalog`.
 4. Run `python scripts/generate_editor_choice.py` and `python scripts/generate_readme.py` after metadata changes.
 
