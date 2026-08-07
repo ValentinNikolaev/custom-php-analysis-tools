@@ -27,6 +27,7 @@ from catalog_lib import (
     load_yaml,
     read_editor_choice_copy,
     read_editor_choice_slugs,
+    read_pros_cons,
     save_tool,
 )
 from generate_readme import (
@@ -783,15 +784,52 @@ class CatalogScriptTests(unittest.TestCase):
         }
         self.assertEqual(missing, set())
 
-    def test_current_editor_choice_excludes_repositories_below_star_threshold(self) -> None:
+    def test_current_editor_choice_has_three_tools_per_installable_category(self) -> None:
         tools_by_slug = {tool["slug"]: tool for tool in catalog_lib.load_catalog()}
-        offenders = {
-            slug: int(tools_by_slug[slug].get("stars") or 0)
-            for slug in read_editor_choice_slugs()
-            if tools_by_slug[slug].get("repository")
-            and int(tools_by_slug[slug].get("stars") or 0) < generate_editor_choice.MINIMUM_REPOSITORY_STARS
+        counts = {
+            category: sum(
+                tools_by_slug[slug].get("category") == category
+                for slug in read_editor_choice_slugs()
+            )
+            for category in generate_editor_choice.TARGETS
         }
-        self.assertEqual(offenders, {})
+        self.assertEqual(counts, {category: 3 for category in generate_editor_choice.TARGETS})
+
+    def test_editor_choice_only_uses_below_threshold_fallback_for_sparse_categories(self) -> None:
+        tools = catalog_lib.load_catalog()
+        tools_by_slug = {tool["slug"]: tool for tool in tools}
+        selected = read_editor_choice_slugs()
+        for category in generate_editor_choice.TARGETS:
+            preferred = [
+                tool for tool in tools
+                if tool.get("category") == category
+                and generate_editor_choice.is_editor_choice_candidate(tool, self.REFERENCE_TIME)
+            ]
+            below_threshold = [
+                tools_by_slug[slug] for slug in selected
+                if tools_by_slug[slug].get("category") == category
+                and not generate_editor_choice.is_editor_choice_candidate(
+                    tools_by_slug[slug], self.REFERENCE_TIME
+                )
+            ]
+            if len(preferred) >= 3:
+                self.assertEqual(below_threshold, [], category)
+            else:
+                self.assertEqual(len(below_threshold), 3 - len(preferred), category)
+
+    def test_every_current_tool_has_manually_curated_pros_cons_and_sources(self) -> None:
+        entries = read_pros_cons()
+        current = [
+            tool for tool in catalog_lib.load_catalog()
+            if not is_dead(tool, self.REFERENCE_TIME)
+        ]
+        missing = {
+            tool["slug"] for tool in current
+            if not entries.get(tool["slug"], {}).get("pro")
+            or not entries.get(tool["slug"], {}).get("con")
+            or not entries.get(tool["slug"], {}).get("sources")
+        }
+        self.assertEqual(missing, set())
 
     def test_saas_row_uses_service_specific_fields(self) -> None:
         row = saas_row(
@@ -884,6 +922,8 @@ class CatalogScriptTests(unittest.TestCase):
         )
 
         self.assertLess(output.index("alpha Analyzer"), output.index("Zulu Analyzer"))
+        self.assertNotIn("🕯️ alpha Analyzer", output)
+        self.assertNotIn("🕯️ Zulu Analyzer", output)
         self.assertEqual(len(set(CATEGORY_TITLES.values())), len(CATEGORY_TITLES))
 
 

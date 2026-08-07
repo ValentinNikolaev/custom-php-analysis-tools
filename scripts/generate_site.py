@@ -8,7 +8,15 @@ from datetime import datetime, timezone
 from pathlib import Path
 from urllib.parse import urlparse
 
-from catalog_lib import CATEGORY_ORDER, ROOT, category_rank, load_catalog, read_editor_choice_copy, read_editor_choice_slugs
+from catalog_lib import (
+    CATEGORY_ORDER,
+    ROOT,
+    category_rank,
+    load_catalog,
+    read_editor_choice_copy,
+    read_editor_choice_slugs,
+    read_pros_cons,
+)
 from generate_readme import (
     apply_editor_choice_copy,
     category_title,
@@ -137,6 +145,41 @@ def status_badge(tool: dict, status: str) -> str:
     return f'<span class="status status--{escape(status.casefold())}">{escape(status)}</span>'
 
 
+def apply_pros_cons(tools: list[dict], entries: dict[str, dict]) -> list[dict]:
+    enriched: list[dict] = []
+    missing: list[str] = []
+    for tool in tools:
+        slug = str(tool.get("slug") or "")
+        entry = entries.get(slug) or {}
+        pro = str(entry.get("pro") or "").strip()
+        con = str(entry.get("con") or "").strip()
+        sources = [url for value in entry.get("sources") or [] if (url := safe_url(value))]
+        if not pro or not con or not sources:
+            missing.append(slug or str(tool.get("name") or "unnamed-tool"))
+            continue
+        enriched.append({**tool, "pro": pro, "con": con, "pros_cons_sources": sources})
+    if missing:
+        raise ValueError("Missing manually curated pros, cons, or sources for: " + ", ".join(sorted(missing)))
+    return enriched
+
+
+def tradeoffs(tool: dict, *, inline: bool = False) -> str:
+    pro = str(tool.get("pro") or "").strip()
+    con = str(tool.get("con") or "").strip()
+    if not pro or not con:
+        return ""
+    content = f"""
+  <p class="tradeoff tradeoff--pro"><strong>Pro</strong><span>{escape(pro)}</span></p>
+  <p class="tradeoff tradeoff--con"><strong>Con</strong><span>{escape(con)}</span></p>""".strip()
+    if inline:
+        return f'<div class="tradeoffs tradeoffs--inline" aria-label="Pros and cons">{content}</div>'
+    return f"""
+<details class="tradeoffs">
+  <summary>Quick pros &amp; cons</summary>
+  <div class="tradeoffs__popover">{content}</div>
+</details>""".strip()
+
+
 def tool_card(tool: dict, reference_time: datetime, rank: int) -> str:
     status = lifecycle(tool, reference_time)[1]
     name = str(tool.get("name") or "Unnamed tool")
@@ -150,7 +193,9 @@ def tool_card(tool: dict, reference_time: datetime, rank: int) -> str:
     ) or "Unknown"
     updated_iso = normalized_iso_date(tool.get("repo_updated_at"))
     tags = " ".join(str(tag) for tag in tool.get("quality_tags") or [])
-    search_text = " ".join((name, category_title(category), description, tags)).casefold()
+    search_text = " ".join(
+        (name, category_title(category), description, tags, str(tool.get("pro") or ""), str(tool.get("con") or ""))
+    ).casefold()
     version = latest_version(tool)
     website_unavailable = tool.get("website_status") == "unavailable"
     show_repository_metadata = category != "SaaS" or safe_url(tool.get("repository")) is not None
@@ -184,6 +229,7 @@ def tool_card(tool: dict, reference_time: datetime, rank: int) -> str:
   </div>
   <p class="tool-description">{escape(description)}</p>
   {metadata}
+  {tradeoffs(tool)}
   {f'<p class="availability-note">Official website currently unavailable</p>' if website_unavailable else ''}
   <div class="resource-links" aria-label="Resources for {escape(name)}">{resource_links(tool)}</div>
 </article>""".strip()
@@ -195,6 +241,7 @@ def editor_card(tool: dict, reference_time: datetime) -> str:
     recommended_for = str(tool.get("best_for") or "")
     reason = str(tool.get("editor_reason") or "")
     status = lifecycle(tool, reference_time)[1]
+    stars = stars_value(tool)
 
     return f"""
 <article class="editor-card">
@@ -202,9 +249,13 @@ def editor_card(tool: dict, reference_time: datetime) -> str:
     <span class="eyebrow">{escape(category_title(category))}</span>
     {status_badge(tool, status)}
   </div>
-  <h3><a href="{escape(primary_url(tool))}">{escape(name)}</a>{title_icon(tool)}</h3>
+  <div class="editor-card__title">
+    <h3><a href="{escape(primary_url(tool))}">{escape(name)}</a>{title_icon(tool)}</h3>
+    <span class="star-count" title="{stars:,} GitHub stars"><span aria-hidden="true">⭐</span> {stars:,}<span class="visually-hidden"> GitHub stars</span></span>
+  </div>
   <p class="editor-card__audience">{escape(recommended_for)}</p>
   <p>{escape(reason)}</p>
+  {tradeoffs(tool, inline=True)}
   <a class="text-link" href="#tool-{escape(tool.get('slug') or 'tool')}">View catalog details<span aria-hidden="true"> ↓</span></a>
 </article>""".strip()
 
@@ -212,11 +263,11 @@ def editor_card(tool: dict, reference_time: datetime) -> str:
 def category_options(tools: list[dict]) -> str:
     counts = {
         category: sum(1 for tool in tools if tool.get("category") == category)
-        for category in CATEGORY_ORDER
+        for category in sorted(CATEGORY_ORDER, key=lambda value: category_title(value).casefold())
     }
     return "\n".join(
         f'<option value="{escape(category)}">{escape(category_title(category))} ({counts[category]})</option>'
-        for category in CATEGORY_ORDER
+        for category in sorted(CATEGORY_ORDER, key=lambda value: category_title(value).casefold())
         if counts[category]
     )
 
@@ -244,7 +295,10 @@ def latest_catalog_update(tools: list[dict]) -> str:
 
 def render_index(tools: list[dict], reference_time: datetime) -> str:
     template = (SITE_SOURCE / "index.html").read_text(encoding="utf-8")
-    current_tools = [tool for tool in tools if not is_dead(tool, reference_time)]
+    current_tools = apply_pros_cons(
+        [tool for tool in tools if not is_dead(tool, reference_time)],
+        read_pros_cons(),
+    )
     memorial_tools = [tool for tool in tools if is_dead(tool, reference_time)]
     catalog_tools = [tool for tool in current_tools if tool.get("category") != "SaaS"]
     hosted_tools = [tool for tool in current_tools if tool.get("category") == "SaaS"]

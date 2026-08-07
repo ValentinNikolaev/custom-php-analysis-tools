@@ -325,7 +325,7 @@ def editor_row(tool: dict, position: int | None = None) -> str:
 
 
 def memorial_row(tool: dict) -> str:
-    name = f"[🕯️ {md_escape(tool['name'])}]({link_for(tool)})"
+    name = f"[{md_escape(tool['name'])}]({link_for(tool)})"
     contribution = md_escape(short_text(str(tool.get("description") or "A valued part of PHP's analysis-tooling history.")))
     category = md_escape(category_title(tool.get("category") or "Misc"))
     last_activity = format_date(tool.get("repo_updated_at")) or "Unknown"
@@ -482,7 +482,7 @@ def main() -> None:
             "",
             "Inspired by the pioneering [PHP Static Analysis Tools catalog by Exakat](https://github.com/exakat/php-static-analysis-tools) and its contributors.",
             "",
-            "Catalog metadata comes from `common/catalog/*.yaml`; Editors' Choice copy comes from `common/editor-choice-copy.yaml`. Run `python scripts/full_workflow.py` to refresh metadata and regenerate this file.",
+            "Catalog metadata comes from `common/catalog/*.yaml`; Editors' Choice copy comes from `common/editor-choice-copy.yaml`; manually maintained pros and cons come from `common/pros-cons.yaml`. Run `python scripts/full_workflow.py` to refresh metadata and regenerate this file.",
         ]
     )
     (ROOT / "README.md").write_text("\n".join(lines).rstrip() + "\n", encoding="utf-8")

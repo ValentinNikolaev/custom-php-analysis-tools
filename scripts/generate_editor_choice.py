@@ -12,15 +12,7 @@ from catalog_lib import (
 from generate_readme import apply_editor_choice_copy, editor_section, is_dead, lifecycle
 
 
-TARGETS = {
-    "Bugs finders": 9,
-    "Coding standards": 2,
-    "Architecture rules": 2,
-    "DIY": 1,
-    "Fixers": 2,
-    "Metrics": 6,
-    "Misc": 2,
-}
+TARGETS = {category: 3 for category in CATEGORY_ORDER if category != "SaaS"}
 MINIMUM_REPOSITORY_STARS = 500
 
 
@@ -68,11 +60,14 @@ def main() -> None:
             [
                 tool
                 for tool in tools
-                if tool.get("category") == category and is_editor_choice_candidate(tool, reference_time)
+                if tool.get("category") == category and is_alive(tool, reference_time)
+                and "historical-analysis-only" not in set(tool.get("quality_tags") or [])
             ],
             key=lambda item: (-score(item, reference_time), item.get("name", "").lower()),
         )
-        selected.extend(ranked[: TARGETS.get(category, 0)])
+        preferred = [tool for tool in ranked if is_editor_choice_candidate(tool, reference_time)]
+        fallback = [tool for tool in ranked if tool not in preferred]
+        selected.extend((preferred + fallback)[: TARGETS.get(category, 0)])
     selected_slugs = [tool["slug"] for tool in selected]
     selected = apply_editor_choice_copy(selected, read_editor_choice_copy())
     write_editor_choice_slugs(selected_slugs)
@@ -81,7 +76,7 @@ def main() -> None:
         "# Static analysis tools for PHP",
         "",
         "This file is generated from `common/catalog/*.yaml` by `scripts/generate_editor_choice.py`.",
-        "Selection is deterministic and limited to alive projects only. Repositories require at least 500 GitHub stars, then eligible projects are ranked by category quota, stars, repository freshness, and archive signals.",
+        "Selection is deterministic and limited to three alive projects per installable-tool category. It prefers repositories with at least 500 GitHub stars, fills sparse categories from the remaining active projects, then ranks by stars, repository freshness, and archive signals.",
         "A human or LLM writes the recommendations and reasons in `common/editor-choice-copy.yaml`, followed by an editorial pass. Generation fails when a selected tool lacks either field.",
         "⭐ shows GitHub stars; 🥇, 🥈, and 🥉 mark the first three entries in each section.",
         "",

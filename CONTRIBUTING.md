@@ -45,7 +45,10 @@ When adding or updating an entry:
 4. Keep descriptions factual and concise; avoid promotional claims.
 5. Do not set `editor_choice: true` in an entry. Editors' Choice membership is
    maintained in `common/editor-choice.yaml`.
-6. Regenerate the derived files:
+6. Add a short pro, con, and official source URL to `common/pros-cons.yaml`.
+   These summaries are editorial copy: update them manually and do not derive
+   or overwrite them during metadata refreshes.
+7. Regenerate the derived files:
 
    ```shell
    python scripts/generate_editor_choice.py

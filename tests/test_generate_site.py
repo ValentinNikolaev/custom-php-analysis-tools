@@ -16,7 +16,15 @@ if str(SCRIPTS) not in sys.path:
 
 from catalog_lib import load_catalog  # noqa: E402
 from generate_readme import is_dead  # noqa: E402
-from generate_site import BUILD_MARKER, build_site, normalize_base_path, primary_url, safe_url, tool_card  # noqa: E402
+from generate_site import (  # noqa: E402
+    BUILD_MARKER,
+    build_site,
+    category_options,
+    normalize_base_path,
+    primary_url,
+    safe_url,
+    tool_card,
+)
 
 
 class DocumentParser(HTMLParser):
@@ -168,7 +176,7 @@ class GenerateSiteTests(unittest.TestCase):
             build_site(output, reference_time=self.REFERENCE_TIME, base_path="/preview")
             not_found = (output / "404.html").read_text(encoding="utf-8")
 
-        self.assertIn('href="/preview/assets/site.css?v=3"', not_found)
+        self.assertIn('href="/preview/assets/site.css?v=4"', not_found)
         self.assertIn('href="/preview/"', not_found)
         self.assertEqual(normalize_base_path("/preview"), "/preview/")
         with self.assertRaisesRegex(ValueError, "absolute URL path"):
@@ -341,6 +349,39 @@ class GenerateSiteTests(unittest.TestCase):
 
         self.assertIn("<dt>Last commit</dt><dd>05.08.26</dd>", card)
         self.assertIn("<dt>Last release</dt><dd>20.07.26</dd>", card)
+
+    def test_category_options_are_sorted_by_reader_facing_name(self) -> None:
+        tools = [
+            {"category": category}
+            for category in ("Misc", "DIY", "Bugs finders", "Architecture rules")
+        ]
+        labels = re.findall(r">([^<]+) \(\d+\)</option>", category_options(tools))
+
+        self.assertEqual(labels, sorted(labels, key=str.casefold))
+
+    def test_editor_cards_show_stars_and_inline_pros_cons(self) -> None:
+        directory, output = self.build_in_temp()
+        self.addCleanup(directory.cleanup)
+        index = (output / "index.html").read_text(encoding="utf-8")
+        editor_markup = index[index.index('id="editors-choice"'):index.index('id="catalog"')]
+
+        self.assertEqual(editor_markup.count('class="editor-card"'), 21)
+        self.assertEqual(editor_markup.count('class="star-count"'), 21)
+        self.assertEqual(editor_markup.count('class="tradeoffs tradeoffs--inline"'), 21)
+        self.assertIn('class="tradeoff tradeoff--pro"', editor_markup)
+        self.assertIn('class="tradeoff tradeoff--con"', editor_markup)
+
+    def test_current_catalog_uses_accessible_tradeoff_popovers_only(self) -> None:
+        directory, output = self.build_in_temp()
+        self.addCleanup(directory.cleanup)
+        index = (output / "index.html").read_text(encoding="utf-8")
+        catalog_and_hosted = index[index.index('id="catalog"'):index.index('id="methodology"')]
+        memorial = index[index.index('id="in-memoriam"'):index.index('</main>')]
+        current_count = sum(not is_dead(tool, self.REFERENCE_TIME) for tool in load_catalog())
+
+        self.assertEqual(catalog_and_hosted.count('<details class="tradeoffs">'), current_count)
+        self.assertIn('<summary>Quick pros &amp; cons</summary>', catalog_and_hosted)
+        self.assertNotIn('<details class="tradeoffs">', memorial)
 
     def test_generator_only_replaces_its_own_non_empty_output_directory(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

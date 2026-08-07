@@ -20,6 +20,7 @@ CATALOG_DIR = ROOT / "common" / "catalog"
 MAX_RETRY_DELAY_SECONDS = 60.0
 EDITOR_CHOICE_FILE = ROOT / "common" / "editor-choice.yaml"
 EDITOR_CHOICE_COPY_FILE = ROOT / "common" / "editor-choice-copy.yaml"
+PROS_CONS_FILE = ROOT / "common" / "pros-cons.yaml"
 CATEGORY_ORDER = [
     "Bugs finders",
     "Coding standards",
@@ -309,6 +310,30 @@ def read_editor_choice_copy() -> dict[str, dict[str, str]]:
         }
         for slug in slugs
     }
+
+
+def read_pros_cons() -> dict[str, dict[str, Any]]:
+    if not PROS_CONS_FILE.exists():
+        return {}
+    data = load_yaml(PROS_CONS_FILE)
+    pros = data.get("pros") or {}
+    cons = data.get("cons") or {}
+    sources = data.get("sources") or {}
+    if not isinstance(pros, dict) or not isinstance(cons, dict) or not isinstance(sources, dict):
+        raise ValueError(f"{PROS_CONS_FILE} must contain pros, cons, and sources mappings")
+
+    slugs = set(pros) | set(cons) | set(sources)
+    entries: dict[str, dict[str, Any]] = {}
+    for slug in slugs:
+        entry_sources = sources.get(slug) or []
+        if not isinstance(entry_sources, list):
+            raise ValueError(f"Sources for {slug} in {PROS_CONS_FILE} must be a list")
+        entries[slug] = {
+            "pro": str(pros.get(slug) or "").strip(),
+            "con": str(cons.get(slug) or "").strip(),
+            "sources": [str(source).strip() for source in entry_sources if str(source).strip()],
+        }
+    return entries
 
 
 def write_editor_choice_slugs(slugs: list[str]) -> None:

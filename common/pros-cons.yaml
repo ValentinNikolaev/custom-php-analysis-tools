@@ -1,0 +1,219 @@
+# Manually curated, LLM-assisted summaries based on each project's official repository or product page.
+# Scheduled metadata refreshes must preserve this file. Review and edit these entries by hand.
+reviewed_at: "2026-08-07"
+pros:
+  ast-metrics: "Maps architecture and metrics across several languages."
+  composer-dependency-analyser: "Finds unused, shadowed, and misplaced Composer dependencies."
+  composer-unused: "Quickly flags Composer packages that code may not use."
+  coverage-guard: "Enforces coverage on critical methods or newly changed code."
+  jscpd: "Detects duplication across PHP and hundreds of other formats."
+  mago: "Combines fast linting, analysis, and formatting in one toolchain."
+  name-collision-detector: "Finds duplicate class names with a narrow, fast check."
+  noverify: "Runs PHP lint checks quickly from a standalone binary."
+  phan: "Prioritizes low false-positive AST-based type analysis."
+  phanalist: "Offers a fast, low-setup check for common PHP mistakes."
+  php-analysis: "Supports custom PHP language research in Rascal."
+  php-compatibility: "Checks code against a target PHP version range."
+  php-inspection: "Adds broad PHP inspections and quick fixes inside JetBrains IDEs."
+  php-magic-number-detector: "Targets unexplained numeric literals with one focused rule set."
+  php-mess-detector: "Catches complexity, naming, and maintainability problems."
+  php-stan: "Pairs mature type analysis with a large extension ecosystem."
+  php-static-type-checker: "Provides focused type checks through PHP's native AST."
+  php-compat-info: "Finds the minimum PHP version and extensions code requires."
+  php-parallel-lint-php-parallel-lint: "Checks PHP syntax quickly across many files."
+  phpdoctor: "Finds missing or inconsistent PHPDoc types."
+  progpilot: "Tracks tainted data to find PHP security flaws."
+  psalm: "Combines expressive types with taint and security analysis."
+  skylos: "Scans pull requests locally for dead code and security issues."
+  sonarqube: "Brings PHP quality and security rules into SonarQube."
+  composer-normalize: "Keeps composer.json formatting deterministic."
+  easycodingstandard: "Runs PHP-CS-Fixer and PHP_CodeSniffer from one config."
+  editorconfig-checker: "Verifies EditorConfig rules across a repository."
+  phpcsstandards-php-codesniffer: "Supports established standards and detailed custom sniffs."
+  php-doc-check: "Uses complexity to focus documentation effort."
+  tlint: "Checks Laravel code against Tighten's conventions."
+  deptrac: "Turns layer and module boundaries into repeatable CI checks."
+  php-architecture-tester: "Expresses architecture constraints as readable PHP tests."
+  phparkitect: "Keeps architecture rules beside the project's test code."
+  better-reflection: "Inspects source without loading the reflected classes."
+  php-parser: "Provides a mature PHP AST and traversal API."
+  php-cfg: "Builds control-flow graphs for custom PHP analysis."
+  reflection: "Resolves code and DocBlock types without executing source."
+  php-cs-fixer: "Offers a broad catalog of automatic coding-standard fixes."
+  php-weaver: "Combines runtime traces with static type information."
+  php-scoper: "Isolates bundled PHP code by prefixing namespaces."
+  phpactor: "Combines a PHP language server with refactoring tools."
+  rector: "Automates PHP upgrades and repeatable AST refactoring."
+  churn-php: "Combines churn and complexity to rank refactoring targets."
+  dephpend: "Visualizes dependencies that weaken an architecture."
+  pdepend: "Measures coupling, complexity, and maintainability in detail."
+  php-metrics: "Turns code metrics into readable visual reports."
+  php-semantic-versioning-checker: "Suggests version changes from source-level API differences."
+  php-class-dependencies-analyzer: "Tracks class dependencies and instability."
+  phpcodearcheology: "Combines metrics, dependency graphs, and Git churn."
+  phpinsights: "Summarizes several PHP quality checks in one console report."
+  aislop: "Finds common AI-code mistakes with deterministic rules."
+  composer-require-checker: "Finds symbols used without a direct Composer dependency."
+  grumphp: "Runs the project's quality tools before commit and in CI."
+  hhvm: "Preserves useful history about Hack and PHP VM design."
+  jakzal-phpqa: "Bundles a maintained PHP analysis toolchain in Docker."
+  larastan: "Teaches PHPStan about Laravel containers, facades, and models."
+  opengrep: "Uses source-like rules for custom security checks."
+  glayzzle-php-parser: "Exposes PHP tokens and an AST to Node.js tools."
+  phpqa: "Runs a broad PHP quality toolchain with one command."
+  semgrep: "Makes custom security rules concise and language-friendly."
+  static-analysis-results-baseliner: "Creates manageable baselines for existing analysis debt."
+  checkmarx: "Provides deep PHP security scanning and remediation workflows."
+  codacy: "Adds pull-request quality and security gates with little setup."
+  code-climate: "Centralizes hosted maintainability feedback for repositories."
+  deepsource: "Combines PHP analysis, coverage, and maintainability reporting."
+  insight: "Turns project quality data into hosted delivery reports."
+  laravelshift: "Automates much of a Laravel version upgrade."
+  qodana-php: "Runs PhpStorm-grade inspections as CI quality gates."
+  rips: "Focuses specifically on PHP vulnerability analysis."
+  snyk-code: "Adds security-focused PHP SAST to a hosted platform."
+  sonarqube-cloud: "Provides hosted PHP quality gates and security analysis."
+cons:
+  ast-metrics: "Metrics highlight risk; they do not prove defects."
+  composer-dependency-analyser: "It does not replace type or behavior analysis."
+  composer-unused: "Dynamic package use may require exclusions."
+  coverage-guard: "It needs coverage files and CI configuration."
+  jscpd: "Generated code and boilerplate need threshold tuning."
+  mago: "Its ecosystem is younger than established PHP analyzers."
+  name-collision-detector: "It checks duplicate names, not wider code quality."
+  noverify: "Its rule ecosystem is smaller than PHP-native leaders."
+  phan: "It requires the php-ast extension and careful configuration."
+  phanalist: "Its rule set and integrations remain relatively small."
+  php-analysis: "It requires Rascal and targets specialist use cases."
+  php-compatibility: "It needs PHP_CodeSniffer and cannot prove runtime compatibility."
+  php-inspection: "It requires a supported JetBrains IDE."
+  php-magic-number-detector: "Teams often need project-specific exclusions."
+  php-mess-detector: "Default rules can be noisy on existing codebases."
+  php-stan: "Higher rule levels often need annotations and gradual adoption."
+  php-static-type-checker: "It depends on php-ast and has a small ecosystem."
+  php-compat-info: "Runtime and environment behavior remain outside its scope."
+  php-parallel-lint-php-parallel-lint: "It checks syntax only."
+  phpdoctor: "It covers PHPDoc types, not general correctness."
+  progpilot: "Security findings need framework-aware tuning and review."
+  psalm: "Advanced checks add annotation and configuration work."
+  skylos: "Its broad PR checks may need repository-specific tuning."
+  sonarqube: "It ties analysis to the SonarQube ecosystem."
+  composer-normalize: "It only checks and rewrites composer.json."
+  easycodingstandard: "Its wrapper adds another configuration layer."
+  editorconfig-checker: "It enforces basic formatting rules, not PHP semantics."
+  phpcsstandards-php-codesniffer: "Large standards need configuration and can produce many findings."
+  php-doc-check: "Complexity is only a proxy for documentation value."
+  tlint: "Its rules target Laravel projects."
+  deptrac: "The dependency map must stay aligned with the architecture."
+  php-architecture-tester: "Its rule ecosystem is smaller than older architecture tools."
+  phparkitect: "Teams must define enough rules to cover the design."
+  better-reflection: "It is a building block, not a ready-made analyzer."
+  php-parser: "It produces syntax structures, not high-level findings."
+  php-cfg: "Consumers must build the actual analysis on top."
+  reflection: "It is a library rather than a standalone checker."
+  php-cs-fixer: "Broad rule changes can create large review diffs."
+  php-weaver: "Runtime traces only cover executed paths."
+  php-scoper: "Dynamic names and bundled resources still need testing."
+  phpactor: "Its editor-focused setup can feel heavy for CI-only use."
+  rector: "Generated refactors still require tests and code review."
+  churn-php: "Its ranking identifies risk, not the required fix."
+  dephpend: "It focuses on dependency structure, not runtime behavior."
+  pdepend: "Teams must interpret the metrics and choose thresholds."
+  php-metrics: "Metrics do not prescribe the right refactor."
+  php-semantic-versioning-checker: "Dynamic behavior and documentation changes may escape detection."
+  php-class-dependencies-analyzer: "It covers one dimension of maintainability."
+  phpcodearcheology: "Its broad reports require interpretation and prioritization."
+  phpinsights: "Aggregate scores can hide why a rule matters."
+  aislop: "Heuristic findings still need human review."
+  composer-require-checker: "Dynamic symbols can require allowlists."
+  grumphp: "It orchestrates analyzers rather than adding its own checks."
+  hhvm: "Current HHVM no longer provides PHP static analysis."
+  jakzal-phpqa: "The Docker image is heavier than installing one focused tool."
+  larastan: "It depends on PHPStan and Laravel-specific configuration."
+  opengrep: "Custom rules need tuning to control false positives."
+  glayzzle-php-parser: "It is a JavaScript parser, not a complete analyzer."
+  phpqa: "Bundled tools still need individual configuration."
+  semgrep: "Deep PHP type and framework semantics are limited."
+  static-analysis-results-baseliner: "A baseline records debt instead of fixing it."
+  checkmarx: "Commercial hosting, setup, and licensing add overhead."
+  codacy: "Hosted rules and quality gates need project tuning."
+  code-climate: "Teams depend on an external service and its rule set."
+  deepsource: "Cloud integration and vendor policy may not fit every team."
+  insight: "It requires a hosted workflow and repository integration."
+  laravelshift: "Teams must test and review the generated upgrade."
+  qodana-php: "Licensing and container setup add operational cost."
+  rips: "Teams should verify current availability and commercial terms."
+  snyk-code: "SAST covers only part of application security."
+  sonarqube-cloud: "Service integration and rule tuning take time."
+sources:
+  ast-metrics: ["https://github.com/ast-metrics/ast-metrics"]
+  composer-dependency-analyser: ["https://github.com/shipmonk-rnd/composer-dependency-analyser"]
+  composer-unused: ["https://github.com/composer-unused/composer-unused"]
+  coverage-guard: ["https://github.com/shipmonk-rnd/coverage-guard"]
+  jscpd: ["https://github.com/kucherenko/jscpd"]
+  mago: ["https://github.com/carthage-software/mago"]
+  name-collision-detector: ["https://github.com/shipmonk-rnd/name-collision-detector"]
+  noverify: ["https://github.com/VKCOM/noverify"]
+  phan: ["https://github.com/phan/phan"]
+  phanalist: ["https://github.com/denzyldick/phanalist"]
+  php-analysis: ["https://github.com/cwi-swat/php-analysis"]
+  php-compatibility: ["https://github.com/PHPCompatibility/PHPCompatibility"]
+  php-inspection: ["https://github.com/kalessil/phpinspectionsea"]
+  php-magic-number-detector: ["https://github.com/povils/phpmnd"]
+  php-mess-detector: ["https://github.com/phpmd/phpmd"]
+  php-stan: ["https://github.com/phpstan/phpstan"]
+  php-static-type-checker: ["https://github.com/Jumping-Beaver/PHP_Static_Type_Checker"]
+  php-compat-info: ["https://github.com/llaville/php-compatinfo"]
+  php-parallel-lint-php-parallel-lint: ["https://github.com/php-parallel-lint/PHP-Parallel-Lint"]
+  phpdoctor: ["https://github.com/voku/PHPDoctor"]
+  progpilot: ["https://github.com/designsecurity/progpilot"]
+  psalm: ["https://github.com/vimeo/psalm"]
+  skylos: ["https://github.com/duriantaco/skylos"]
+  sonarqube: ["https://github.com/SonarSource/sonar-php"]
+  composer-normalize: ["https://github.com/ergebnis/composer-normalize"]
+  easycodingstandard: ["https://github.com/ecsphp/ecs"]
+  editorconfig-checker: ["https://github.com/editorconfig-checker/editorconfig-checker.php"]
+  phpcsstandards-php-codesniffer: ["https://github.com/PHPCSStandards/PHP_CodeSniffer"]
+  php-doc-check: ["https://github.com/NielsdeBlaauw/php-doc-check"]
+  tlint: ["https://github.com/tighten/tlint"]
+  deptrac: ["https://github.com/deptrac/deptrac"]
+  php-architecture-tester: ["https://github.com/carlosas/phpat"]
+  phparkitect: ["https://github.com/phparkitect/arkitect"]
+  better-reflection: ["https://github.com/Roave/BetterReflection"]
+  php-parser: ["https://github.com/nikic/PHP-Parser"]
+  php-cfg: ["https://github.com/ircmaxell/php-cfg"]
+  reflection: ["https://github.com/phpDocumentor/Reflection"]
+  php-cs-fixer: ["https://github.com/PHP-CS-Fixer/PHP-CS-Fixer"]
+  php-weaver: ["https://github.com/troelskn/phpweaver"]
+  php-scoper: ["https://github.com/humbug/php-scoper"]
+  phpactor: ["https://github.com/phpactor/phpactor"]
+  rector: ["https://github.com/rectorphp/rector"]
+  churn-php: ["https://github.com/bmitch/churn-php"]
+  dephpend: ["https://github.com/mihaeu/dephpend"]
+  pdepend: ["https://github.com/pdepend/pdepend"]
+  php-metrics: ["https://github.com/phpmetrics/PhpMetrics"]
+  php-semantic-versioning-checker: ["https://github.com/tomzx/php-semver-checker"]
+  php-class-dependencies-analyzer: ["https://github.com/DeGraciaMathieu/php-class-dependencies-analyzer"]
+  phpcodearcheology: ["https://github.com/PhpCodeArcheology/PhpCodeArcheology"]
+  phpinsights: ["https://github.com/nunomaduro/phpinsights"]
+  aislop: ["https://github.com/scanaislop/aislop"]
+  composer-require-checker: ["https://github.com/maglnet/ComposerRequireChecker"]
+  grumphp: ["https://github.com/phpro/grumphp"]
+  hhvm: ["https://github.com/facebook/hhvm"]
+  jakzal-phpqa: ["https://github.com/jakzal/phpqa"]
+  larastan: ["https://github.com/larastan/larastan"]
+  opengrep: ["https://github.com/opengrep/opengrep"]
+  glayzzle-php-parser: ["https://github.com/glayzzle/php-parser"]
+  phpqa: ["https://github.com/EdgedesignCZ/phpqa"]
+  semgrep: ["https://github.com/semgrep/semgrep"]
+  static-analysis-results-baseliner: ["https://github.com/DaveLiddament/sarb"]
+  checkmarx: ["https://checkmarx.com/glossary/php-static-code-analysis/"]
+  codacy: ["https://www.codacy.com/"]
+  code-climate: ["https://codeclimate.com"]
+  deepsource: ["https://deepsource.com/directory/php"]
+  insight: ["https://www.sensio.com/products/sensio-insight"]
+  laravelshift: ["https://laravelshift.com/"]
+  qodana-php: ["https://www.jetbrains.com/qodana/"]
+  rips: ["https://www.ripstech.com/"]
+  snyk-code: ["https://snyk.io/code-checker/php/"]
+  sonarqube-cloud: ["https://www.sonarsource.com/products/sonarqube/cloud/"]
