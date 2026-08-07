@@ -12,9 +12,9 @@ from catalog_lib import CATEGORY_ORDER, ROOT, category_rank, load_catalog, read_
 from generate_readme import (
     apply_editor_choice_copy,
     category_title,
-    format_date,
     is_dead,
     lifecycle,
+    parse_date,
     sorted_for_table,
     stars_value,
 )
@@ -108,6 +108,11 @@ def normalized_iso_date(value: object) -> str:
     return str(value).replace("Z", "+00:00")
 
 
+def compact_date(value: str | None) -> str:
+    parsed = parse_date(value)
+    return parsed.strftime("%d.%m.%y") if parsed else ""
+
+
 def tool_card(tool: dict, reference_time: datetime, rank: int) -> str:
     status = lifecycle(tool, reference_time)[1]
     name = str(tool.get("name") or "Unnamed tool")
@@ -115,8 +120,10 @@ def tool_card(tool: dict, reference_time: datetime, rank: int) -> str:
     category = str(tool.get("category") or "Misc")
     description = str(tool.get("best_for") or tool.get("description") or "No description available.")
     stars = stars_value(tool)
-    updated = format_date(tool.get("repo_updated_at")) or "Unknown"
-    released = format_date(tool.get("latest_release_published_at") or tool.get("latest_version_released_at")) or "Unknown"
+    updated = compact_date(tool.get("repo_updated_at")) or "Unknown"
+    released = compact_date(
+        tool.get("latest_release_published_at") or tool.get("latest_version_released_at")
+    ) or "Unknown"
     updated_iso = normalized_iso_date(tool.get("repo_updated_at"))
     tags = " ".join(str(tag) for tag in tool.get("quality_tags") or [])
     search_text = " ".join((name, category_title(category), description, tags)).casefold()

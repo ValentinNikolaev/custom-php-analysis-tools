@@ -24,6 +24,7 @@ class DocumentParser(HTMLParser):
         self.ids: set[str] = set()
         self.hrefs: list[str] = []
         self.scripts: list[str] = []
+        self.script_attributes: list[dict[str, str | None]] = []
         self.h1_count = 0
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
@@ -34,6 +35,7 @@ class DocumentParser(HTMLParser):
             self.hrefs.append(str(values["href"]))
         if tag == "script" and values.get("src"):
             self.scripts.append(str(values["src"]))
+            self.script_attributes.append(values)
         if tag == "h1":
             self.h1_count += 1
 
@@ -75,7 +77,15 @@ class GenerateSiteTests(unittest.TestCase):
         for href in parser.hrefs:
             if href.startswith("#"):
                 self.assertIn(href[1:], parser.ids, href)
-        self.assertEqual(parser.scripts, ["assets/site.js?v=2"])
+        self.assertEqual(
+            parser.scripts,
+            ["assets/site.js?v=2", "https://static.cloudflareinsights.com/beacon.min.js"],
+        )
+        self.assertEqual(parser.script_attributes[1].get("type"), "module")
+        self.assertEqual(
+            parser.script_attributes[1].get("data-cf-beacon"),
+            '{"token":"1bc156f61a6c4baab33e1f9a082f72d4"}',
+        )
 
     def test_generated_counts_distinguish_current_and_memorial_tools(self) -> None:
         directory, output = self.build_in_temp()
@@ -153,8 +163,8 @@ class GenerateSiteTests(unittest.TestCase):
             1,
         )
 
-        self.assertIn("<dt>Last commit</dt><dd>Aug 5, 2026</dd>", card)
-        self.assertIn("<dt>Last release</dt><dd>Jul 20, 2026</dd>", card)
+        self.assertIn("<dt>Last commit</dt><dd>05.08.26</dd>", card)
+        self.assertIn("<dt>Last release</dt><dd>20.07.26</dd>", card)
 
     def test_generator_only_replaces_its_own_non_empty_output_directory(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
