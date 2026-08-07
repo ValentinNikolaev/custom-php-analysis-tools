@@ -459,6 +459,15 @@ h3 {
   background: color-mix(in srgb, var(--surface-strong) 55%, transparent);
 }
 
+.section--hosted {
+  border-bottom: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface-strong) 28%, transparent);
+}
+
+.tool-grid--hosted .tool-card {
+  min-height: 260px;
+}
+
 .catalog-controls {
   position: sticky;
   z-index: 20;

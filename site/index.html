@@ -11,7 +11,7 @@
   <meta property="og:url" content="{{CANONICAL_URL}}">
   <link rel="canonical" href="{{CANONICAL_URL}}">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="assets/site.css?v=2">
+  <link rel="stylesheet" href="assets/site.css?v=3">
   <title>PHP Analysis Tools Catalog</title>
 </head>
 <body>
@@ -26,6 +26,7 @@
       <nav aria-label="Primary navigation">
         <a href="#editors-choice">Editors’ Choice</a>
         <a href="#catalog">Catalog</a>
+        <a href="#hosted-services">Hosted services</a>
         <a href="#methodology">Methodology</a>
         <a href="{{REPOSITORY_URL}}">GitHub<span aria-hidden="true"> ↗</span></a>
       </nav>
@@ -69,10 +70,10 @@
       <div class="shell">
         <div class="section-heading">
           <div>
-            <p class="kicker">Search the full collection</p>
-            <h2 id="catalog-title">Tool catalog</h2>
+            <p class="kicker">Search installable tools</p>
+            <h2 id="catalog-title">Tools and packages</h2>
           </div>
-          <p>Activity is based on repository updates: Active within 90 days, Quiet within 182 days, and Inactive within 364 days.</p>
+          <p>Installable analyzers, packages, plugins, and command-line tools come first. Activity is based on repository updates.</p>
         </div>
 
         <form class="catalog-controls" id="catalog-controls" role="search" aria-label="Filter the tool catalog">
@@ -107,7 +108,7 @@
         </form>
 
         <div class="catalog-summary" aria-live="polite" aria-atomic="true">
-          <p id="catalog-results">Showing {{CURRENT_COUNT}} tools</p>
+          <p id="catalog-results">Showing {{TOOL_COUNT}} tools</p>
           <p class="catalog-summary__hint">Search matches names, descriptions, categories, and catalog tags.</p>
         </div>
 
@@ -122,6 +123,21 @@
           <h3>No matching tools</h3>
           <p>Try a broader search or reset one of the filters.</p>
           <button class="button button--secondary" type="button" data-reset-catalog>Reset filters</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--hosted" id="hosted-services" aria-labelledby="hosted-title">
+      <div class="shell">
+        <div class="section-heading">
+          <div>
+            <p class="kicker">Optional cloud platforms</p>
+            <h2 id="hosted-title">Hosted analysis services</h2>
+          </div>
+          <p>{{HOSTED_COUNT}} web-based services are listed separately from installable tools and packages. They are ordered alphabetically.</p>
+        </div>
+        <div class="tool-grid tool-grid--hosted">
+          {{HOSTED_CARDS}}
         </div>
       </div>
     </section>

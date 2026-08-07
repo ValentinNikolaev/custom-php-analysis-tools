@@ -15,8 +15,8 @@ A generated catalog of PHP static analysis, code quality, coding standards, metr
   - [Libraries and building blocks](#all-libraries-and-building-blocks)
   - [Fixers and refactoring](#all-fixers-and-refactoring)
   - [Metrics and architecture](#all-metrics-and-architecture)
-  - [Hosted analysis services](#all-hosted-analysis-services)
   - [Specialized tools](#all-specialized-tools)
+  - [Hosted analysis services](#all-hosted-analysis-services)
 - [In Memoriam](#in-memoriam)
 
 <a id="editors-choice"></a>
@@ -222,25 +222,6 @@ Tools that measure complexity, coupling, dependencies, maintainability, churn, a
 | [PHP Semantic Versioning Checker](https://github.com/tomzx/php-semver-checker)<br><sub>⭐ 436</sub> | Compares two source sets and determines the appropriate semantic versioning to apply. | ![Last commit Feb 5, 2026](https://img.shields.io/badge/last%20commit-Feb%205%2C%202026-orange?style=flat-square)<br>![Last release Oct 30, 2025](https://img.shields.io/badge/last%20release-Oct%2030%2C%202025-blue?style=flat-square)<br>v0.17.0 | [![GitHub](https://img.shields.io/badge/-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/tomzx/php-semver-checker "GitHub source") [![Packagist](https://img.shields.io/badge/-%F0%9F%93%A6-181717?style=flat-square)](https://packagist.org/packages/tomzx/php-semver-checker "Packagist package") |
 | [php-class-dependencies-analyzer](https://php-quality-tools.com/class-dependencies-analyzer/)<br><sub>⭐ 21</sub> | This tool allows you to monitor the dependencies and instability of your classes | ![Last commit Jan 6, 2026](https://img.shields.io/badge/last%20commit-Jan%206%2C%202026-orange?style=flat-square) | [![GitHub](https://img.shields.io/badge/-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/DeGraciaMathieu/php-class-dependencies-analyzer "GitHub source") ![Website unavailable](https://img.shields.io/badge/website-N%2FA-lightgrey?style=flat-square) |
 
-<a id="all-hosted-analysis-services"></a>
-
-### Hosted analysis services
-
-Web-based services that analyze repositories through hosted scans, dashboards, or CI integrations.
-
-| Service | Best for | Delivery | Link |
-|---|---|---|---|
-| [Checkmarx](https://checkmarx.com/glossary/php-static-code-analysis/) | Checkmarx scans PHP source code for security vulnerabilities and helps teams review… | Hosted service | [![Website](https://img.shields.io/badge/-4285F4?style=flat-square&logo=googlechrome&logoColor=white)](https://checkmarx.com/glossary/php-static-code-analysis/ "Official website") |
-| [Codacy](https://www.codacy.com/) | Continuous code quality and security checks across repositories | Hosted dashboard with SCM and CI integrations | [![Website](https://img.shields.io/badge/-4285F4?style=flat-square&logo=googlechrome&logoColor=white)](https://www.codacy.com/ "Official website") |
-| [Code Climate](https://codeclimate.com) | Hosted static analysis for Ruby, PHP and JavaScript source code | Hosted service | [![Website](https://img.shields.io/badge/-4285F4?style=flat-square&logo=googlechrome&logoColor=white)](https://codeclimate.com "Official website") |
-| [DeepSource](https://deepsource.com/directory/php) | Continuous PHP static analysis, SAST, and coverage reporting | Hosted repository analysis with pull-request integrations | [![Website](https://img.shields.io/badge/-4285F4?style=flat-square&logo=googlechrome&logoColor=white)](https://deepsource.com/directory/php "Official website") |
-| [Insight](https://www.sensio.com/products/sensio-insight) | Sensio Insight turns project data into decision support for software quality and… | Hosted service | [![Website](https://img.shields.io/badge/-4285F4?style=flat-square&logo=googlechrome&logoColor=white)](https://www.sensio.com/products/sensio-insight "Official website") |
-| [Laravelshift](https://laravelshift.com/) | the automated way to upgrade Laravel applications. Upgrade Laravel applications all… | Hosted service | [![Website](https://img.shields.io/badge/-4285F4?style=flat-square&logo=googlechrome&logoColor=white)](https://laravelshift.com/ "Official website") |
-| [Qodana for PHP](https://www.jetbrains.com/qodana/) | PhpStorm-grade PHP inspections and quality gates in CI | Cloud reports with native or Docker-based PHP linters | [![Website](https://img.shields.io/badge/-4285F4?style=flat-square&logo=googlechrome&logoColor=white)](https://www.jetbrains.com/qodana/ "Official website") |
-| [RIPS](https://www.ripstech.com/) | The superior security software for PHP applications. Source code static analyser for… | Hosted service | [![Website](https://img.shields.io/badge/-4285F4?style=flat-square&logo=googlechrome&logoColor=white)](https://www.ripstech.com/ "Official website") |
-| [Snyk Code](https://snyk.io/code-checker/php/) | Security-focused PHP static application security testing | Hosted dashboard with SCM, CLI, IDE, and CI integrations | [![Website](https://img.shields.io/badge/-4285F4?style=flat-square&logo=googlechrome&logoColor=white)](https://snyk.io/code-checker/php/ "Official website") |
-| [SonarQube Cloud](https://www.sonarsource.com/products/sonarqube/cloud/) | Hosted PHP quality gates, maintainability checks, and security analysis | Hosted dashboard with repository and CI integrations | [![Website](https://img.shields.io/badge/-4285F4?style=flat-square&logo=googlechrome&logoColor=white)](https://www.sonarsource.com/products/sonarqube/cloud/ "Official website") |
-
 <a id="all-specialized-tools"></a>
 
 ### Specialized tools
@@ -260,6 +241,25 @@ Wrappers, baseliners, multi-language engines, and focused analysis tools that do
 | [aislop](https://scanaislop.com)<br><sub>⭐ 537</sub> | Detecting AI-code mistakes and quality regressions before merge | ![Last commit Aug 1, 2026](https://img.shields.io/badge/last%20commit-Aug%201%2C%202026-brightgreen?style=flat-square) | [![GitHub](https://img.shields.io/badge/-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/scanaislop/aislop "GitHub source") [![Website](https://img.shields.io/badge/-4285F4?style=flat-square&logo=googlechrome&logoColor=white)](https://scanaislop.com "Official website") |
 | [Static Analysis Results Baseliner](https://github.com/DaveLiddament/sarb)<br><sub>⭐ 165</sub> | Static Analysis Results Baseliner | ![Last commit Jul 12, 2026](https://img.shields.io/badge/last%20commit-Jul%2012%2C%202026-brightgreen?style=flat-square)<br>![Last release Jul 11, 2026](https://img.shields.io/badge/last%20release-Jul%2011%2C%202026-blue?style=flat-square)<br>1.11.0 | [![GitHub](https://img.shields.io/badge/-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/DaveLiddament/sarb "GitHub source") [![Packagist](https://img.shields.io/badge/-%F0%9F%93%A6-181717?style=flat-square)](https://packagist.org/packages/dave-liddament/sarb "Packagist package") |
 | [PHPQA](https://edgedesigncz.github.io/phpqa/)<br><sub>⭐ 564</sub> | Analyze PHP code with one command | ![Last commit Nov 22, 2025](https://img.shields.io/badge/last%20commit-Nov%2022%2C%202025-orange?style=flat-square)<br>![Last release Nov 22, 2025](https://img.shields.io/badge/last%20release-Nov%2022%2C%202025-blue?style=flat-square)<br>[v1.27.2](https://github.com/EdgedesignCZ/phpqa/releases/tag/v1.27.2) | [![GitHub](https://img.shields.io/badge/-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/EdgedesignCZ/phpqa "GitHub source") [![Packagist](https://img.shields.io/badge/-%F0%9F%93%A6-181717?style=flat-square)](https://packagist.org/packages/edgedesign/phpqa "Packagist package") [![Website](https://img.shields.io/badge/-4285F4?style=flat-square&logo=googlechrome&logoColor=white)](https://edgedesigncz.github.io/phpqa/ "Official website") |
+
+<a id="all-hosted-analysis-services"></a>
+
+### Hosted analysis services
+
+Web-based services that analyze repositories through hosted scans, dashboards, or CI integrations.
+
+| Service | Best for | Delivery | Link |
+|---|---|---|---|
+| [Checkmarx](https://checkmarx.com/glossary/php-static-code-analysis/) | Checkmarx scans PHP source code for security vulnerabilities and helps teams review… | Hosted service | [![Website](https://img.shields.io/badge/-4285F4?style=flat-square&logo=googlechrome&logoColor=white)](https://checkmarx.com/glossary/php-static-code-analysis/ "Official website") |
+| [Codacy](https://www.codacy.com/) | Continuous code quality and security checks across repositories | Hosted dashboard with SCM and CI integrations | [![Website](https://img.shields.io/badge/-4285F4?style=flat-square&logo=googlechrome&logoColor=white)](https://www.codacy.com/ "Official website") |
+| [Code Climate](https://codeclimate.com) | Hosted static analysis for Ruby, PHP and JavaScript source code | Hosted service | [![Website](https://img.shields.io/badge/-4285F4?style=flat-square&logo=googlechrome&logoColor=white)](https://codeclimate.com "Official website") |
+| [DeepSource](https://deepsource.com/directory/php) | Continuous PHP static analysis, SAST, and coverage reporting | Hosted repository analysis with pull-request integrations | [![Website](https://img.shields.io/badge/-4285F4?style=flat-square&logo=googlechrome&logoColor=white)](https://deepsource.com/directory/php "Official website") |
+| [Insight](https://www.sensio.com/products/sensio-insight) | Sensio Insight turns project data into decision support for software quality and… | Hosted service | [![Website](https://img.shields.io/badge/-4285F4?style=flat-square&logo=googlechrome&logoColor=white)](https://www.sensio.com/products/sensio-insight "Official website") |
+| [Laravelshift](https://laravelshift.com/) | the automated way to upgrade Laravel applications. Upgrade Laravel applications all… | Hosted service | [![Website](https://img.shields.io/badge/-4285F4?style=flat-square&logo=googlechrome&logoColor=white)](https://laravelshift.com/ "Official website") |
+| [Qodana for PHP](https://www.jetbrains.com/qodana/) | PhpStorm-grade PHP inspections and quality gates in CI | Cloud reports with native or Docker-based PHP linters | [![Website](https://img.shields.io/badge/-4285F4?style=flat-square&logo=googlechrome&logoColor=white)](https://www.jetbrains.com/qodana/ "Official website") |
+| [RIPS](https://www.ripstech.com/) | The superior security software for PHP applications. Source code static analyser for… | Hosted service | [![Website](https://img.shields.io/badge/-4285F4?style=flat-square&logo=googlechrome&logoColor=white)](https://www.ripstech.com/ "Official website") |
+| [Snyk Code](https://snyk.io/code-checker/php/) | Security-focused PHP static application security testing | Hosted dashboard with SCM, CLI, IDE, and CI integrations | [![Website](https://img.shields.io/badge/-4285F4?style=flat-square&logo=googlechrome&logoColor=white)](https://snyk.io/code-checker/php/ "Official website") |
+| [SonarQube Cloud](https://www.sonarsource.com/products/sonarqube/cloud/) | Hosted PHP quality gates, maintainability checks, and security analysis | Hosted dashboard with repository and CI integrations | [![Website](https://img.shields.io/badge/-4285F4?style=flat-square&logo=googlechrome&logoColor=white)](https://www.sonarsource.com/products/sonarqube/cloud/ "Official website") |
 
 <a id="in-memoriam"></a>
 

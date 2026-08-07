@@ -110,13 +110,37 @@ class GenerateSiteTests(unittest.TestCase):
 
         self.assertEqual(positions, sorted(positions))
 
+    def test_hosted_services_are_separate_from_the_primary_catalog(self) -> None:
+        directory, output = self.build_in_temp()
+        self.addCleanup(directory.cleanup)
+        index = (output / "index.html").read_text(encoding="utf-8")
+        current_tools = [tool for tool in load_catalog() if not is_dead(tool, self.REFERENCE_TIME)]
+        catalog_tools = [tool for tool in current_tools if tool.get("category") != "SaaS"]
+        hosted_tools = [tool for tool in current_tools if tool.get("category") == "SaaS"]
+        catalog_start = index.index('id="catalog"')
+        hosted_start = index.index('id="hosted-services"')
+        methodology_start = index.index('id="methodology"')
+        catalog_markup = index[catalog_start:hosted_start]
+
+        self.assertLess(catalog_start, hosted_start)
+        self.assertLess(hosted_start, methodology_start)
+        self.assertIn(f"Showing {len(catalog_tools)} tools", catalog_markup)
+        self.assertNotIn('<option value="SaaS">', catalog_markup)
+        self.assertNotIn('data-category="SaaS"', catalog_markup)
+        for tool in catalog_tools:
+            self.assertLess(index.index(f'id="tool-{tool["slug"]}"'), hosted_start)
+        for tool in hosted_tools:
+            position = index.index(f'id="tool-{tool["slug"]}"')
+            self.assertGreater(position, hosted_start)
+            self.assertLess(position, methodology_start)
+
     def test_custom_base_path_is_applied_to_not_found_assets_and_home_link(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             output = Path(directory) / "site"
             build_site(output, reference_time=self.REFERENCE_TIME, base_path="/preview")
             not_found = (output / "404.html").read_text(encoding="utf-8")
 
-        self.assertIn('href="/preview/assets/site.css?v=2"', not_found)
+        self.assertIn('href="/preview/assets/site.css?v=3"', not_found)
         self.assertIn('href="/preview/"', not_found)
         self.assertEqual(normalize_base_path("/preview"), "/preview/")
         with self.assertRaisesRegex(ValueError, "absolute URL path"):

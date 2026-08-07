@@ -27,8 +27,8 @@ CATEGORY_ORDER = [
     "DIY",
     "Fixers",
     "Metrics",
-    "SaaS",
     "Misc",
+    "SaaS",
 ]
 
 

@@ -872,6 +872,9 @@ class CatalogScriptTests(unittest.TestCase):
     def test_every_category_has_a_unique_reader_facing_title(self) -> None:
         self.assertEqual(set(CATEGORY_TITLES), set(CATEGORY_ORDER))
 
+    def test_hosted_services_are_the_last_catalog_category(self) -> None:
+        self.assertEqual(CATEGORY_ORDER[-1], "SaaS")
+
     def test_memorial_section_orders_projects_by_name(self) -> None:
         output = memorial_section(
             [

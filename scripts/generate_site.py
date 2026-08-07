@@ -246,15 +246,21 @@ def render_index(tools: list[dict], reference_time: datetime) -> str:
     template = (SITE_SOURCE / "index.html").read_text(encoding="utf-8")
     current_tools = [tool for tool in tools if not is_dead(tool, reference_time)]
     memorial_tools = [tool for tool in tools if is_dead(tool, reference_time)]
+    catalog_tools = [tool for tool in current_tools if tool.get("category") != "SaaS"]
+    hosted_tools = [tool for tool in current_tools if tool.get("category") == "SaaS"]
     ordered_tools: list[dict] = []
     for category in CATEGORY_ORDER:
-        grouped = [tool for tool in current_tools if tool.get("category") == category]
+        grouped = [tool for tool in catalog_tools if tool.get("category") == category]
         ordered_tools.extend(sorted_for_table(grouped, reference_time))
 
     editor_slugs = read_editor_choice_slugs()
     editor_tools = apply_editor_choice_copy(
         sorted(
-            [tool for tool in current_tools if tool.get("slug") in editor_slugs],
+            [
+                tool
+                for tool in catalog_tools
+                if tool.get("slug") in editor_slugs
+            ],
             key=lambda item: (category_rank(item.get("category")), item.get("name", "").casefold()),
         ),
         read_editor_choice_copy(),
@@ -264,15 +270,24 @@ def render_index(tools: list[dict], reference_time: datetime) -> str:
         "{{CANONICAL_URL}}": SITE_URL,
         "{{REPOSITORY_URL}}": REPOSITORY_URL,
         "{{CURRENT_COUNT}}": str(len(current_tools)),
+        "{{TOOL_COUNT}}": str(len(catalog_tools)),
+        "{{HOSTED_COUNT}}": str(len(hosted_tools)),
         "{{MEMORIAL_COUNT}}": str(len(memorial_tools)),
         "{{EDITOR_COUNT}}": str(len(editor_tools)),
-        "{{CATEGORY_COUNT}}": str(len({tool.get("category") for tool in current_tools})),
+        "{{CATEGORY_COUNT}}": str(len({tool.get("category") for tool in catalog_tools})),
         "{{LAST_UPDATED}}": escape(latest_catalog_update(tools)),
-        "{{CATEGORY_OPTIONS}}": category_options(current_tools),
-        "{{STATUS_OPTIONS}}": status_options(current_tools, reference_time),
+        "{{CATEGORY_OPTIONS}}": category_options(catalog_tools),
+        "{{STATUS_OPTIONS}}": status_options(catalog_tools, reference_time),
         "{{EDITOR_CARDS}}": "\n".join(editor_card(tool, reference_time) for tool in editor_tools),
         "{{TOOL_CARDS}}": "\n".join(
             tool_card(tool, reference_time, rank) for rank, tool in enumerate(ordered_tools, start=1)
+        ),
+        "{{HOSTED_CARDS}}": "\n".join(
+            tool_card(tool, reference_time, rank)
+            for rank, tool in enumerate(
+                sorted(hosted_tools, key=lambda item: item.get("name", "").casefold()),
+                start=1,
+            )
         ),
         "{{MEMORIAL_CARDS}}": "\n".join(
             tool_card(tool, reference_time, rank)
