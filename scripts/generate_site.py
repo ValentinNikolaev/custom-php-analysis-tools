@@ -85,7 +85,7 @@ def resource_links(tool: dict) -> str:
         links.append(("Package", package))
     if website and website.rstrip("/") != (repository or "").rstrip("/"):
         links.append(("Website", website))
-    if release:
+    if release and not repository:
         links.append(("Release", release))
 
     if not links:
@@ -99,7 +99,7 @@ def resource_links(tool: dict) -> str:
 
 def latest_version(tool: dict) -> str:
     value = tool.get("latest_release_tag") or tool.get("latest_version") or tool.get("latest_release_name")
-    return str(value or "No release data")
+    return str(value or "-")
 
 
 def normalized_iso_date(value: object) -> str:
@@ -148,8 +148,8 @@ def tool_card(tool: dict, reference_time: datetime, rank: int) -> str:
   </div>
   <p class="tool-description">{escape(description)}</p>
   <dl class="tool-meta">
-    <div><dt>Stars</dt><dd>{stars:,}</dd></div>
-    <div><dt>Latest</dt><dd>{escape(version)}</dd></div>
+    <div><dt><span aria-hidden="true">⭐</span> Stars</dt><dd>{stars:,}</dd></div>
+    <div><dt>Latest</dt><dd title="{escape(version)}">{escape(version)}</dd></div>
     <div><dt>Last commit</dt><dd>{escape(updated)}</dd></div>
     <div><dt>Last release</dt><dd>{escape(released)}</dd></div>
   </dl>

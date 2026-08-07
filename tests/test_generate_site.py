@@ -147,6 +147,59 @@ class GenerateSiteTests(unittest.TestCase):
         self.assertNotIn("https://offline.example.com", card)
         self.assertIn("Official website currently unavailable", card)
 
+    def test_tool_card_formats_latest_release_and_resource_links(self) -> None:
+        card = tool_card(
+            {
+                "slug": "released",
+                "name": "Released tool",
+                "description": "A tool with a long release name",
+                "repository": "https://github.com/example/released",
+                "latest_release_tag": "2026.07.17-beta-release-with-a-long-name",
+                "latest_release_url": "https://github.com/example/released/releases/tag/2026.07.17-beta",
+                "category": "Misc",
+            },
+            self.REFERENCE_TIME,
+            1,
+        )
+
+        self.assertIn('<dt><span aria-hidden="true">⭐</span> Stars</dt>', card)
+        self.assertIn(
+            '<dd title="2026.07.17-beta-release-with-a-long-name">'
+            "2026.07.17-beta-release-with-a-long-name</dd>",
+            card,
+        )
+        self.assertIn(">Source<span", card)
+        self.assertNotIn(">Release<span", card)
+
+    def test_release_link_remains_available_without_a_source_repository(self) -> None:
+        card = tool_card(
+            {
+                "slug": "release-only",
+                "name": "Release-only tool",
+                "description": "A tool whose release is its only resource",
+                "latest_release_url": "https://example.com/releases/1.0.0",
+                "category": "Misc",
+            },
+            self.REFERENCE_TIME,
+            1,
+        )
+
+        self.assertIn(">Release<span", card)
+
+    def test_missing_latest_release_uses_a_dash(self) -> None:
+        card = tool_card(
+            {
+                "slug": "unreleased",
+                "name": "Unreleased tool",
+                "description": "A tool without release data",
+                "category": "Misc",
+            },
+            self.REFERENCE_TIME,
+            1,
+        )
+
+        self.assertIn('<dt>Latest</dt><dd title="-">-</dd>', card)
+
     def test_tool_card_labels_commit_and_release_dates_explicitly(self) -> None:
         card = tool_card(
             {
