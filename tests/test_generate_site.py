@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 import sys
 import tempfile
 import unittest
@@ -133,6 +134,33 @@ class GenerateSiteTests(unittest.TestCase):
             position = index.index(f'id="tool-{tool["slug"]}"')
             self.assertGreater(position, hosted_start)
             self.assertLess(position, methodology_start)
+
+    def test_default_catalog_order_is_activity_first_for_all_filters(self) -> None:
+        directory, output = self.build_in_temp()
+        self.addCleanup(directory.cleanup)
+        index = (output / "index.html").read_text(encoding="utf-8")
+        catalog_markup = index[index.index('id="catalog"'):index.index('id="hosted-services"')]
+        cards = re.findall(
+            r'<article class="tool-card"[^>]+data-category="([^"]+)"[^>]+'
+            r'data-status="([^"]+)"[^>]+data-rank="(\d+)">',
+            catalog_markup,
+        )
+        status_rank = {"Active": 0, "Quiet": 1, "Inactive": 2, "Unknown": 3}
+
+        self.assertTrue(cards)
+        self.assertIn('<option value="rank">Activity (default)</option>', catalog_markup)
+        self.assertEqual([int(rank) for _, _, rank in cards], list(range(1, len(cards) + 1)))
+        self.assertEqual(
+            [status_rank[status] for _, status, _ in cards],
+            sorted(status_rank[status] for _, status, _ in cards),
+        )
+        for category in {category for category, _, _ in cards}:
+            filtered_statuses = [
+                status_rank[status]
+                for item_category, status, _ in cards
+                if item_category == category
+            ]
+            self.assertEqual(filtered_statuses, sorted(filtered_statuses), category)
 
     def test_custom_base_path_is_applied_to_not_found_assets_and_home_link(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

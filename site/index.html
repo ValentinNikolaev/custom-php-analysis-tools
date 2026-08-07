@@ -98,7 +98,7 @@
           <div class="control">
             <label for="catalog-sort">Sort by</label>
             <select id="catalog-sort" name="sort">
-              <option value="rank">Recommended order</option>
+              <option value="rank">Activity (default)</option>
               <option value="stars">Most GitHub stars</option>
               <option value="updated">Recently updated</option>
               <option value="name">Name A–Z</option>
@@ -109,7 +109,7 @@
 
         <div class="catalog-summary" aria-live="polite" aria-atomic="true">
           <p id="catalog-results">Showing {{TOOL_COUNT}} tools</p>
-          <p class="catalog-summary__hint">Search matches names, descriptions, categories, and catalog tags.</p>
+          <p class="catalog-summary__hint">Default order: Active → Quiet → Inactive. Search matches names, descriptions, categories, and catalog tags.</p>
         </div>
 
         <noscript>

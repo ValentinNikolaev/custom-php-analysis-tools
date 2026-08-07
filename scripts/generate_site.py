@@ -248,10 +248,7 @@ def render_index(tools: list[dict], reference_time: datetime) -> str:
     memorial_tools = [tool for tool in tools if is_dead(tool, reference_time)]
     catalog_tools = [tool for tool in current_tools if tool.get("category") != "SaaS"]
     hosted_tools = [tool for tool in current_tools if tool.get("category") == "SaaS"]
-    ordered_tools: list[dict] = []
-    for category in CATEGORY_ORDER:
-        grouped = [tool for tool in catalog_tools if tool.get("category") == category]
-        ordered_tools.extend(sorted_for_table(grouped, reference_time))
+    ordered_tools = sorted_for_table(catalog_tools, reference_time)
 
     editor_slugs = read_editor_choice_slugs()
     editor_tools = apply_editor_choice_copy(
