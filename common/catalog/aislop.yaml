@@ -1,7 +1,7 @@
 slug: "aislop"
 name: "aislop"
 category: "Misc"
-description: "Deterministic scanner for AI-generated code issues, dead code, swallowed exceptions, secrets, and oversized functions across PHP and seven other languages."
+description: "Catch the slop AI coding agents leave in your code: narrative comments, swallowed exceptions, as-any casts, dead code, oversized functions. 50+ rules across 8 languages (TypeScript, JavaScript, Python, Go, Rust, Ruby, PHP). Sub-second, deterministic, no LLM at runtime. MIT-licensed."
 best_for: "Detecting AI-code mistakes and quality regressions before merge"
 website: "https://scanaislop.com"
 public_url: "https://scanaislop.com"
@@ -10,13 +10,18 @@ website_status_code: 200
 website_checked_at: "2026-08-07T10:17:11Z"
 website_error: ""
 repository: "https://github.com/scanaislop/aislop"
+latest_release_name: "v0.14.0"
+latest_release_tag: "v0.14.0"
+latest_release_url: "https://github.com/scanaislop/aislop/releases/tag/v0.14.0"
+latest_release_published_at: "2026-07-23T16:31:49Z"
+latest_release_checked_at: "2026-08-07T18:31:46Z"
 packagist: null
 latest_version: ""
 latest_version_released_at: null
 packagist_checked_at: "2026-08-07T04:09:39Z"
-stars: 537
-repo_updated_at: "2026-08-01T06:10:35Z"
-metadata_updated_at: "2026-08-06T12:45:00Z"
+stars: 542
+repo_updated_at: "2026-08-06T23:54:30Z"
+metadata_updated_at: "2026-08-07T18:31:46Z"
 editor_choice: false
 quality_tags:
   - "code-quality"
