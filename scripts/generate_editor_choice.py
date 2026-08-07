@@ -78,7 +78,7 @@ def main() -> None:
         "This file is generated from `common/catalog/*.yaml` by `scripts/generate_editor_choice.py`.",
         "Selection is deterministic and limited to three alive projects per installable-tool category. It prefers repositories with at least 500 GitHub stars, fills sparse categories from the remaining active projects, then ranks by stars, repository freshness, and archive signals.",
         "A human or LLM writes the recommendations and reasons in `common/editor-choice-copy.yaml`, followed by an editorial pass. Generation fails when a selected tool lacks either field.",
-        "⭐ shows GitHub stars; 🥇, 🥈, and 🥉 mark the first three entries in each section.",
+        "⭐ shows GitHub stars.",
         "",
     ]
     for category in CATEGORY_ORDER:

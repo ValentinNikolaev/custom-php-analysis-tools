@@ -694,7 +694,7 @@ class CatalogScriptTests(unittest.TestCase):
         self.assertLess(row.index('"Packagist package"'), row.index('"Official website"'))
         self.assertEqual(row.count("|"), 5)
 
-    def test_editor_choice_row_uses_curated_copy_and_position_medal(self) -> None:
+    def test_editor_choice_row_uses_curated_copy_without_position_medal(self) -> None:
         tool = {
             "slug": "sample",
             "name": "Sample",
@@ -703,12 +703,13 @@ class CatalogScriptTests(unittest.TestCase):
             "best_for": "Applications that need a focused analysis workflow",
             "editor_reason": "It detects a distinctive class of defects with project-aware rules.",
         }
-        row = editor_row(tool, position=2)
-        self.assertIn("🥈 ⭐ 14,042", row)
+        row = editor_row(tool)
+        self.assertIn("⭐ 14,042", row)
+        self.assertNotIn("🥈", row)
         self.assertIn("Applications that need a focused analysis workflow", row)
         self.assertIn("distinctive class of defects", row)
 
-    def test_editor_choice_medals_restart_for_each_section(self) -> None:
+    def test_editor_choice_section_has_no_medals(self) -> None:
         tools = [
             {
                 "slug": f"sample-{position}",
@@ -722,9 +723,9 @@ class CatalogScriptTests(unittest.TestCase):
             for position in range(1, 5)
         ]
         output = editor_section("Bugs finders", tools, reference_time=self.REFERENCE_TIME)
-        self.assertEqual(output.count("🥇"), 1)
-        self.assertEqual(output.count("🥈"), 1)
-        self.assertEqual(output.count("🥉"), 1)
+        self.assertNotIn("🥇", output)
+        self.assertNotIn("🥈", output)
+        self.assertNotIn("🥉", output)
         self.assertIn("⭐ 96", output)
 
     def test_complete_catalog_section_ranks_first_three_repositories(self) -> None:

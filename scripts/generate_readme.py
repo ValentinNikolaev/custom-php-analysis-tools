@@ -320,8 +320,8 @@ def editor_reason_value(tool: dict) -> str:
     return md_escape(str(value))
 
 
-def editor_row(tool: dict, position: int | None = None) -> str:
-    return f"| {tool_name_value(tool, position)} | {recommended_for_value(tool)} | {editor_reason_value(tool)} |"
+def editor_row(tool: dict) -> str:
+    return f"| {tool_name_value(tool)} | {recommended_for_value(tool)} | {editor_reason_value(tool)} |"
 
 
 def memorial_row(tool: dict) -> str:
@@ -396,7 +396,7 @@ def editor_section(
         ]
     )
     ranked_tools = sorted_for_table(tools, reference_time)
-    lines.extend(editor_row(tool, position) for position, tool in enumerate(ranked_tools, start=1))
+    lines.extend(editor_row(tool) for tool in ranked_tools)
     lines.append("")
     return "\n".join(lines)
 
