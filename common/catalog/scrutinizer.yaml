@@ -1,7 +1,7 @@
 slug: "scrutinizer"
 name: "Scrutinizer"
 category: "SaaS"
-description: "The retired Scrutinizer service provided continuous inspection for automated code-quality and bug detection."
+description: "Legacy repository - archives past feature requests/bug reports"
 website: "https://scrutinizer-ci.com/"
 public_url: "https://scrutinizer-ci.com/"
 website_status: "available"
@@ -9,11 +9,12 @@ website_status_code: 200
 website_checked_at: "2026-08-08T06:28:05Z"
 website_error: ""
 repository: "https://github.com/scrutinizer-ci/scrutinizer"
+latest_release_checked_at: "2026-08-08T12:27:14Z"
 packagist: null
 packagist_checked_at: "2026-08-08T06:28:05Z"
 stars: 138
 repo_updated_at: "2017-01-05T10:04:00Z"
-metadata_updated_at: "2026-08-07T09:46:41Z"
+metadata_updated_at: "2026-08-08T12:27:14Z"
 editor_choice: false
 quality_tags:
   - "archived"

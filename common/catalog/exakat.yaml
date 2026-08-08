@@ -1,7 +1,7 @@
 slug: "exakat"
 name: "Exakat"
 category: "Bugs finders"
-description: "Legacy repository for the Exakat PHP static-analysis engine, superseded by exakat-ce."
+description: "The Exakat Engine : smart static analysis for PHP"
 website: "http://www.exakat.io/"
 public_url: "http://www.exakat.io/"
 website_status: "available"
@@ -9,13 +9,20 @@ website_status_code: 200
 website_checked_at: "2026-08-08T00:32:17Z"
 website_error: ""
 repository: "https://github.com/exakat/exakat"
+latest_release_name: "version 0.6.1"
+latest_release_tag: "v-0.6.1"
+latest_release_url: "https://github.com/exakat/exakat/releases/tag/v-0.6.1"
+latest_release_published_at: "2016-04-18T16:44:46Z"
+latest_release_checked_at: "2026-08-08T12:27:14Z"
 packagist: null
-packagist_checked_at: "2026-08-07T12:30:54Z"
+packagist_checked_at: "2026-08-08T12:27:14Z"
 stars: 380
-repo_updated_at: "2022-03-24T09:32:21Z"
-metadata_updated_at: "2026-08-07T10:38:36Z"
+repo_updated_at: "2022-03-24T09:32:24Z"
+metadata_updated_at: "2026-08-08T12:27:14Z"
 editor_choice: false
 quality_tags:
   - "archived"
+  - "php"
+  - "static-analysis"
 source: "https://github.com/exakat/exakat"
 notes: "The legacy repository was archived in March 2022 and points users to https://github.com/exakat/exakat-ce."

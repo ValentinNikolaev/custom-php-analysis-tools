@@ -71,6 +71,6 @@ Wrappers, baseliners, multi-language engines, and focused analysis tools that do
 
 | Tool | Recommended for | Why it stands out |
 |---|---|---|
-| [Semgrep](https://semgrep.dev)<br><sub>⭐ 16,138</sub> | Security teams writing custom checks for PHP and polyglot repositories | Source-like rules make custom bug and security checks quicker to write than compiler-style analyzers. |
+| [Semgrep](https://semgrep.dev)<br><sub>⭐ 16,152</sub> | Security teams writing custom checks for PHP and polyglot repositories | Source-like rules make custom bug and security checks quicker to write than compiler-style analyzers. |
 | [Larastan](https://github.com/larastan/larastan)<br><sub>⭐ 6,481</sub> | Laravel applications that need PHPStan to understand framework conventions | Laravel-specific type information covers containers, facades, Eloquent, and other framework conventions. |
 | [GrumPHP](https://github.com/phpro/grumphp)<br><sub>⭐ 4,306</sub> | Teams that run existing PHP quality tools before commit and in CI | Git hooks and CI tasks give a project one place to orchestrate its chosen linters, tests, and analyzers. |

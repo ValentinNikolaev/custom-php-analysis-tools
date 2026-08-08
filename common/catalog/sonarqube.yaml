@@ -1,7 +1,7 @@
 slug: "sonarqube"
 name: "SonarQube PHP"
 category: "Bugs finders"
-description: "The SonarPHP analyzer that powers PHP code-quality and security analysis in SonarQube and SonarQube for IDE."
+description: ":elephant: SonarPHP: PHP static analyzer for SonarQube & SonarLint"
 best_for: "PHP quality and security analysis in the SonarQube ecosystem"
 delivery: "Analyzer for SonarQube Server and SonarQube for IDE"
 title_icon: "assets/tool-icons/sonar.png"
@@ -17,11 +17,12 @@ latest_release_name: "3.60.0.16641"
 latest_release_tag: "3.60.0.16641"
 latest_release_url: "https://github.com/SonarSource/sonar-php/releases/tag/3.60.0.16641"
 latest_release_published_at: "2026-08-03T13:53:35Z"
+latest_release_checked_at: "2026-08-08T12:27:14Z"
 packagist: null
 packagist_checked_at: "2026-08-08T06:28:05Z"
 stars: 430
 repo_updated_at: "2026-08-06T09:42:43Z"
-metadata_updated_at: "2026-08-07T09:46:41Z"
+metadata_updated_at: "2026-08-08T12:27:14Z"
 editor_choice: false
 quality_tags:
   - "code-quality"
