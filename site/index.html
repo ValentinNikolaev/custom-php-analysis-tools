@@ -9,9 +9,17 @@
   <meta property="og:title" content="PHP Analysis Tools Catalog">
   <meta property="og:description" content="Find and compare maintained PHP analysis tools by category, activity, stars, and release data.">
   <meta property="og:url" content="{{CANONICAL_URL}}">
+  <meta property="og:site_name" content="PHP Analysis Tools Catalog">
+  <meta property="og:image" content="{{CANONICAL_URL}}assets/social-preview.svg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="PHP Analysis Tools Catalog">
+  <meta name="twitter:description" content="Find and compare PHP analysis tools by use case, ecosystem, type, activity, and evidence-backed trade-offs.">
+  <meta name="twitter:image" content="{{CANONICAL_URL}}assets/social-preview.svg">
   <link rel="canonical" href="{{CANONICAL_URL}}">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="assets/site.css?v=4">
+  <link rel="stylesheet" href="assets/site.css?v=5">
   <title>PHP Analysis Tools Catalog</title>
 </head>
 <body>
@@ -28,7 +36,8 @@
         <a href="#catalog">Catalog</a>
         <a href="#hosted-services">Hosted services</a>
         <a href="#methodology">Methodology</a>
-        <a href="{{REPOSITORY_URL}}">GitHub<span aria-hidden="true"> ↗</span></a>
+        <a href="{{TOOL_PROPOSAL_URL}}">Submit a tool<span aria-hidden="true"> ↗</span></a>
+        <a href="{{REPOSITORY_URL}}" aria-label="Open the PHP Analysis Tools Catalog source repository">GitHub<span aria-hidden="true"> ↗</span></a>
       </nav>
     </div>
   </header>
@@ -36,14 +45,14 @@
   <main id="main-content">
     <section class="hero shell" aria-labelledby="page-title">
       <div class="hero__content">
-        <p class="kicker">Community-maintained PHP tooling index</p>
+        <p class="kicker">Maintainer-curated PHP tooling index</p>
         <h1 id="page-title">Choose the right analysis tool for your PHP codebase.</h1>
         <p class="hero__lede">Explore static analyzers, coding-standard tools, architecture guards, metrics, refactoring utilities, and hosted services in one current, searchable catalog.</p>
         <div class="hero__actions">
           <a class="button button--primary" href="#catalog">Browse all tools</a>
-          <a class="button button--secondary" href="#editors-choice">See Editors’ Choice</a>
+          <a class="button button--secondary" href="{{TOOL_PROPOSAL_URL}}">Submit a tool</a>
         </div>
-        <p class="hero__update">Catalog metadata last refreshed <strong>{{LAST_UPDATED}}</strong>.</p>
+        <p class="hero__update">Catalog freshness: <strong>{{FRESH_COUNT}}/{{FRESH_TOTAL}} records</strong> refreshed within 7 days as of <time datetime="{{AS_OF_DATE}}">{{AS_OF_DATE}}</time>.</p>
       </div>
       <dl class="hero__stats" aria-label="Catalog statistics">
         <div><dt>{{CURRENT_COUNT}}</dt><dd>current tools</dd></div>
@@ -53,19 +62,6 @@
       </dl>
     </section>
 
-    <section class="section shell" id="editors-choice" aria-labelledby="editors-title">
-      <div class="section-heading">
-        <div>
-          <p class="kicker">A practical starting point</p>
-          <h2 id="editors-title">Editors’ Choice</h2>
-        </div>
-        <p>Active projects selected by category quotas and repository data, with recommendation copy reviewed for usefulness and specificity.</p>
-      </div>
-      <div class="editor-grid">
-        {{EDITOR_CARDS}}
-      </div>
-    </section>
-
     <section class="section section--catalog" id="catalog" aria-labelledby="catalog-title">
       <div class="shell">
         <div class="section-heading">
@@ -73,50 +69,118 @@
             <p class="kicker">Search installable tools</p>
             <h2 id="catalog-title">Tools and packages</h2>
           </div>
-          <p>Installable analyzers, packages, plugins, and command-line tools come first. Activity is based on repository updates.</p>
+          <p>Installable analyzers, packages, plugins, and command-line tools come first. Recommended order prioritizes editorial relevance; repository activity remains a separate signal.</p>
+        </div>
+
+        <div class="catalog-mobile-bar">
+          <span id="catalog-mobile-results">{{TOOL_COUNT}} tools</span>
+          <button class="button button--quiet" id="catalog-filter-toggle" type="button" aria-expanded="false" aria-controls="catalog-filter-panel">
+            Filters · <span id="catalog-filter-count">0</span>
+          </button>
         </div>
 
         <form class="catalog-controls" id="catalog-controls" role="search" aria-label="Filter the tool catalog">
-          <div class="control control--search">
-            <label for="catalog-search">Search tools</label>
-            <input id="catalog-search" name="q" type="search" placeholder="Try “security”, “Laravel”, or “metrics”" autocomplete="off">
+          <div class="catalog-controls__primary">
+            <div class="control control--search">
+              <label for="catalog-search">Search tools</label>
+              <input id="catalog-search" name="q" type="search" placeholder="Try “security”, “Laravel”, or “metrics”" autocomplete="off">
+            </div>
           </div>
-          <div class="control">
-            <label for="catalog-category">Category</label>
-            <select id="catalog-category" name="category">
-              <option value="">All categories</option>
-              {{CATEGORY_OPTIONS}}
-            </select>
+          <div class="catalog-filter-panel" id="catalog-filter-panel">
+            <div class="control">
+              <label for="catalog-category">Category</label>
+              <select id="catalog-category" name="category">
+                <option value="">All categories</option>
+                {{CATEGORY_OPTIONS}}
+              </select>
+            </div>
+            <div class="control">
+              <label for="catalog-use-case">Use case</label>
+              <select id="catalog-use-case" name="use_case">
+                <option value="">All use cases</option>
+                {{USE_CASE_OPTIONS}}
+              </select>
+            </div>
+            <div class="control">
+              <label for="catalog-ecosystem">Ecosystem</label>
+              <select id="catalog-ecosystem" name="ecosystem">
+                <option value="">All ecosystems</option>
+                {{ECOSYSTEM_OPTIONS}}
+              </select>
+            </div>
+            <div class="control">
+              <label for="catalog-artifact-type">Tool type</label>
+              <select id="catalog-artifact-type" name="artifact_type">
+                <option value="">All tool types</option>
+                {{ARTIFACT_TYPE_OPTIONS}}
+              </select>
+            </div>
+            <div class="control">
+              <label for="catalog-license">License</label>
+              <select id="catalog-license" name="license">
+                <option value="">Any license</option>
+                {{LICENSE_OPTIONS}}
+              </select>
+            </div>
+            <div class="control">
+              <label for="catalog-capability">Capability</label>
+              <select id="catalog-capability" name="capability">
+                <option value="">Any capability</option>
+                {{CAPABILITY_OPTIONS}}
+              </select>
+            </div>
+            <div class="control">
+              <label for="catalog-status">Activity</label>
+              <select id="catalog-status" name="status">
+                <option value="">Any activity</option>
+                {{STATUS_OPTIONS}}
+              </select>
+            </div>
+            <div class="control">
+              <label for="catalog-sort">Sort by</label>
+              <select id="catalog-sort" name="sort">
+                <option value="recommended">Recommended (default)</option>
+                <option value="activity">Activity status</option>
+                <option value="stars">Most GitHub stars</option>
+                <option value="updated">Recently updated</option>
+                <option value="name">Name A–Z</option>
+              </select>
+            </div>
+            <div class="catalog-filter-actions">
+              <button class="button button--quiet" id="catalog-reset" type="reset">Reset filters</button>
+              <a class="text-link" href="{{CORRECTION_URL}}">Report incorrect data<span aria-hidden="true"> ↗</span></a>
+            </div>
           </div>
-          <div class="control">
-            <label for="catalog-status">Activity</label>
-            <select id="catalog-status" name="status">
-              <option value="">Any activity</option>
-              {{STATUS_OPTIONS}}
-            </select>
-          </div>
-          <div class="control">
-            <label for="catalog-sort">Sort by</label>
-            <select id="catalog-sort" name="sort">
-              <option value="rank">Activity (default)</option>
-              <option value="stars">Most GitHub stars</option>
-              <option value="updated">Recently updated</option>
-              <option value="name">Name A–Z</option>
-            </select>
-          </div>
-          <button class="button button--quiet" id="catalog-reset" type="reset">Reset filters</button>
         </form>
 
         <div class="catalog-summary" aria-live="polite" aria-atomic="true">
           <p id="catalog-results">Showing {{TOOL_COUNT}} tools</p>
-          <p class="catalog-summary__hint">Default order: Active → Quiet → Inactive. Search matches names, descriptions, categories, and catalog tags.</p>
+          <p class="catalog-summary__hint">Default order: current editorial picks, then other current tools. Search covers descriptions, tags, ecosystems, capabilities, and trade-offs. <a href="#tool-grid">Jump to results ↓</a></p>
         </div>
 
         <noscript>
           <p class="notice"><strong>JavaScript is disabled.</strong> Every catalog entry remains available below, but search, filtering, and sorting require JavaScript.</p>
         </noscript>
 
-        <div class="tool-grid" id="tool-grid">
+        <section class="editor-picks" id="editors-choice" aria-labelledby="editors-title">
+          <div class="section-heading section-heading--compact">
+            <div>
+              <p class="kicker">A practical starting point</p>
+              <h2 id="editors-title">Editors’ Choice</h2>
+            </div>
+            <p>One maintainer-curated starting point per category. The full set remains available below, with repository data and evidence-backed trade-offs.</p>
+          </div>
+          <div class="editor-grid editor-grid--featured">
+            {{EDITOR_FEATURED_CARDS}}
+          </div>
+          {{EDITOR_MORE_SECTION}}
+        </section>
+
+        <div class="catalog-list-heading">
+          <h2>All installable tools</h2>
+          <a class="text-link" href="{{TOOL_PROPOSAL_URL}}">Submit a missing tool<span aria-hidden="true"> ↗</span></a>
+        </div>
+        <div class="tool-grid" id="tool-grid" aria-label="Filtered tool results">
           {{TOOL_CARDS}}
         </div>
         <div class="empty-state" id="catalog-empty" hidden>
@@ -124,6 +188,32 @@
           <p>Try a broader search or reset one of the filters.</p>
           <button class="button button--secondary" type="button" data-reset-catalog>Reset filters</button>
         </div>
+
+        <aside class="compare-tray" id="compare-tray" aria-label="Selected tools for comparison" hidden>
+          <p class="visually-hidden" id="compare-status" aria-live="polite"></p>
+          <div>
+            <p><strong id="compare-count">0</strong> selected</p>
+            <ul id="compare-selection" aria-label="Selected tools"></ul>
+          </div>
+          <div class="compare-tray__actions">
+            <button class="button button--primary" id="compare-open" type="button" disabled>Compare selected</button>
+            <button class="button button--quiet" id="compare-clear" type="button">Clear</button>
+          </div>
+        </aside>
+
+        <dialog class="compare-dialog" id="compare-dialog" aria-labelledby="compare-title">
+          <div class="compare-dialog__heading">
+            <div>
+              <p class="kicker">Side-by-side</p>
+              <h2 id="compare-title">Compare selected tools</h2>
+            </div>
+            <form method="dialog">
+              <button class="button button--quiet" type="submit" aria-label="Close tool comparison">Close</button>
+            </form>
+          </div>
+          <p class="compare-dialog__hint">Catalog fields are a starting point. Verify compatibility, license terms, and current documentation with each project.</p>
+          <div class="comparison-table-wrap" id="compare-content"></div>
+        </dialog>
       </div>
     </section>
 
@@ -159,7 +249,7 @@
         <article>
           <span class="step-number">02</span>
           <h3>Validate selection</h3>
-          <p>Tests require three picks per category and manually curated pros, cons, and sources for every current entry.</p>
+          <p>Tests validate curated picks and require manually maintained pros, cons, and evidence sources for every current entry.</p>
         </article>
         <article>
           <span class="step-number">03</span>
@@ -168,6 +258,16 @@
         </article>
       </div>
       <p class="source-note">See the <a href="{{REPOSITORY_URL}}">source repository and catalog records<span aria-hidden="true"> ↗</span></a> to inspect the data or propose an improvement.</p>
+      <p class="source-note source-note--links">
+        Governance: <a href="{{REPOSITORY_URL}}/blob/master/EDITORIAL-POLICY.md">editorial policy<span aria-hidden="true"> ↗</span></a>,
+        <a href="{{REPOSITORY_URL}}/blob/master/LICENSE">MIT code license<span aria-hidden="true"> ↗</span></a>, and
+        <a href="{{REPOSITORY_URL}}/blob/master/DATA-LICENSE.md">CC BY 4.0 data license<span aria-hidden="true"> ↗</span></a>.
+        Download the catalog as <a href="exports/catalog.json" download>JSON</a> or <a href="exports/catalog.csv" download>CSV</a>.
+      </p>
+      <div class="contribution-actions">
+        <a class="button button--primary" href="{{TOOL_PROPOSAL_URL}}">Submit a tool</a>
+        <a class="button button--secondary" href="{{CORRECTION_URL}}">Report incorrect data</a>
+      </div>
     </section>
 
     <section class="section memorial shell" id="in-memoriam" aria-labelledby="memorial-title">
@@ -176,7 +276,7 @@
           <p class="kicker">Project history</p>
           <h2 id="memorial-title">In Memoriam</h2>
         </div>
-        <p>Projects inactive for at least a year remain preserved for their contribution to PHP analysis tooling.</p>
+        <p>Retired, superseded, or historically relevant projects remain preserved without being recommended as current choices.</p>
       </div>
       <details>
         <summary>View {{MEMORIAL_COUNT}} preserved projects</summary>
@@ -190,12 +290,19 @@
   <footer class="site-footer">
     <div class="shell site-footer__inner">
       <p>PHP Analysis Tools Catalog</p>
-      <p>Generated from public repository metadata. Verify tool compatibility and licensing with each project.</p>
-      <a href="#main-content">Back to top ↑</a>
+      <p>Generated from public repository metadata. Verify tool compatibility and licensing with each project. This site uses <a href="https://www.cloudflare.com/web-analytics/">Cloudflare Web Analytics</a> for aggregate traffic measurement.</p>
+      <div class="footer-links" aria-label="Catalog policies and downloads">
+        <a href="{{REPOSITORY_URL}}/blob/master/EDITORIAL-POLICY.md">Editorial policy</a>
+        <a href="{{REPOSITORY_URL}}/blob/master/LICENSE">Code license</a>
+        <a href="{{REPOSITORY_URL}}/blob/master/DATA-LICENSE.md">Data license</a>
+        <a href="exports/catalog.json" download>JSON</a>
+        <a href="exports/catalog.csv" download>CSV</a>
+        <a href="#main-content">Back to top ↑</a>
+      </div>
     </div>
   </footer>
 
-  <script src="assets/site.js?v=2" defer></script>
+  <script src="assets/site.js?v=3" defer></script>
   <!-- Cloudflare Web Analytics -->
   <script
     type="module"

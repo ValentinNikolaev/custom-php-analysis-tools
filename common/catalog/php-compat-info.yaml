@@ -1,6 +1,14 @@
 slug: "php-compat-info"
 name: "php-compat-info"
 category: "Bugs finders"
+artifact_type: "analyzer"
+use_cases:
+  - "php-version-compatibility"
+  - "dependency-analysis"
+ecosystems:
+  - "composer"
+catalog_status: "current"
+reviewed_at: "2026-08-08"
 description: "Library that find out the minimum version and the extensions required for a piece of code to run"
 website: "https://llaville.github.io/php-compatinfo/7.2/"
 public_url: "https://llaville.github.io/php-compatinfo/7.2/"
@@ -21,7 +29,6 @@ packagist_checked_at: "2026-08-07T04:09:39Z"
 stars: 380
 repo_updated_at: "2026-05-20T15:35:41Z"
 metadata_updated_at: "2026-08-07T12:30:54Z"
-editor_choice: false
 quality_tags:
   - "php"
 source: "https://github.com/exakat/php-static-analysis-tools"

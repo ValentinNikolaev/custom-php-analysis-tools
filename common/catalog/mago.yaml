@@ -1,6 +1,15 @@
 slug: "mago"
 name: "mago"
 category: "Bugs finders"
+artifact_type: "analyzer"
+use_cases:
+  - "bug-detection"
+  - "type-analysis"
+  - "code-style"
+ecosystems:
+  - "generic"
+catalog_status: "current"
+reviewed_at: "2026-08-08"
 description: "Mago is a toolchain for PHP that aims to provide a set of tools to help developers write better code."
 website: "http://mago.carthage.software/"
 public_url: "http://mago.carthage.software/"
@@ -20,7 +29,6 @@ packagist_checked_at: "2026-08-07T04:09:39Z"
 stars: 3368
 repo_updated_at: "2026-08-06T16:22:40Z"
 metadata_updated_at: "2026-08-07T04:09:39Z"
-editor_choice: false
 quality_tags:
   - "php"
   - "static-analysis"

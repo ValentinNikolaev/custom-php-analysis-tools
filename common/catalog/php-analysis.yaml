@@ -1,6 +1,13 @@
 slug: "php-analysis"
 name: "PHP Analysis"
 category: "Bugs finders"
+artifact_type: "analyzer"
+use_cases:
+  - "language-analysis"
+ecosystems:
+  - "rascal"
+catalog_status: "current"
+reviewed_at: "2026-08-08"
 description: "PHP language analyses in Rascal"
 website: "https://github.com/cwi-swat/php-analysis"
 public_url: "https://github.com/cwi-swat/php-analysis"
@@ -19,7 +26,6 @@ packagist_checked_at: "2026-08-07T04:09:39Z"
 stars: 29
 repo_updated_at: "2026-05-13T14:03:04Z"
 metadata_updated_at: "2026-08-07T12:30:54Z"
-editor_choice: false
 quality_tags: []
 source: "README.md"
 notes: ""

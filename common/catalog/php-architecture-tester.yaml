@@ -1,6 +1,13 @@
 slug: "php-architecture-tester"
 name: "PHP Architecture Tester"
 category: "Architecture rules"
+artifact_type: "analyzer"
+use_cases:
+  - "architecture"
+ecosystems:
+  - "generic"
+catalog_status: "current"
+reviewed_at: "2026-08-08"
 description: "✔️ PHP Architecture Tester - Easy architecture testing for PHP"
 website: "https://phpat.dev"
 public_url: "https://phpat.dev"
@@ -21,7 +28,6 @@ packagist_checked_at: "2026-08-07T04:09:39Z"
 stars: 1273
 repo_updated_at: "2026-07-30T08:36:47Z"
 metadata_updated_at: "2026-08-07T12:30:54Z"
-editor_choice: false
 quality_tags:
   - "php"
   - "static-analysis"

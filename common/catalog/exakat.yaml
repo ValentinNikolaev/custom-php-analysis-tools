@@ -1,6 +1,7 @@
 slug: "exakat"
 name: "Exakat"
 category: "Bugs finders"
+catalog_status: "historical"
 description: "Legacy repository for the Exakat PHP static-analysis engine, superseded by exakat-ce."
 website: "http://www.exakat.io/"
 public_url: "http://www.exakat.io/"
@@ -14,7 +15,6 @@ packagist_checked_at: "2026-08-07T12:30:54Z"
 stars: 380
 repo_updated_at: "2022-03-24T09:32:21Z"
 metadata_updated_at: "2026-08-07T10:38:36Z"
-editor_choice: false
 quality_tags:
   - "archived"
 source: "https://github.com/exakat/exakat"

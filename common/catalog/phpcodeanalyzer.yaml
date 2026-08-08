@@ -1,6 +1,7 @@
 slug: "phpcodeanalyzer"
 name: "PhpCodeAnalyzer"
 category: "Bugs finders"
+catalog_status: "historical"
 description: "Really, it's \"php extensions usage analyzer\". It scans codebase and analyzes which non-built-in php extensions used"
 website: "https://github.com/wapmorgan/PhpCodeAnalyzer.git"
 public_url: "https://github.com/wapmorgan/PhpCodeAnalyzer.git"
@@ -18,7 +19,6 @@ packagist_checked_at: "2026-08-07T04:09:39Z"
 stars: 96
 repo_updated_at: "2023-01-17T00:23:31Z"
 metadata_updated_at: "2026-08-07T04:09:39Z"
-editor_choice: false
 quality_tags:
   - "static-analysis"
 source: "README.md"

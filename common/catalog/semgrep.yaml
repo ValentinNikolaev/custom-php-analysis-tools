@@ -1,6 +1,14 @@
 slug: "semgrep"
 name: "Semgrep"
 category: "Misc"
+artifact_type: "analyzer"
+use_cases:
+  - "security"
+  - "custom-rules"
+ecosystems:
+  - "generic"
+catalog_status: "current"
+reviewed_at: "2026-08-08"
 description: "Lightweight static analysis for many languages. Find bug variants with patterns that look like source code."
 website: "https://semgrep.dev"
 public_url: "https://semgrep.dev"
@@ -20,7 +28,6 @@ packagist_checked_at: "2026-08-07T04:09:39Z"
 stars: 16138
 repo_updated_at: "2026-08-07T01:13:57Z"
 metadata_updated_at: "2026-08-07T09:46:41Z"
-editor_choice: false
 quality_tags:
   - "static-analysis"
 source: "https://github.com/semgrep/semgrep"

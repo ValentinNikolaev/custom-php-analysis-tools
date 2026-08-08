@@ -1,6 +1,7 @@
 slug: "sideci"
 name: "SideCI"
 category: "SaaS"
+catalog_status: "historical"
 description: "Retired continuous-integration service for automated code review and static analysis."
 website: "https://github.com/sideci"
 public_url: "https://github.com/sideci"
@@ -13,7 +14,6 @@ packagist: null
 stars: 0
 repo_updated_at: null
 metadata_updated_at: "2026-08-06T12:31:14Z"
-editor_choice: false
 quality_tags:
   - "archived"
 source: "https://github.com/sideci"

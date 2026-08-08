@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title description">
+  <title id="title">PHP Analysis Tools Catalog</title>
+  <desc id="description">A searchable, maintainer-curated guide to PHP analyzers, fixers, rulesets, metrics, and hosted services.</desc>
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#08111f"/>
+      <stop offset="1" stop-color="#102b55"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientTransform="translate(180 70) rotate(35) scale(620 450)">
+      <stop stop-color="#397ee8" stop-opacity=".42"/>
+      <stop offset="1" stop-color="#397ee8" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#background)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <g fill="none" stroke="#88b4ff" stroke-opacity=".18">
+    <path d="M760 95h330a36 36 0 0 1 36 36v330a36 36 0 0 1-36 36H760a36 36 0 0 1-36-36V131a36 36 0 0 1 36-36Z"/>
+    <path d="M810 170h230M810 235h180M810 300h245M810 365h150M810 430h210" stroke-width="18" stroke-linecap="round"/>
+  </g>
+  <g font-family="Inter, Segoe UI, Arial, sans-serif">
+    <g transform="translate(76 70)">
+      <rect width="76" height="76" rx="20" fill="#122b50" stroke="#88b4ff" stroke-width="2"/>
+      <text x="38" y="48" fill="#b6d0ff" font-family="Consolas, monospace" font-size="24" font-weight="700" text-anchor="middle">&lt;?&gt;</text>
+    </g>
+    <text x="176" y="117" fill="#b6d0ff" font-size="27" font-weight="700" letter-spacing="1">MAINTAINER-CURATED PHP TOOLING INDEX</text>
+    <text x="76" y="242" fill="#ffffff" font-size="74" font-weight="800" letter-spacing="-3">PHP Analysis</text>
+    <text x="76" y="326" fill="#ffffff" font-size="74" font-weight="800" letter-spacing="-3">Tools Catalog</text>
+    <text x="76" y="407" fill="#b7c6dc" font-size="29">Find the right analyzer, fixer, ruleset,</text>
+    <text x="76" y="448" fill="#b7c6dc" font-size="29">metric, or hosted service for your codebase.</text>
+    <g transform="translate(76 510)" font-size="22" font-weight="700">
+      <rect width="188" height="52" rx="26" fill="#b6d0ff"/>
+      <text x="94" y="34" fill="#071222" text-anchor="middle">Search &amp; compare</text>
+      <text x="220" y="34" fill="#88b4ff">Evidence-backed trade-offs</text>
+    </g>
+  </g>
+</svg>

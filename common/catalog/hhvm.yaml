@@ -1,8 +1,17 @@
 slug: "hhvm"
 name: "HHVM"
 category: "Misc"
+artifact_type: "runtime"
+use_cases:
+  - "historical-reference"
+ecosystems:
+  - "hack"
+catalog_status: "historical"
 description: "A virtual machine for executing programs written in Hack."
 best_for: "Historical reference: HHVM included static code analysis through version 3.3.8; newer versions do not."
+supported_php: "No current PHP support; HHVM ended PHP support after version 3.30."
+capabilities:
+  - "historical-static-analysis"
 website: "https://hhvm.com/"
 public_url: "https://hhvm.com/"
 website_status: "available"
@@ -20,9 +29,9 @@ packagist_checked_at: "2026-08-07T18:31:46Z"
 stars: 18653
 repo_updated_at: "2026-08-06T03:58:40Z"
 metadata_updated_at: "2026-08-07T18:31:46Z"
-editor_choice: true
 quality_tags:
   - "historical-analysis-only"
   - "php"
 source: "README.md"
-notes: ""
+reviewed_at: "2026-08-08"
+notes: "Historical only: HHVM ended PHP support after version 3.30; repository activity reflects Hack runtime development."

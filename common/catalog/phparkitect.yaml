@@ -1,6 +1,13 @@
 slug: "phparkitect"
 name: "PHPArkitect"
 category: "Architecture rules"
+artifact_type: "analyzer"
+use_cases:
+  - "architecture"
+ecosystems:
+  - "generic"
+catalog_status: "current"
+reviewed_at: "2026-08-08"
 description: "Put your architectural rules under test!"
 website: "https://github.com/phparkitect/arkitect"
 public_url: "https://github.com/phparkitect/arkitect"
@@ -21,7 +28,6 @@ packagist_checked_at: "2026-08-07T04:09:39Z"
 stars: 924
 repo_updated_at: "2026-07-31T08:17:24Z"
 metadata_updated_at: "2026-08-07T12:30:54Z"
-editor_choice: false
 quality_tags:
   - "php"
 source: "https://github.com/exakat/php-static-analysis-tools"

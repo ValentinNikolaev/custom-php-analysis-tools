@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import argparse
+import os
 import re
 from datetime import datetime, timezone
 from urllib.parse import quote, urlparse
@@ -66,6 +68,8 @@ STATUS_BADGE_COLORS = {
     "Active": "brightgreen",
     "Quiet": "yellow",
     "Inactive": "orange",
+    "Unmaintained": "lightgrey",
+    "Historical": "lightgrey",
     "Unknown": "lightgrey",
 }
 
@@ -76,6 +80,7 @@ RESOURCE_BADGES = {
     "unavailable": "https://img.shields.io/badge/website-N%2FA-lightgrey?style=flat-square",
 }
 REPOSITORY_SLUG = "ValentinNikolaev/php-analysis-tools-catalog"
+SITE_URL = "https://valentinnikolaev.github.io/php-analysis-tools-catalog/"
 
 
 def repository_badges() -> list[str]:
@@ -128,9 +133,27 @@ def parse_date(value: str | None) -> datetime | None:
     return datetime.fromisoformat(value.replace("Z", "+00:00"))
 
 
+def reference_time_from_values(as_of: str | None = None) -> datetime:
+    if as_of:
+        parsed = parse_date(as_of)
+        if not parsed:
+            raise ValueError("--as-of must be an ISO-8601 date or timestamp")
+        return parsed if parsed.tzinfo else parsed.replace(tzinfo=timezone.utc)
+    source_date_epoch = os.environ.get("SOURCE_DATE_EPOCH")
+    if source_date_epoch:
+        return datetime.fromtimestamp(int(source_date_epoch), tz=timezone.utc)
+    return datetime.now(timezone.utc)
+
+
 def lifecycle(tool: dict, reference_time: datetime | None = None) -> tuple[int, str]:
-    if "archived" in set(tool.get("quality_tags") or []):
-        return (3, "Archived")
+    catalog_status = str(tool.get("catalog_status") or "current").casefold()
+    product_status = str(tool.get("product_status") or "").casefold()
+    if (
+        catalog_status == "historical"
+        or product_status in {"retired", "discontinued"}
+        or "archived" in set(tool.get("quality_tags") or [])
+    ):
+        return (4, "Historical")
     updated = parse_date(tool.get("repo_updated_at"))
     if not updated:
         return (4, "Unknown")
@@ -146,7 +169,7 @@ def lifecycle(tool: dict, reference_time: datetime | None = None) -> tuple[int, 
 
 
 def is_dead(tool: dict, reference_time: datetime | None = None) -> bool:
-    return lifecycle(tool, reference_time)[0] == 3
+    return lifecycle(tool, reference_time)[1] == "Historical"
 
 
 def sorted_for_table(tools: list[dict], reference_time: datetime | None = None) -> list[dict]:
@@ -165,8 +188,31 @@ def short_text(value: str, limit: int = 110) -> str:
     return f"{shortened}…"
 
 
+def taxonomy_label(value: object) -> str:
+    text = str(value or "").strip().replace("_", " ").replace("-", " ")
+    aliases = {
+        "api": "API",
+        "ci": "CI",
+        "ide": "IDE",
+        "php": "PHP",
+        "phpcs": "PHPCS",
+        "phpstan": "PHPStan",
+        "sql": "SQL",
+    }
+    return " ".join(aliases.get(word.casefold(), word.capitalize()) for word in text.split())
+
+
 def purpose_value(tool: dict, limit: int = 110) -> str:
-    value = tool.get("best_for") or tool.get("description") or "No description available."
+    value = tool.get("best_for")
+    if not value:
+        use_cases = [taxonomy_label(item) for item in tool.get("use_cases") or [] if str(item).strip()]
+        description = str(tool.get("description") or tool.get("upstream_description") or "").strip()
+        if use_cases and description:
+            value = f"{', '.join(use_cases)} — {description}"
+        elif use_cases:
+            value = ", ".join(use_cases)
+        else:
+            value = description or "No description available."
     return md_escape(short_text(str(value), limit))
 
 
@@ -401,9 +447,19 @@ def editor_section(
     return "\n".join(lines)
 
 
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Generate README.md from catalog YAML")
+    parser.add_argument(
+        "--as-of",
+        help="ISO-8601 date used for reproducible lifecycle labels; SOURCE_DATE_EPOCH is also supported",
+    )
+    return parser.parse_args()
+
+
 def main() -> None:
+    args = parse_args()
     tools = load_catalog()
-    reference_time = datetime.now(timezone.utc)
+    reference_time = reference_time_from_values(args.as_of)
     dead_tools = [tool for tool in tools if is_dead(tool, reference_time)]
     published_tools = [tool for tool in tools if not is_dead(tool, reference_time)]
     editor_slugs = read_editor_choice_slugs()
@@ -423,7 +479,9 @@ def main() -> None:
         "",
         "# Static analysis tools for PHP",
         "",
-        "A generated catalog of PHP static analysis, code quality, coding standards, metrics, refactoring, and hosted analysis tools.",
+        "A maintainer-curated catalog of PHP static analysis, code quality, coding standards, metrics, refactoring, and hosted analysis tools.",
+        "",
+        f"**[Open the searchable catalog]({SITE_URL})** · [Submit a tool](https://github.com/{REPOSITORY_SLUG}/issues/new?template=tool-proposal.yml) · [Report incorrect data](https://github.com/{REPOSITORY_SLUG}/issues/new?template=catalog-correction.yml)",
         "",
         "## Table of contents",
         "",
@@ -443,6 +501,8 @@ def main() -> None:
             "",
             "## Editors' Choice",
             "",
+            "A small, manually approved set of practical starting points. Selection considers present-day PHP relevance, maintenance, documentation, adoption, and a distinct use case; it is not an automatic stars ranking.",
+            "",
         ]
     )
     for category in CATEGORY_ORDER:
@@ -455,14 +515,14 @@ def main() -> None:
             "",
             "## Complete catalog",
             "",
-            "Repository tables are sorted by activity, then GitHub stars. Hosted services are sorted alphabetically.",
+            "Repository tables are sorted by activity, then GitHub stars. Activity is evidence, not an editorial recommendation. Hosted services are sorted alphabetically.",
             "",
             f"**Links:** ![GitHub]({RESOURCE_BADGES['github']}) GitHub · "
             f"![Packagist]({RESOURCE_BADGES['packagist']}) Packagist · "
             f"![Website]({RESOURCE_BADGES['website']}) official website · "
             f"![Website unavailable]({RESOURCE_BADGES['unavailable']}) unavailable website.",
             "",
-            "**Activity:** The first badge shows the last commit date. Its color indicates repository activity: green = within 90 days; yellow = 90–182 days; orange = 183–364 days; light grey = no repository activity data. The second badge shows the last release date when available. Projects without commits for at least a year move to In Memoriam.",
+            "**Activity:** The first badge shows the last commit date. Its color indicates repository activity: green = within 90 days; yellow = 90–182 days; orange = 183–364 days; light grey = older or unavailable repository data. The second badge shows the last release date when available. Repository inactivity alone does not retire a stable tool; In Memoriam is an explicit editorial product-status decision.",
             "",
         ]
     )
@@ -478,11 +538,11 @@ def main() -> None:
             "",
             "## License",
             "",
-            "Non-commercial use, modification, and redistribution are permitted under the [PolyForm Noncommercial License 1.0.0](LICENSE). Commercial use requires a separate written license from Valentin Nikolaev, and a fee may apply.",
+            "Repository code is available under the [MIT License](LICENSE). Catalog records, generated catalog exports and tables, and original editorial documentation are available under [CC BY 4.0](DATA-LICENSE.md), including for commercial reuse with attribution.",
             "",
             "Inspired by the pioneering [PHP Static Analysis Tools catalog by Exakat](https://github.com/exakat/php-static-analysis-tools) and its contributors.",
             "",
-            "Catalog metadata comes from `common/catalog/*.yaml`; Editors' Choice copy comes from `common/editor-choice-copy.yaml`; manually maintained pros and cons come from `common/pros-cons.yaml`. Run `python scripts/full_workflow.py` to refresh metadata and regenerate this file.",
+            "Catalog metadata comes from `common/catalog/*.yaml`; Editors' Choice membership and copy come from `common/editor-choice.yaml` and `common/editor-choice-copy.yaml`; manually maintained pros and cons come from `common/pros-cons.yaml`. Machine-readable exports are published in `exports/`. Run `python scripts/full_workflow.py` to refresh metadata, validate the source records, and regenerate derived files.",
         ]
     )
     (ROOT / "README.md").write_text("\n".join(lines).rstrip() + "\n", encoding="utf-8")

@@ -1,6 +1,15 @@
 slug: "easycodingstandard"
 name: "EasyCodingStandard"
 category: "Coding standards"
+artifact_type: "orchestrator"
+use_cases:
+  - "code-style"
+  - "autofix"
+ecosystems:
+  - "phpcs"
+  - "php-cs-fixer"
+catalog_status: "current"
+reviewed_at: "2026-08-08"
 description: "ECS runs PHP-CS-Fixer and PHP_CodeSniffer as a single, parallel fast tool with zero dependencies. Run on PHP 7.2+"
 website: "https://github.com/Symplify/EasyCodingStandard"
 public_url: "https://github.com/Symplify/EasyCodingStandard"
@@ -18,7 +27,6 @@ packagist_checked_at: "2026-08-07T04:09:39Z"
 stars: 1619
 repo_updated_at: "2026-07-22T20:02:46Z"
 metadata_updated_at: "2026-08-07T04:09:39Z"
-editor_choice: true
 quality_tags:
   - "php"
 source: "README.md"

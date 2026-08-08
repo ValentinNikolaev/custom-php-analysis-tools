@@ -1,6 +1,13 @@
 slug: "tlint"
 name: "TLint"
 category: "Coding standards"
+artifact_type: "ruleset"
+use_cases:
+  - "code-style"
+ecosystems:
+  - "laravel"
+catalog_status: "current"
+reviewed_at: "2026-08-08"
 description: "Tighten linter for Laravel conventions."
 website: "https://github.com/tighten/tlint"
 public_url: "https://github.com/tighten/tlint"
@@ -21,7 +28,6 @@ packagist_checked_at: "2026-08-07T04:09:39Z"
 stars: 526
 repo_updated_at: "2026-04-30T16:27:48Z"
 metadata_updated_at: "2026-08-07T12:30:54Z"
-editor_choice: false
 quality_tags:
   - "php"
 source: "https://github.com/exakat/php-static-analysis-tools"

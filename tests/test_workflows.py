@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 import unittest
 from pathlib import Path
 
@@ -17,18 +18,43 @@ class WorkflowTests(unittest.TestCase):
         self.assertIn("      deploy:", workflow)
         self.assertIn("ref: ${{ inputs.ref || github.sha }}", workflow)
         self.assertIn("if: github.event_name != 'workflow_call' || inputs.deploy", workflow)
-        self.assertIn("uses: actions/upload-pages-artifact@v4", workflow)
-        self.assertIn("uses: actions/deploy-pages@v4", workflow)
+        self.assertIn("actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4", workflow)
+        self.assertIn("actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4", workflow)
 
-    def test_catalog_workflow_deploys_only_after_a_commit(self) -> None:
+    def test_catalog_workflow_opens_a_validated_pull_request(self) -> None:
         workflow = (ROOT / ".github" / "workflows" / "update-catalog.yml").read_text(encoding="utf-8")
 
-        self.assertIn("catalog_changed: ${{ steps.publish.outputs.changed }}", workflow)
-        self.assertIn("if: needs.update.outputs.catalog_changed == 'true'", workflow)
-        self.assertIn("uses: ./.github/workflows/pages.yml", workflow)
-        self.assertIn("      deploy: true", workflow)
-        self.assertIn("      ref: master", workflow)
-        self.assertIn('echo "changed=${changed}" >> "$GITHUB_OUTPUT"', workflow)
+        mutation = workflow.index("python scripts/update_catalog.py")
+        validation = workflow.rindex("python scripts/validate_catalog.py")
+        tests = workflow.index("python -m unittest discover -s tests")
+        publication = workflow.index(
+            "uses: peter-evans/create-pull-request@22a9089034f40e5a961c8808d113e2c98fb63676 # v7"
+        )
+        self.assertLess(mutation, validation)
+        self.assertLess(validation, tests)
+        self.assertLess(tests, publication)
+        self.assertIn("python scripts/generate_site.py --output site-dist", workflow)
+        self.assertIn("python scripts/generate_exports.py --as-of", workflow)
+        self.assertIn("exports/**", workflow)
+        self.assertIn("Verify generators are idempotent", workflow)
+        self.assertIn("branch: automation/catalog-refresh", workflow)
+        self.assertIn("pull-requests: write", workflow)
+        self.assertIn("github-actions[bot]", workflow)
+        self.assertNotIn("git add .", workflow)
+        self.assertNotIn("git push", workflow)
+
+    def test_external_actions_are_sha_pinned_and_runners_are_stable(self) -> None:
+        for path in (ROOT / ".github" / "workflows").glob("*.yml"):
+            workflow = path.read_text(encoding="utf-8")
+            self.assertNotIn("runs-on: ubuntu-latest", workflow, path.name)
+            for action, revision in re.findall(r"uses:\s+([^\s@]+)@([^\s#]+)", workflow):
+                if action.startswith("./"):
+                    continue
+                self.assertRegex(revision, r"^[0-9a-f]{40}$", f"{path.name}: {action}")
+
+    def test_pages_build_validates_catalog_before_building(self) -> None:
+        workflow = (ROOT / ".github" / "workflows" / "pages.yml").read_text(encoding="utf-8")
+        self.assertLess(workflow.index("python scripts/validate_catalog.py"), workflow.index("python scripts/generate_site.py"))
 
     def test_pull_requests_invoke_the_reusable_pages_build_without_deploying(self) -> None:
         workflow = (ROOT / ".github" / "workflows" / "pages-smoke.yml").read_text(encoding="utf-8")

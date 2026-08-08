@@ -1,6 +1,15 @@
 slug: "deepsource"
 name: "DeepSource"
 category: "SaaS"
+artifact_type: "hosted-service"
+use_cases:
+  - "code-quality"
+  - "security"
+  - "test-coverage"
+ecosystems:
+  - "generic"
+catalog_status: "current"
+reviewed_at: "2026-08-08"
 description: "DeepSource checks PHP projects for code-health and security issues, then reports test coverage and maintainability."
 best_for: "Continuous PHP static analysis, SAST, and coverage reporting"
 delivery: "Hosted repository analysis with pull-request integrations"
@@ -15,7 +24,6 @@ packagist: null
 stars: 0
 repo_updated_at: null
 metadata_updated_at: "2026-08-06T12:45:00Z"
-editor_choice: false
 quality_tags:
   - "code-quality"
   - "php"

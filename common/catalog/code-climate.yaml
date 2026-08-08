@@ -1,9 +1,17 @@
 slug: "code-climate"
 name: "Code Climate"
 category: "SaaS"
-description: "Hosted static analysis for Ruby, PHP and JavaScript source code"
-website: "https://codeclimate.com"
-public_url: "https://codeclimate.com"
+artifact_type: "hosted-service"
+use_cases:
+  - "code-quality"
+  - "maintainability"
+ecosystems:
+  - "generic"
+catalog_status: "historical"
+description: "Historical Code Climate Quality service, succeeded by Qlty Software and the Qlty CLI."
+best_for: "Historical reference for the service now continued as Qlty."
+website: "https://codeclimate.com/blog/code-climate-quality-is-now-qlty-software"
+public_url: "https://codeclimate.com/blog/code-climate-quality-is-now-qlty-software"
 website_status: "available"
 website_status_code: 200
 website_checked_at: "2026-08-07T04:09:39Z"
@@ -13,7 +21,7 @@ packagist: null
 stars: 0
 repo_updated_at: null
 metadata_updated_at: "2026-07-25T18:37:16Z"
-editor_choice: false
 quality_tags: []
-source: "README.md"
-notes: ""
+source: "https://codeclimate.com/blog/code-climate-quality-is-now-qlty-software"
+reviewed_at: "2026-08-08"
+notes: "Code Climate Quality was renamed Qlty Software; the current successor is cataloged separately."

@@ -1,6 +1,16 @@
 slug: "psalm"
 name: "psalm"
 category: "Bugs finders"
+artifact_type: "analyzer"
+use_cases:
+  - "bug-detection"
+  - "type-analysis"
+  - "security"
+  - "taint-analysis"
+ecosystems:
+  - "psalm"
+catalog_status: "current"
+reviewed_at: "2026-08-08"
 description: "A PHP static analysis tool for finding errors and security vulnerabilities in PHP applications"
 website: "https://psalm.dev"
 public_url: "https://psalm.dev"
@@ -20,7 +30,6 @@ packagist_checked_at: "2026-08-07T04:09:39Z"
 stars: 5876
 repo_updated_at: "2026-07-13T07:42:30Z"
 metadata_updated_at: "2026-08-07T04:09:39Z"
-editor_choice: false
 quality_tags:
   - "php"
   - "static-analysis"

@@ -1,6 +1,13 @@
 slug: "phpqa"
 name: "PHPQA"
 category: "Misc"
+artifact_type: "orchestrator"
+use_cases:
+  - "quality-gates"
+ecosystems:
+  - "composer"
+catalog_status: "current"
+reviewed_at: "2026-08-08"
 description: "Analyze PHP code with one command"
 website: "https://edgedesigncz.github.io/phpqa/"
 public_url: "https://edgedesigncz.github.io/phpqa/"
@@ -21,7 +28,6 @@ packagist_checked_at: "2026-08-07T18:31:46Z"
 stars: 564
 repo_updated_at: "2025-11-22T07:45:23Z"
 metadata_updated_at: "2026-08-07T18:31:46Z"
-editor_choice: true
 quality_tags: []
 source: "README.md"
 notes: ""

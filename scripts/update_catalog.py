@@ -125,8 +125,15 @@ def update_from_github(tool: dict, token: str | None) -> SourceResult:
     tool["repository"] = repo.get("html_url") or tool.get("repository")
     tool["stars"] = int(repo.get("stargazers_count") or 0)
     tool["repo_updated_at"] = repo.get("pushed_at") or repo.get("updated_at")
+    license_data = repo.get("license") or {}
+    license_id = str(license_data.get("spdx_id") or "").strip()
+    if license_id and license_id not in {"NOASSERTION", "OTHER"} and not tool.get("license"):
+        tool["license"] = license_id
     if repo.get("description"):
-        tool["description"] = repo["description"].strip()
+        upstream_description = repo["description"].strip()
+        tool["upstream_description"] = upstream_description
+        if not tool.get("description"):
+            tool["description"] = upstream_description
     if repo.get("homepage") and not tool.get("website"):
         tool["website"] = repo["homepage"]
     tags = list(tool.get("quality_tags") or [])
@@ -257,15 +264,32 @@ def update_packagist_version(tool: dict, token: str | None = None) -> PackageVer
         ),
         versions[0],
     )
-    old_values = (tool.get("latest_version"), tool.get("latest_version_released_at"))
+    old_values = (
+        tool.get("latest_version"),
+        tool.get("latest_version_released_at"),
+        tool.get("supported_php"),
+        tool.get("installation"),
+    )
     tool["latest_version"] = latest.get("version") or ""
     tool["latest_version_released_at"] = latest.get("time")
+    requirements = latest.get("require") or {}
+    if isinstance(requirements, dict) and requirements.get("php") and not tool.get("supported_php"):
+        tool["supported_php"] = str(requirements["php"])
+    if not tool.get("installation"):
+        dev_flag = "" if tool.get("artifact_type") == "library" else " --dev"
+        tool["installation"] = f"composer require{dev_flag} {package_name}"
     print(
         f"  Packagist version: {tool['slug']} | package={package_name} | "
         f"latest={tool['latest_version']} | released_at={tool.get('latest_version_released_at')}"
     )
     return PackageVersionResult(
-        changed=old_values != (tool.get("latest_version"), tool.get("latest_version_released_at")),
+        changed=old_values
+        != (
+            tool.get("latest_version"),
+            tool.get("latest_version_released_at"),
+            tool.get("supported_php"),
+            tool.get("installation"),
+        ),
         checked=True,
         package_valid=True,
     )
@@ -324,7 +348,7 @@ def check_website(tool: dict, checked_at: str | None = None) -> SourceResult:
     headers = {"User-Agent": "custom-php-analysis-tools-updater"}
     status_code = 0
     error = ""
-    status = "unavailable"
+    status = "temporarily_unreachable"
     for method in ("HEAD", "GET"):
         request = urllib.request.Request(url, method=method, headers=headers)
         try:
@@ -335,7 +359,16 @@ def check_website(tool: dict, checked_at: str | None = None) -> SourceResult:
                 break
         except urllib.error.HTTPError as exc:
             status_code = int(exc.code)
-            status = "available" if 200 <= status_code < 400 else "unavailable"
+            if 200 <= status_code < 400:
+                status = "available"
+            elif status_code in {401, 403, 429}:
+                status = "bot_blocked"
+            elif status_code in {404, 410}:
+                status = "unavailable"
+            elif status_code >= 500:
+                status = "temporarily_unreachable"
+            else:
+                status = "unavailable"
             error = f"HTTP {exc.code}"
             if method == "HEAD" and exc.code in {403, 405, 429}:
                 continue
@@ -403,6 +436,17 @@ def worker_count(value: str) -> int:
     if count < 1:
         raise argparse.ArgumentTypeError("must be at least 1")
     return count
+
+
+def select_tools(tools: list[dict], requested_slugs: list[str]) -> list[dict]:
+    if not requested_slugs:
+        return tools
+    requested = {slug.strip() for value in requested_slugs for slug in value.split(",") if slug.strip()}
+    available = {str(tool.get("slug")) for tool in tools}
+    missing = sorted(requested - available)
+    if missing:
+        raise ValueError("unknown catalog slug(s): " + ", ".join(missing))
+    return [tool for tool in tools if tool.get("slug") in requested]
 
 
 def refresh_plan(tool: dict, args: argparse.Namespace, reference_time: datetime | None = None) -> RefreshPlan:
@@ -502,6 +546,12 @@ def refresh_tools(
 def main() -> None:
     parser = argparse.ArgumentParser(description="Refresh public metadata in common/catalog/*.yaml")
     parser.add_argument("--limit", type=positive_int, default=0, help="Maximum number of tools to check. 0 means all.")
+    parser.add_argument(
+        "--slug",
+        action="append",
+        default=[],
+        help="Refresh only the named slug; repeat the option or pass a comma-separated list.",
+    )
     parser.add_argument("--workers", type=worker_count, default=8, help="Maximum concurrent tool checks.")
     parser.add_argument("--skip-packagist", action="store_true")
     parser.add_argument(
@@ -519,9 +569,18 @@ def main() -> None:
     parser.add_argument("--website-max-age-hours", type=positive_int, default=20, help="Skip website checks newer than this.")
     parser.add_argument("--skip-website", action="store_true")
     parser.add_argument("--force", action="store_true", help="Refresh all available sources regardless of freshness.")
+    parser.add_argument(
+        "--max-failed-checks",
+        type=positive_int,
+        default=10,
+        help="Fail when more source checks than this budget could not be completed.",
+    )
     args = parser.parse_args()
 
-    tools = load_catalog()
+    try:
+        tools = select_tools(load_catalog(), args.slug)
+    except ValueError as exc:
+        parser.error(str(exc))
     token = cli_token()
     reference_time = datetime.now(timezone.utc)
     checked_at = reference_time.replace(microsecond=0).isoformat().replace("+00:00", "Z")
@@ -569,6 +628,10 @@ def main() -> None:
         f"recent_skips={skipped_recent}, no_change={len(results) - saved}, failed_checks={failed_checks}, "
         f"website_checked={sum(result.website_checked for result in results)}, catalog_total={len(tools)}"
     )
+    if failed_checks > args.max_failed_checks:
+        raise SystemExit(
+            f"Refresh failed: {failed_checks} source checks exceeded the budget of {args.max_failed_checks}"
+        )
 
 
 if __name__ == "__main__":

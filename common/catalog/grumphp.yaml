@@ -1,6 +1,14 @@
 slug: "grumphp"
 name: "GrumPHP"
 category: "Misc"
+artifact_type: "orchestrator"
+use_cases:
+  - "quality-gates"
+  - "git-hooks"
+ecosystems:
+  - "composer"
+catalog_status: "current"
+reviewed_at: "2026-08-08"
 description: "A PHP code-quality tool"
 best_for: "Running a project’s PHP quality tools before code is committed"
 website: "https://github.com/phpro/grumphp"
@@ -22,7 +30,6 @@ packagist_checked_at: "2026-08-07T04:09:39Z"
 stars: 4306
 repo_updated_at: "2026-07-22T11:37:34Z"
 metadata_updated_at: "2026-08-07T18:31:46Z"
-editor_choice: false
 quality_tags:
   - "code-quality"
   - "php"

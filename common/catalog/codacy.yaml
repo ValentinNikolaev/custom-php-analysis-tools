@@ -1,6 +1,15 @@
 slug: "codacy"
 name: "Codacy"
 category: "SaaS"
+artifact_type: "hosted-service"
+use_cases:
+  - "code-quality"
+  - "security"
+  - "quality-gates"
+ecosystems:
+  - "generic"
+catalog_status: "current"
+reviewed_at: "2026-08-08"
 description: "Codacy checks pull requests for code-quality issues, vulnerabilities, secrets, and risky dependencies, then enforces quality gates."
 best_for: "Continuous code quality and security checks across repositories"
 delivery: "Hosted dashboard with SCM and CI integrations"
@@ -15,7 +24,6 @@ packagist: null
 stars: 0
 repo_updated_at: null
 metadata_updated_at: "2026-07-25T18:37:15Z"
-editor_choice: false
 quality_tags: []
 source: "https://www.codacy.com/"
 notes: "Description refreshed from Codacy's official product site."

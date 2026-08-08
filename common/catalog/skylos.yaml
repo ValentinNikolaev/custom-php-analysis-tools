@@ -1,6 +1,15 @@
 slug: "skylos"
 name: "Skylos"
 category: "Bugs finders"
+artifact_type: "analyzer"
+use_cases:
+  - "dead-code"
+  - "security"
+  - "pull-request-review"
+ecosystems:
+  - "generic"
+catalog_status: "current"
+reviewed_at: "2026-08-08"
 description: "Open source local-first PR scanner that finds dead code, security bugs, secrets, quality regressions, and AI-code mistakes before merge. For first timers refer to https://duriantaco.github.io/skylos/repo-map/"
 best_for: "Local pull-request scanning for dead code and security issues"
 website: "https://skylos.dev/"
@@ -22,7 +31,6 @@ packagist_checked_at: "2026-08-07T04:09:39Z"
 stars: 488
 repo_updated_at: "2026-08-07T02:06:09Z"
 metadata_updated_at: "2026-08-07T18:31:46Z"
-editor_choice: false
 quality_tags:
   - "code-quality"
   - "php"

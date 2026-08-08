@@ -1,6 +1,15 @@
 slug: "pdepend"
 name: "PDepend"
 category: "Metrics"
+artifact_type: "metrics"
+use_cases:
+  - "metrics"
+  - "complexity"
+  - "dependency-analysis"
+ecosystems:
+  - "generic"
+catalog_status: "current"
+reviewed_at: "2026-08-08"
 description: "PHP_Depend is an adaptation of the established Java development tool JDepend. This tool shows you the quality of your design in terms of extensibility, reusability and maintainability."
 best_for: "Measuring PHP design quality and dependency structure"
 website: "https://pdepend.org/"
@@ -22,7 +31,6 @@ packagist_checked_at: "2026-08-07T04:09:39Z"
 stars: 958
 repo_updated_at: "2026-08-02T20:09:30Z"
 metadata_updated_at: "2026-08-07T18:31:46Z"
-editor_choice: false
 quality_tags:
   - "code-quality"
   - "php"

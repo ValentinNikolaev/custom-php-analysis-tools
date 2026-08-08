@@ -19,9 +19,15 @@ from generate_readme import is_dead  # noqa: E402
 from generate_site import (  # noqa: E402
     BUILD_MARKER,
     build_site,
+    category_id,
     category_options,
+    editor_choice_order,
+    editor_more_markup,
+    facet_options,
+    metadata_freshness,
     normalize_base_path,
     primary_url,
+    recommended_tools,
     safe_url,
     tool_card,
 )
@@ -71,10 +77,14 @@ class GenerateSiteTests(unittest.TestCase):
             "assets/site.css",
             "assets/site.js",
             "assets/favicon.svg",
+            "assets/social-preview.svg",
             ".nojekyll",
             BUILD_MARKER,
         ):
             self.assertTrue((output / relative_path).is_file(), relative_path)
+        for export_name in ("catalog.json", "catalog.csv", "build-manifest.json"):
+            if (ROOT / "exports" / export_name).is_file():
+                self.assertTrue((output / "exports" / export_name).is_file(), export_name)
 
     def test_home_page_has_valid_internal_anchors_and_one_h1(self) -> None:
         directory, output = self.build_in_temp()
@@ -88,13 +98,73 @@ class GenerateSiteTests(unittest.TestCase):
                 self.assertIn(href[1:], parser.ids, href)
         self.assertEqual(
             parser.scripts,
-            ["assets/site.js?v=2", "https://static.cloudflareinsights.com/beacon.min.js"],
+            ["assets/site.js?v=3", "https://static.cloudflareinsights.com/beacon.min.js"],
         )
         self.assertEqual(parser.script_attributes[1].get("type"), "module")
         self.assertEqual(
             parser.script_attributes[1].get("data-cf-beacon"),
             '{"token":"1bc156f61a6c4baab33e1f9a082f72d4"}',
         )
+
+    def test_home_page_surfaces_search_governance_downloads_and_privacy(self) -> None:
+        directory, output = self.build_in_temp()
+        self.addCleanup(directory.cleanup)
+        index = (output / "index.html").read_text(encoding="utf-8")
+
+        self.assertLess(index.index('id="catalog-search"'), index.index('id="editors-choice"'))
+        self.assertIn('id="catalog-filter-toggle"', index)
+        self.assertIn('name="twitter:card" content="summary_large_image"', index)
+        self.assertIn('property="og:image"', index)
+        self.assertIn('name="twitter:image"', index)
+        self.assertIn("EDITORIAL-POLICY.md", index)
+        self.assertIn("DATA-LICENSE.md", index)
+        self.assertIn('href="exports/catalog.json" download', index)
+        self.assertIn('href="exports/catalog.csv" download', index)
+        self.assertIn("Cloudflare Web Analytics</a> for aggregate traffic measurement", index)
+        self.assertRegex(index, r'<time datetime="\d{4}-\d{2}-\d{2}">\d{4}-\d{2}-\d{2}</time>')
+        installable_count = sum(
+            not is_dead(tool, self.REFERENCE_TIME) and tool.get("category") != "SaaS"
+            for tool in load_catalog()
+        )
+        self.assertEqual(index.count("data-compare-toggle"), installable_count)
+        self.assertIn('id="compare-tray"', index)
+        self.assertIn('id="compare-dialog"', index)
+        self.assertIn('id="compare-content"', index)
+
+    def test_client_filters_persist_all_facets_and_support_a_mobile_panel(self) -> None:
+        script = (ROOT / "site" / "assets" / "site.js").read_text(encoding="utf-8")
+        styles = (ROOT / "site" / "assets" / "site.css").read_text(encoding="utf-8")
+
+        for facet in (
+            "category",
+            "status",
+            "use_case",
+            "ecosystem",
+            "artifact_type",
+            "license",
+            "capability",
+        ):
+            self.assertIn(f'{facet}: form.elements.namedItem("{facet}")', script)
+        self.assertIn('params.set("q", search.value.trim())', script)
+        self.assertIn("for (const [key, select] of Object.entries(facets))", script)
+        self.assertIn('params.set(key, select.value)', script)
+        self.assertIn('params.get(key)', script)
+        self.assertIn('window.matchMedia("(max-width: 720px)")', script)
+        self.assertIn('filterToggle.setAttribute("aria-expanded", String(open))', script)
+        self.assertIn('.js .catalog-filter-panel:not(.is-open)', styles)
+        self.assertIn('position: sticky;', styles)
+
+    def test_client_comparison_enforces_limits_and_builds_an_accessible_table(self) -> None:
+        script = (ROOT / "site" / "assets" / "site.js").read_text(encoding="utf-8")
+
+        self.assertIn("selectedForComparison.size >= 4", script)
+        self.assertIn('button.setAttribute("aria-pressed", String(isSelected))', script)
+        self.assertIn('fieldHeading.scope = "col"', script)
+        self.assertIn('heading.scope = "row"', script)
+        self.assertIn('["Supported PHP", "supportedPhp"]', script)
+        self.assertIn('["Pro", "pro"]', script)
+        self.assertIn('["Con", "con"]', script)
+        self.assertIn("compareDialog.showModal()", script)
 
     def test_generated_counts_distinguish_current_and_memorial_tools(self) -> None:
         directory, output = self.build_in_temp()
@@ -134,8 +204,8 @@ class GenerateSiteTests(unittest.TestCase):
         self.assertLess(catalog_start, hosted_start)
         self.assertLess(hosted_start, methodology_start)
         self.assertIn(f"Showing {len(catalog_tools)} tools", catalog_markup)
-        self.assertNotIn('<option value="SaaS">', catalog_markup)
-        self.assertNotIn('data-category="SaaS"', catalog_markup)
+        self.assertNotIn('<option value="hosted-services">', catalog_markup)
+        self.assertNotIn('data-category="hosted-services"', catalog_markup)
         for tool in catalog_tools:
             self.assertLess(index.index(f'id="tool-{tool["slug"]}"'), hosted_start)
         for tool in hosted_tools:
@@ -143,32 +213,30 @@ class GenerateSiteTests(unittest.TestCase):
             self.assertGreater(position, hosted_start)
             self.assertLess(position, methodology_start)
 
-    def test_default_catalog_order_is_activity_first_for_all_filters(self) -> None:
+    def test_default_catalog_order_is_recommended_and_activity_is_separate(self) -> None:
         directory, output = self.build_in_temp()
         self.addCleanup(directory.cleanup)
         index = (output / "index.html").read_text(encoding="utf-8")
         catalog_markup = index[index.index('id="catalog"'):index.index('id="hosted-services"')]
         cards = re.findall(
-            r'<article class="tool-card"[^>]+data-category="([^"]+)"[^>]+'
-            r'data-status="([^"]+)"[^>]+data-rank="(\d+)">',
+            r'<article class="tool-card" id="tool-([^"]+)"[^>]+data-rank="(\d+)">',
             catalog_markup,
         )
-        status_rank = {"Active": 0, "Quiet": 1, "Inactive": 2, "Unknown": 3}
+        current_tools = [
+            tool
+            for tool in load_catalog()
+            if not is_dead(tool, self.REFERENCE_TIME) and tool.get("category") != "SaaS"
+        ]
+        expected_order = [
+            tool["slug"]
+            for tool in recommended_tools(current_tools, self.REFERENCE_TIME, editor_choice_order())
+        ]
 
         self.assertTrue(cards)
-        self.assertIn('<option value="rank">Activity (default)</option>', catalog_markup)
-        self.assertEqual([int(rank) for _, _, rank in cards], list(range(1, len(cards) + 1)))
-        self.assertEqual(
-            [status_rank[status] for _, status, _ in cards],
-            sorted(status_rank[status] for _, status, _ in cards),
-        )
-        for category in {category for category, _, _ in cards}:
-            filtered_statuses = [
-                status_rank[status]
-                for item_category, status, _ in cards
-                if item_category == category
-            ]
-            self.assertEqual(filtered_statuses, sorted(filtered_statuses), category)
+        self.assertIn('<option value="recommended">Recommended (default)</option>', catalog_markup)
+        self.assertIn('<option value="activity">Activity status</option>', catalog_markup)
+        self.assertEqual([slug for slug, _ in cards], expected_order)
+        self.assertEqual([int(rank) for _, rank in cards], list(range(1, len(cards) + 1)))
 
     def test_custom_base_path_is_applied_to_not_found_assets_and_home_link(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
@@ -176,7 +244,7 @@ class GenerateSiteTests(unittest.TestCase):
             build_site(output, reference_time=self.REFERENCE_TIME, base_path="/preview")
             not_found = (output / "404.html").read_text(encoding="utf-8")
 
-        self.assertIn('href="/preview/assets/site.css?v=4"', not_found)
+        self.assertIn('href="/preview/assets/site.css?v=5"', not_found)
         self.assertIn('href="/preview/"', not_found)
         self.assertEqual(normalize_base_path("/preview"), "/preview/")
         with self.assertRaisesRegex(ValueError, "absolute URL path"):
@@ -347,8 +415,116 @@ class GenerateSiteTests(unittest.TestCase):
             1,
         )
 
-        self.assertIn("<dt>Last commit</dt><dd>05.08.26</dd>", card)
-        self.assertIn("<dt>Last release</dt><dd>20.07.26</dd>", card)
+        self.assertIn(
+            '<dt>Last commit</dt><dd><time datetime="2026-08-05">2026-08-05</time></dd>',
+            card,
+        )
+        self.assertIn(
+            '<dt>Last release</dt><dd><time datetime="2026-07-20">2026-07-20</time></dd>',
+            card,
+        )
+
+    def test_tool_card_exposes_facets_tags_evidence_and_review_date(self) -> None:
+        card = tool_card(
+            {
+                "slug": "faceted",
+                "name": "Faceted tool",
+                "description": "Curated description",
+                "repository": "https://github.com/example/faceted",
+                "category": "Bugs finders",
+                "artifact_type": "analyzer",
+                "use_cases": ["type-analysis", "security"],
+                "ecosystems": ["phpstan"],
+                "capabilities": ["ci", "baseline"],
+                "license": "MIT",
+                "supported_php": ">=8.2",
+                "quality_tags": ["static-analysis", "security"],
+                "reviewed_at": "2026-08-01",
+                "pro": "Focused and fast.",
+                "con": "Narrow ecosystem.",
+                "pros_cons_sources": ["https://example.com/evidence"],
+            },
+            self.REFERENCE_TIME,
+            1,
+            compare_enabled=True,
+        )
+
+        self.assertIn('data-category="bug-finders"', card)
+        self.assertIn('data-artifact-types="|analyzer|"', card)
+        self.assertIn('data-use-cases="|type-analysis|security|"', card)
+        self.assertIn('data-ecosystems="|phpstan|"', card)
+        self.assertIn('data-capabilities="|ci|baseline|"', card)
+        self.assertIn('data-licenses="|mit|"', card)
+        self.assertIn('class="tag-list"', card)
+        self.assertIn('class="tool-facts"', card)
+        self.assertIn('aria-label="Evidence source 1 for Faceted tool"', card)
+        self.assertIn('<time datetime="2026-08-01">2026-08-01</time>', card)
+        self.assertIn('data-display-name="Faceted tool"', card)
+        self.assertIn('data-compare-toggle', card)
+        self.assertIn('aria-label="Add Faceted tool to comparison"', card)
+
+    def test_upstream_description_is_an_explicit_last_resort(self) -> None:
+        card = tool_card(
+            {
+                "slug": "upstream-copy",
+                "name": "Upstream copy",
+                "upstream_description": "Text supplied upstream",
+                "category": "Misc",
+            },
+            self.REFERENCE_TIME,
+            1,
+        )
+
+        self.assertIn("Text supplied upstream", card)
+        self.assertIn("Description supplied by the upstream project.", card)
+
+    def test_recommended_order_prioritizes_relevance_before_activity(self) -> None:
+        tools = [
+            {
+                "slug": "historical-active",
+                "name": "Historical active",
+                "catalog_status": "historical",
+                "repo_updated_at": "2026-08-05T00:00:00Z",
+            },
+            {
+                "slug": "current-quiet",
+                "name": "Current quiet",
+                "catalog_status": "current",
+                "repo_updated_at": "2026-04-01T00:00:00Z",
+            },
+            {
+                "slug": "adjacent-active",
+                "name": "Adjacent active",
+                "catalog_status": "adjacent",
+                "repo_updated_at": "2026-08-05T00:00:00Z",
+            },
+        ]
+
+        ordered = recommended_tools(tools, self.REFERENCE_TIME, [])
+
+        self.assertEqual(
+            [tool["slug"] for tool in ordered],
+            ["current-quiet", "adjacent-active", "historical-active"],
+        )
+
+    def test_generated_filters_have_url_addressable_facet_values(self) -> None:
+        tools = [
+            {"use_cases": ["type-analysis", "security"]},
+            {"use_cases": ["security"]},
+        ]
+        options = facet_options(tools, "use_cases")
+
+        self.assertIn('<option value="security">Security (2)</option>', options)
+        self.assertIn('<option value="type-analysis">Type analysis (1)</option>', options)
+
+    def test_freshness_reports_coverage_not_only_the_latest_record(self) -> None:
+        tools = [
+            {"metadata_updated_at": "2026-08-05T00:00:00Z"},
+            {"metadata_updated_at": "2026-07-01T00:00:00Z"},
+            {},
+        ]
+
+        self.assertEqual(metadata_freshness(tools, self.REFERENCE_TIME), (1, 3))
 
     def test_category_options_are_sorted_by_reader_facing_name(self) -> None:
         tools = [
@@ -358,18 +534,44 @@ class GenerateSiteTests(unittest.TestCase):
         labels = re.findall(r">([^<]+) \(\d+\)</option>", category_options(tools))
 
         self.assertEqual(labels, sorted(labels, key=str.casefold))
+        self.assertIn('value="bug-finders"', category_options(tools))
+        self.assertEqual(category_id("DIY"), "libraries-building-blocks")
 
     def test_editor_cards_show_stars_and_inline_pros_cons(self) -> None:
         directory, output = self.build_in_temp()
         self.addCleanup(directory.cleanup)
         index = (output / "index.html").read_text(encoding="utf-8")
-        editor_markup = index[index.index('id="editors-choice"'):index.index('id="catalog"')]
-
-        self.assertEqual(editor_markup.count('class="editor-card"'), 21)
-        self.assertEqual(editor_markup.count('class="star-count"'), 21)
-        self.assertEqual(editor_markup.count('class="tradeoffs tradeoffs--inline"'), 21)
+        editor_markup = index[index.index('id="editors-choice"'):index.index('id="hosted-services"')]
+        editor_slugs = set(editor_choice_order())
+        editor_tools = [
+            tool
+            for tool in load_catalog()
+            if tool.get("slug") in editor_slugs
+            and tool.get("category") != "SaaS"
+            and not is_dead(tool, self.REFERENCE_TIME)
+        ]
+        expected_total = len(editor_tools)
+        expected_featured = len({tool.get("category") for tool in editor_tools})
+        expected_remaining = expected_total - expected_featured
+        featured_markup = editor_markup[
+            editor_markup.index('class="editor-grid editor-grid--featured"'):
+            editor_markup.index('class="catalog-list-heading"')
+        ]
+        if expected_remaining:
+            featured_markup = featured_markup[:featured_markup.index('class="editor-more"')]
+        self.assertEqual(featured_markup.count('class="editor-card"'), expected_featured)
+        self.assertEqual(editor_markup.count('class="editor-card"'), expected_total)
+        self.assertEqual(editor_markup.count('class="star-count"'), expected_total)
+        self.assertEqual(editor_markup.count('class="tradeoffs tradeoffs--inline"'), expected_total)
+        if expected_remaining:
+            self.assertIn(f"Show {expected_remaining} more editor picks", editor_markup)
+        else:
+            self.assertNotIn('class="editor-more"', editor_markup)
         self.assertIn('class="tradeoff tradeoff--pro"', editor_markup)
         self.assertIn('class="tradeoff tradeoff--con"', editor_markup)
+
+    def test_empty_editor_overflow_does_not_render_details(self) -> None:
+        self.assertEqual(editor_more_markup([], self.REFERENCE_TIME), "")
 
     def test_current_catalog_uses_accessible_tradeoff_popovers_only(self) -> None:
         directory, output = self.build_in_temp()
@@ -380,7 +582,7 @@ class GenerateSiteTests(unittest.TestCase):
         current_count = sum(not is_dead(tool, self.REFERENCE_TIME) for tool in load_catalog())
 
         self.assertEqual(catalog_and_hosted.count('<details class="tradeoffs">'), current_count)
-        self.assertIn('<summary>Quick pros &amp; cons</summary>', catalog_and_hosted)
+        self.assertIn('<summary>Quick pros &amp; cons<span', catalog_and_hosted)
         self.assertNotIn('<details class="tradeoffs">', memorial)
 
     def test_generator_only_replaces_its_own_non_empty_output_directory(self) -> None:

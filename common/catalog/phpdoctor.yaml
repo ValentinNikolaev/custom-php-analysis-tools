@@ -1,6 +1,14 @@
 slug: "phpdoctor"
 name: "PHPDoctor"
 category: "Bugs finders"
+artifact_type: "analyzer"
+use_cases:
+  - "documentation"
+  - "type-analysis"
+ecosystems:
+  - "generic"
+catalog_status: "current"
+reviewed_at: "2026-08-08"
 description: "🏥 PHPDoctor: Check files, full directories or strings for missing or bad PHPDoc types."
 website: "https://github.com/voku/PHPDoctor"
 public_url: "https://github.com/voku/PHPDoctor"
@@ -21,7 +29,6 @@ packagist_checked_at: "2026-08-07T04:09:39Z"
 stars: 53
 repo_updated_at: "2026-07-10T18:10:30Z"
 metadata_updated_at: "2026-08-07T12:30:54Z"
-editor_choice: false
 quality_tags:
   - "php"
   - "static-analysis"

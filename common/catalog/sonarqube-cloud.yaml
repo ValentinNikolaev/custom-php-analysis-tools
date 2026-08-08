@@ -1,6 +1,15 @@
 slug: "sonarqube-cloud"
 name: "SonarQube Cloud"
 category: "SaaS"
+artifact_type: "hosted-service"
+use_cases:
+  - "code-quality"
+  - "security"
+  - "quality-gates"
+ecosystems:
+  - "sonarqube"
+catalog_status: "current"
+reviewed_at: "2026-08-08"
 description: "Sonar's hosted code-quality and security analysis service with first-class PHP support."
 best_for: "Hosted PHP quality gates, maintainability checks, and security analysis"
 delivery: "Hosted dashboard with repository and CI integrations"
@@ -15,7 +24,6 @@ packagist: null
 stars: 0
 repo_updated_at: null
 metadata_updated_at: "2026-08-06T12:45:00Z"
-editor_choice: false
 quality_tags:
   - "code-quality"
   - "php"

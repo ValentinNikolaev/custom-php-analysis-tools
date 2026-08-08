@@ -22,6 +22,7 @@ import import_exakat_catalog
 import update_catalog
 import catalog_lib
 from catalog_lib import (
+    CATEGORY_IDS,
     CATEGORY_ORDER,
     dump_yaml,
     load_yaml,
@@ -94,9 +95,38 @@ class CatalogScriptTests(unittest.TestCase):
             path.write_text(dump_yaml(data), encoding="utf-8")
             self.assertEqual(load_yaml(path), data)
 
-    def test_discovery_static_analysis_query_uses_fifty_star_threshold(self) -> None:
-        self.assertIn("topic:php topic:static-analysis stars:>50", discover_tools.QUERIES)
+    def test_catalog_timestamps_support_as_of_and_source_date_epoch(self) -> None:
+        self.assertEqual(catalog_lib.now_iso("2026-08-08"), "2026-08-08T00:00:00Z")
+        with patch.dict(catalog_lib.os.environ, {"SOURCE_DATE_EPOCH": "0"}):
+            self.assertEqual(catalog_lib.now_iso(), "1970-01-01T00:00:00Z")
+
+    def test_discovery_static_analysis_query_uses_inclusive_star_threshold(self) -> None:
+        self.assertIn("topic:php topic:static-analysis stars:>20", discover_tools.QUERIES)
         self.assertNotIn("topic:php topic:static-analysis stars:>100", discover_tools.QUERIES)
+
+    def test_discovery_covers_extensions_rulesets_and_non_php_implementations(self) -> None:
+        self.assertTrue(any("PHPStan extension" in query for query in discover_tools.QUERIES))
+        self.assertTrue(any("PHPCS coding standard" in query for query in discover_tools.QUERIES))
+        self.assertTrue(any("PHP static analyzer" in query and "language:" not in query for query in discover_tools.QUERIES))
+        self.assertIn(("phpstan extension", "Bugs finders"), discover_tools.PACKAGIST_QUERIES)
+        self.assertIn(("phpcs standard", "Coding standards"), discover_tools.PACKAGIST_QUERIES)
+        self.assertIn(("rector rules", "Fixers"), discover_tools.PACKAGIST_QUERIES)
+
+    def test_discovery_infers_categories_instead_of_defaulting_everything_to_bug_finders(self) -> None:
+        self.assertEqual(
+            discover_tools.infer_category(
+                {"name": "Formatter", "description": "Automatically fixes PHP style", "topics": []},
+                "Bugs finders",
+            ),
+            "Fixers",
+        )
+        self.assertEqual(
+            discover_tools.infer_category(
+                {"name": "Metrics", "description": "Reports complexity metrics", "topics": []},
+                "Bugs finders",
+            ),
+            "Metrics",
+        )
 
     def test_exakat_import_parses_supported_categories_and_github_entries(self) -> None:
         source = """
@@ -562,6 +592,84 @@ class CatalogScriptTests(unittest.TestCase):
                 keys = discover_tools.candidate_repository_keys()
         self.assertEqual(keys, {"jakzal/phpqa"})
 
+    def test_candidate_refresh_preserves_editorial_review_state(self) -> None:
+        existing = {
+            "slug": "sample",
+            "repository": "https://github.com/example/sample",
+            "website": "https://example.com/manual",
+            "public_url": "https://example.com/manual",
+            "category": "Coding standards",
+            "review_status": "needs-info",
+            "review_notes": "Waiting for maintenance evidence.",
+            "discovered_at": "2026-01-01T00:00:00Z",
+            "last_reviewed_at": "2026-07-01",
+            "quality_tags": ["php"],
+        }
+        repo = {
+            "html_url": "https://github.com/example/sample",
+            "homepage": "https://example.com/upstream",
+            "stargazers_count": 42,
+            "pushed_at": "2026-08-01T00:00:00Z",
+            "topics": ["static-analysis"],
+        }
+        refreshed = discover_tools.merge_candidate_metadata(existing, repo, "2026-08-08T00:00:00Z")
+        self.assertEqual(refreshed["category"], "Coding standards")
+        self.assertEqual(refreshed["review_status"], "needs-info")
+        self.assertEqual(refreshed["review_notes"], "Waiting for maintenance evidence.")
+        self.assertEqual(refreshed["discovered_at"], "2026-01-01T00:00:00Z")
+        self.assertEqual(refreshed["stars"], 42)
+
+    def test_recent_candidate_metadata_is_not_refetched(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            candidate_dir = root / "common" / "candidates"
+            candidate_dir.mkdir(parents=True)
+            (candidate_dir / "sample.yaml").write_text(
+                dump_yaml(
+                    {
+                        "slug": "sample",
+                        "repository": "https://github.com/example/sample",
+                        "metadata_updated_at": "2026-08-08T06:00:00Z",
+                    }
+                ),
+                encoding="utf-8",
+            )
+            with (
+                patch.object(discover_tools, "ROOT", root),
+                patch("discover_tools.http_json") as request,
+            ):
+                refreshed, failed = discover_tools.refresh_existing_candidates(
+                    None,
+                    "2026-08-08T12:00:00Z",
+                    write=True,
+                    max_age_hours=24,
+                )
+        self.assertEqual((refreshed, failed), (0, 0))
+        request.assert_not_called()
+
+    def test_discovery_search_paginates(self) -> None:
+        responses = [
+            {"total_count": 3, "items": [{"full_name": "a/one"}, {"full_name": "b/two"}]},
+            {"total_count": 3, "items": [{"full_name": "c/three"}]},
+        ]
+        with patch("discover_tools.http_json", side_effect=responses) as request:
+            items = list(discover_tools.search_repositories("PHP analyzer", None, pages=3, per_page=2))
+        self.assertEqual([item["full_name"] for item in items], ["a/one", "b/two", "c/three"])
+        self.assertEqual(request.call_count, 2)
+        self.assertIn("page=2", request.call_args_list[1].args[0])
+
+    def test_packagist_discovery_search_paginates_using_next_link(self) -> None:
+        responses = [
+            {"total": 2, "results": [{"name": "a/one"}], "next": "page-2"},
+            {"total": 2, "results": [{"name": "b/two"}], "next": None},
+        ]
+        with patch("discover_tools.http_json", side_effect=responses) as request:
+            items = list(discover_tools.search_packagist("phpstan extension", pages=3, per_page=25))
+        self.assertEqual([item["name"] for item in items], ["a/one", "b/two"])
+        self.assertEqual(request.call_count, 2)
+        self.assertIn("q=phpstan+extension", request.call_args_list[0].args[0])
+        self.assertIn("page=2", request.call_args_list[1].args[0])
+
     def test_latest_release_uses_compact_tag_link(self) -> None:
         tool = {
             "latest_release_name": "PHP 7.1 Support",
@@ -580,8 +688,17 @@ class CatalogScriptTests(unittest.TestCase):
         self.assertEqual(lifecycle({"repo_updated_at": "2024-01-01T00:00:00Z"}, self.REFERENCE_TIME)[1], "Unmaintained")
         self.assertEqual(lifecycle({}, self.REFERENCE_TIME)[1], "Unknown")
 
-    def test_dead_and_archived_projects_are_classified_for_memorial(self) -> None:
-        self.assertTrue(is_dead({"repo_updated_at": "2024-01-01T00:00:00Z"}, self.REFERENCE_TIME))
+    def test_memorial_requires_an_explicit_historical_signal(self) -> None:
+        self.assertFalse(is_dead({"repo_updated_at": "2024-01-01T00:00:00Z"}, self.REFERENCE_TIME))
+        self.assertTrue(
+            is_dead(
+                {
+                    "repo_updated_at": "2026-07-01T00:00:00Z",
+                    "catalog_status": "historical",
+                },
+                self.REFERENCE_TIME,
+            )
+        )
         self.assertTrue(
             is_dead(
                 {"repo_updated_at": "2026-07-01T00:00:00Z", "quality_tags": ["archived"]},
@@ -785,38 +902,31 @@ class CatalogScriptTests(unittest.TestCase):
         }
         self.assertEqual(missing, set())
 
-    def test_current_editor_choice_has_three_tools_per_installable_category(self) -> None:
+    def test_current_editor_choice_is_a_small_diverse_current_shortlist(self) -> None:
         tools_by_slug = {tool["slug"]: tool for tool in catalog_lib.load_catalog()}
-        counts = {
-            category: sum(
-                tools_by_slug[slug].get("category") == category
-                for slug in read_editor_choice_slugs()
-            )
-            for category in generate_editor_choice.TARGETS
-        }
-        self.assertEqual(counts, {category: 3 for category in generate_editor_choice.TARGETS})
-
-    def test_editor_choice_only_uses_below_threshold_fallback_for_sparse_categories(self) -> None:
-        tools = catalog_lib.load_catalog()
-        tools_by_slug = {tool["slug"]: tool for tool in tools}
         selected = read_editor_choice_slugs()
-        for category in generate_editor_choice.TARGETS:
-            preferred = [
-                tool for tool in tools
-                if tool.get("category") == category
-                and generate_editor_choice.is_editor_choice_candidate(tool, self.REFERENCE_TIME)
-            ]
-            below_threshold = [
-                tools_by_slug[slug] for slug in selected
-                if tools_by_slug[slug].get("category") == category
-                and not generate_editor_choice.is_editor_choice_candidate(
-                    tools_by_slug[slug], self.REFERENCE_TIME
-                )
-            ]
-            if len(preferred) >= 3:
-                self.assertEqual(below_threshold, [], category)
-            else:
-                self.assertEqual(len(below_threshold), 3 - len(preferred), category)
+        selected_tools = [tools_by_slug[slug] for slug in selected]
+        self.assertGreaterEqual(len(selected_tools), 5)
+        self.assertLessEqual(len(selected_tools), 12)
+        self.assertTrue(
+            all(tool.get("catalog_status") == "current" for tool in selected_tools)
+        )
+        self.assertGreaterEqual(len({tool.get("category") for tool in selected_tools}), 5)
+        self.assertGreaterEqual(
+            len({use_case for tool in selected_tools for use_case in tool.get("use_cases", [])}),
+            6,
+        )
+
+    def test_editor_choice_has_no_forced_per_category_quota(self) -> None:
+        tools_by_slug = {tool["slug"]: tool for tool in catalog_lib.load_catalog()}
+        selected = read_editor_choice_slugs()
+        counts = [
+            sum(tools_by_slug[slug].get("category") == category for slug in selected)
+            for category in CATEGORY_ORDER
+            if category != "SaaS"
+        ]
+        self.assertIn(0, counts)
+        self.assertGreater(max(counts), 1)
 
     def test_every_current_tool_has_manually_curated_pros_cons_and_sources(self) -> None:
         entries = read_pros_cons()
@@ -889,6 +999,16 @@ class CatalogScriptTests(unittest.TestCase):
             "name": "Hosted Analyzer",
             "category": "SaaS",
             "description": "Hosted analysis.",
+            "upstream_description": "Upstream marketing copy.",
+            "artifact_type": "hosted-service",
+            "use_cases": ["security"],
+            "ecosystems": ["generic-php"],
+            "catalog_status": "current",
+            "installation": "Connect a repository",
+            "supported_php": "8.1+",
+            "license": "Commercial",
+            "pricing": "Paid",
+            "reviewed_at": "2026-08-08",
             "best_for": "PHP security analysis",
             "delivery": "Hosted dashboard",
             "editor_reason": "Strong PHP support",
@@ -902,14 +1022,28 @@ class CatalogScriptTests(unittest.TestCase):
             saved = load_yaml(Path(directory) / "hosted-analyzer.yaml")
         self.assertEqual(saved["best_for"], "PHP security analysis")
         self.assertEqual(saved["delivery"], "Hosted dashboard")
+        self.assertEqual(saved["upstream_description"], "Upstream marketing copy.")
+        self.assertEqual(saved["artifact_type"], "hosted-service")
+        self.assertEqual(saved["use_cases"], ["security"])
+        self.assertEqual(saved["catalog_status"], "current")
+        self.assertEqual(saved["installation"], "Connect a repository")
         self.assertEqual(saved["editor_reason"], "Strong PHP support")
         self.assertEqual(saved["title_icon"], "assets/tool-icons/service.png")
         self.assertEqual(saved["title_icon_label"], "Hosted service")
         self.assertEqual(saved["latest_release_checked_at"], "2026-08-06T00:00:00Z")
         self.assertEqual(saved["packagist_checked_at"], "2026-08-06T00:00:00Z")
 
+    def test_save_tool_rejects_unknown_fields_instead_of_losing_them(self) -> None:
+        with tempfile.TemporaryDirectory() as directory, patch.object(catalog_lib, "CATALOG_DIR", Path(directory)):
+            with self.assertRaisesRegex(ValueError, "unknown fields would be lost: typo_field"):
+                save_tool({"slug": "sample", "typo_field": "would otherwise disappear"})
+
     def test_every_category_has_a_unique_reader_facing_title(self) -> None:
         self.assertEqual(set(CATEGORY_TITLES), set(CATEGORY_ORDER))
+
+    def test_every_category_has_a_unique_stable_id(self) -> None:
+        self.assertEqual(set(CATEGORY_IDS), set(CATEGORY_ORDER))
+        self.assertEqual(len(set(CATEGORY_IDS.values())), len(CATEGORY_IDS))
 
     def test_hosted_services_are_the_last_catalog_category(self) -> None:
         self.assertEqual(CATEGORY_ORDER[-1], "SaaS")

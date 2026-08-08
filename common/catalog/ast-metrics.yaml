@@ -1,7 +1,15 @@
 slug: "ast-metrics"
 name: "AST Metrics"
-category: "Bugs finders"
+category: "Metrics"
+artifact_type: "metrics"
+use_cases:
+  - "metrics"
+  - "architecture"
+ecosystems:
+  - "generic"
+catalog_status: "current"
 description: "See the   invisible structure of your code. Multi-language code quality and architecture analyzer (Go,   PHP, Python, Rust...)"
+best_for: "Multi-language architecture, dependency, complexity, and code-structure metrics."
 website: "http://ast-metrics.dev"
 public_url: "http://ast-metrics.dev"
 website_status: "available"
@@ -21,9 +29,9 @@ packagist_checked_at: "2026-08-07T04:09:39Z"
 stars: 151
 repo_updated_at: "2026-07-29T20:14:38Z"
 metadata_updated_at: "2026-08-07T12:30:54Z"
-editor_choice: false
 quality_tags:
   - "code-quality"
   - "static-analysis"
 source: "https://github.com/exakat/php-static-analysis-tools"
-notes: "Imported from Exakat's PHP static-analysis tools catalog after active-project verification."
+reviewed_at: "2026-08-08"
+notes: "Reclassified from bug finding to metrics."

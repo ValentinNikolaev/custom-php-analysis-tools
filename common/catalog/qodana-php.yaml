@@ -1,6 +1,15 @@
 slug: "qodana-php"
 name: "Qodana for PHP"
 category: "SaaS"
+artifact_type: "hosted-service"
+use_cases:
+  - "code-quality"
+  - "security"
+  - "quality-gates"
+ecosystems:
+  - "jetbrains"
+catalog_status: "current"
+reviewed_at: "2026-08-08"
 description: "JetBrains code-quality platform for PHP projects, based on PhpStorm inspections."
 best_for: "PhpStorm-grade PHP inspections and quality gates in CI"
 delivery: "Cloud reports with native or Docker-based PHP linters"
@@ -17,7 +26,6 @@ packagist: null
 stars: 0
 repo_updated_at: null
 metadata_updated_at: "2026-08-06T12:45:00Z"
-editor_choice: false
 quality_tags:
   - "code-quality"
   - "php"

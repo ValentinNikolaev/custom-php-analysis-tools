@@ -5,78 +5,132 @@ on:
     - cron: "17 */6 * * *"
   workflow_dispatch:
 
+concurrency:
+  group: catalog-refresh-pull-request
+  cancel-in-progress: false
+
 jobs:
   update:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: write
-    outputs:
-      catalog_changed: ${{ steps.publish.outputs.changed }}
+      pull-requests: write
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Check out the default branch
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Set up Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with:
           python-version: "3.12"
-      - name: Run tests
-        run: python -m unittest discover -s tests
+
+      - name: Pin one reference time for generated artifacts
+        run: echo "CATALOG_AS_OF=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_ENV"
+
       - name: Show catalog baseline
         run: |
           echo "Catalog entries:"
           find common/catalog -name '*.yaml' | sort | wc -l
           echo "Existing discovery candidates:"
           find common/candidates -name '*.yaml' 2>/dev/null | sort || true
+
+      - name: Validate source baseline
+        run: python scripts/validate_catalog.py
+
       - name: Refresh repository and package metadata
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: python scripts/update_catalog.py
-      - name: Discover candidate tools
+        run: python scripts/update_catalog.py --max-failed-checks 10
+
+      - name: Refresh and discover candidate tools
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: python scripts/discover_tools.py --write --limit 10
-      - name: Validate editorial copy and generate editor choice
-        run: python scripts/generate_editor_choice.py
-      - name: Generate README
-        run: python scripts/generate_readme.py
-      - name: Show generated change summary
+        run: >-
+          python scripts/discover_tools.py --write --limit 20 --pages 3 --per-page 50
+          --max-refresh-failures 5 --as-of "$CATALOG_AS_OF"
+
+      - name: Generate editorial and Markdown artifacts
         run: |
-          echo "Changed files:"
-          git status --short
-          echo ""
-          echo "Diff summary:"
-          git diff --stat
-          echo ""
-          echo "Discovery candidates:"
-          find common/candidates -maxdepth 1 -name '*.yaml' -print | sort | while read file; do
-            echo "--- ${file}"
-            sed -n '1,12p' "${file}"
-          done
-      - name: Commit as Valentin
+          python scripts/generate_editor_choice.py --as-of "$CATALOG_AS_OF"
+          python scripts/generate_readme.py --as-of "$CATALOG_AS_OF"
+          python scripts/generate_exports.py --as-of "$CATALOG_AS_OF"
+
+      - name: Validate mutated sources
+        run: python scripts/validate_catalog.py
+
+      - name: Build the production site
+        run: python scripts/generate_site.py --output site-dist --as-of "$CATALOG_AS_OF"
+
+      - name: Run the full test suite after mutation
+        run: python -m unittest discover -s tests
+
+      - name: Verify generators are idempotent
+        shell: bash
+        run: |
+          tracked_paths=(
+            common/catalog
+            common/candidates
+            common/editor-choice.yaml
+            exports
+            README.md
+            EDITOR-CHOISE.md
+            EDITORS-CHOICE.md
+          )
+          git diff --binary -- "${tracked_paths[@]}" > "$RUNNER_TEMP/generated-before.patch"
+          python scripts/generate_editor_choice.py --as-of "$CATALOG_AS_OF"
+          python scripts/generate_readme.py --as-of "$CATALOG_AS_OF"
+          python scripts/generate_exports.py --as-of "$CATALOG_AS_OF"
+          git diff --binary -- "${tracked_paths[@]}" > "$RUNNER_TEMP/generated-after.patch"
+          cmp "$RUNNER_TEMP/generated-before.patch" "$RUNNER_TEMP/generated-after.patch"
+
+      - name: Show reviewed change scope
+        run: |
+          git status --short -- \
+            common/catalog \
+            common/candidates \
+            common/rejected-candidates.yaml \
+            common/editor-choice.yaml \
+            exports \
+            README.md \
+            EDITOR-CHOISE.md \
+            EDITORS-CHOICE.md
+          git diff --stat -- \
+            common/catalog \
+            common/candidates \
+            common/rejected-candidates.yaml \
+            common/editor-choice.yaml \
+            exports \
+            README.md \
+            EDITOR-CHOISE.md \
+            EDITORS-CHOICE.md
+
+      - name: Open or update the catalog refresh pull request
         id: publish
+        uses: peter-evans/create-pull-request@22a9089034f40e5a961c8808d113e2c98fb63676 # v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: automation/catalog-refresh
+          delete-branch: true
+          commit-message: "chore: refresh catalog metadata"
+          committer: "github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>"
+          author: "github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>"
+          title: "chore: refresh catalog metadata"
+          body: |
+            Automated catalog refresh for editorial review.
+
+            The workflow refreshed public metadata and discovery candidates, then ran strict validation,
+            regenerated Markdown, built the site, checked generator idempotence, and ran the full test suite.
+          add-paths: |
+            common/catalog/**
+            common/candidates/**
+            common/rejected-candidates.yaml
+            common/editor-choice.yaml
+            exports/**
+            README.md
+            EDITOR-CHOISE.md
+            EDITORS-CHOICE.md
+
+      - name: Report publication result
         run: |
-          changed=false
-          if [ -n "$(git status --porcelain)" ]; then
-            git config user.name "Valentin Nikolaev"
-            git config user.email "435393+ValentinNikolaev@users.noreply.github.com"
-
-            git add .
-            if ! git diff --cached --quiet; then
-              git commit -m "chore: update generated files $(date -u +%Y-%m-%d)"
-              git push
-              changed=true
-            fi
-          else
-            echo "No catalog changes"
-          fi
-          echo "changed=${changed}" >> "$GITHUB_OUTPUT"
-
-  deploy-pages:
-    needs: update
-    if: needs.update.outputs.catalog_changed == 'true'
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
-    uses: ./.github/workflows/pages.yml
-    with:
-      deploy: true
-      ref: master
+          echo "operation=${{ steps.publish.outputs.pull-request-operation }}"
+          echo "pull_request=${{ steps.publish.outputs.pull-request-number }}"

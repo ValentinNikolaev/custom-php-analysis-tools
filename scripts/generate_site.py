@@ -9,10 +9,14 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 from catalog_lib import (
+    CATEGORY_IDS,
     CATEGORY_ORDER,
+    EDITOR_CHOICE_FILE,
     ROOT,
     category_rank,
     load_catalog,
+    load_yaml,
+    reference_time as resolve_reference_time,
     read_editor_choice_copy,
     read_editor_choice_slugs,
     read_pros_cons,
@@ -23,17 +27,20 @@ from generate_readme import (
     is_dead,
     lifecycle,
     parse_date,
-    sorted_for_table,
     stars_value,
 )
 
 
 SITE_SOURCE = ROOT / "site"
+EXPORT_SOURCE = ROOT / "exports"
+EXPORT_FILENAMES = ("catalog.json", "catalog.csv", "build-manifest.json")
 DEFAULT_OUTPUT = ROOT / "site-dist"
 BUILD_MARKER = ".php-analysis-tools-site-build"
 REPOSITORY_URL = "https://github.com/ValentinNikolaev/php-analysis-tools-catalog"
 SITE_URL = "https://valentinnikolaev.github.io/php-analysis-tools-catalog/"
 DEFAULT_BASE_PATH = "/php-analysis-tools-catalog/"
+TOOL_PROPOSAL_URL = f"{REPOSITORY_URL}/issues/new?template=tool-proposal.yml"
+CORRECTION_URL = f"{REPOSITORY_URL}/issues/new?template=catalog-correction.yml"
 
 
 def escape(value: object) -> str:
@@ -83,7 +90,7 @@ def primary_url(tool: dict) -> str:
     return REPOSITORY_URL
 
 
-def resource_links(tool: dict) -> str:
+def resource_links(tool: dict, name: str) -> str:
     links: list[tuple[str, str]] = []
     repository = safe_url(tool.get("repository"))
     package = safe_url(tool.get("packagist"))
@@ -107,7 +114,9 @@ def resource_links(tool: dict) -> str:
         return '<span class="resource-empty">No public link</span>'
 
     return "".join(
-        f'<a class="resource-link" href="{escape(url)}">{escape(label)}<span aria-hidden="true"> ↗</span></a>'
+        f'<a class="resource-link" href="{escape(url)}" '
+        f'aria-label="{escape(label)} for {escape(name)}">'
+        f'{escape(label)}<span aria-hidden="true"> ↗</span></a>'
         for label, url in links
     )
 
@@ -123,9 +132,156 @@ def normalized_iso_date(value: object) -> str:
     return str(value).replace("Z", "+00:00")
 
 
-def compact_date(value: str | None) -> str:
+def date_markup(value: str | None, fallback: str = "Unknown") -> str:
     parsed = parse_date(value)
-    return parsed.strftime("%d.%m.%y") if parsed else ""
+    if not parsed:
+        return escape(fallback)
+    value_iso = parsed.date().isoformat()
+    return f'<time datetime="{value_iso}">{value_iso}</time>'
+
+
+def string_values(tool: dict, *keys: str) -> list[str]:
+    """Return normalized, de-duplicated values from optional scalar/list fields."""
+    values: list[str] = []
+    for key in keys:
+        raw = tool.get(key)
+        items = raw if isinstance(raw, (list, tuple, set)) else [raw]
+        for item in items:
+            value = str(item or "").strip()
+            if value and value not in values:
+                values.append(value)
+    return values
+
+
+def facet_label(value: str) -> str:
+    aliases = {
+        "api-compatibility": "API compatibility",
+        "ci": "CI",
+        "ide": "IDE",
+        "php": "PHP",
+        "phpcs": "PHPCS",
+        "phpstan": "PHPStan",
+        "sql-analysis": "SQL analysis",
+        "type-analysis": "Type analysis",
+    }
+    normalized = value.strip().casefold()
+    return aliases.get(normalized, value.replace("_", " ").replace("-", " ").strip().title())
+
+
+def category_id(category: str) -> str:
+    return CATEGORY_IDS.get(category, category.casefold().replace(" ", "-"))
+
+
+def artifact_types(tool: dict) -> list[str]:
+    return string_values(tool, "artifact_type", "tool_type")
+
+
+def encoded_facet(values: list[str]) -> str:
+    return "|" + "|".join(value.casefold() for value in values) + "|" if values else ""
+
+
+def facet_options(tools: list[dict], *keys: str) -> str:
+    counts: dict[str, int] = {}
+    display_values: dict[str, str] = {}
+    for tool in tools:
+        values = artifact_types(tool) if keys == ("artifact_type",) else string_values(tool, *keys)
+        for value in values:
+            normalized = value.casefold()
+            counts[normalized] = counts.get(normalized, 0) + 1
+            display_values.setdefault(normalized, value)
+    return "\n".join(
+        f'<option value="{escape(value)}">{escape(facet_label(display_values[value]))} ({counts[value]})</option>'
+        for value in sorted(counts, key=lambda item: facet_label(display_values[item]).casefold())
+    )
+
+
+def quality_tags(tool: dict, name: str) -> str:
+    tags = string_values(tool, "quality_tags")
+    if not tags:
+        return ""
+    items = "".join(f"<li>{escape(facet_label(tag))}</li>" for tag in tags)
+    return f'<ul class="tag-list" aria-label="Catalog tags for {escape(name)}">{items}</ul>'
+
+
+def comparable_facts(tool: dict, name: str) -> str:
+    fields = (
+        ("Type", artifact_types(tool), True),
+        ("PHP", string_values(tool, "supported_php"), False),
+        ("License", string_values(tool, "license"), False),
+        ("Delivery", string_values(tool, "delivery"), False),
+        ("Pricing", string_values(tool, "pricing"), False),
+        ("Install", string_values(tool, "installation", "install"), False),
+    )
+    facts = [
+        f'<div><dt>{escape(label)}</dt><dd>{escape(", ".join(facet_label(value) if normalize else value for value in values))}</dd></div>'
+        for label, values, normalize in fields
+        if values
+    ]
+    if not facts:
+        return ""
+    return f'<dl class="tool-facts" aria-label="Comparable facts for {escape(name)}">{"".join(facts)}</dl>'
+
+
+def review_note(tool: dict) -> str:
+    reviewed_at = str(tool.get("reviewed_at") or "").strip()
+    if not reviewed_at:
+        return ""
+    return f'<p class="review-note">Editorially reviewed {date_markup(reviewed_at)}</p>'
+
+
+def relevance_badge(tool: dict) -> str:
+    status = str(tool.get("catalog_status") or "current").strip().casefold()
+    if status == "current":
+        return ""
+    return f'<span class="relevance relevance--{escape(status)}">{escape(facet_label(status))}</span>'
+
+
+def relevance_rank(tool: dict) -> int:
+    status = str(tool.get("catalog_status") or "current").strip().casefold()
+    tags = {tag.casefold() for tag in string_values(tool, "quality_tags")}
+    if "historical-analysis-only" in tags:
+        return 3
+    return {
+        "current": 0,
+        "recommended": 0,
+        "adjacent": 1,
+        "historical": 3,
+        "legacy": 3,
+        "superseded": 3,
+        "retired": 3,
+    }.get(status, 2)
+
+
+def editor_choice_order() -> list[str]:
+    if not EDITOR_CHOICE_FILE.exists():
+        return []
+    data = load_yaml(EDITOR_CHOICE_FILE)
+    return [str(slug) for slug in data.get("slugs") or [] if str(slug).strip()]
+
+
+def recommended_tools(
+    tools: list[dict], reference_time: datetime, editor_order: list[str]
+) -> list[dict]:
+    order = {slug: rank for rank, slug in enumerate(editor_order)}
+
+    def explicit_rank(tool: dict) -> int:
+        value = tool.get("recommendation_rank") or tool.get("editorial_rank")
+        try:
+            return int(value)
+        except (TypeError, ValueError):
+            return order.get(str(tool.get("slug") or ""), len(order) + 10_000)
+
+    return sorted(
+        tools,
+        key=lambda tool: (
+            relevance_rank(tool),
+            0 if str(tool.get("slug") or "") in order else 1,
+            explicit_rank(tool),
+            lifecycle(tool, reference_time)[0],
+            -stars_value(tool),
+            str(tool.get("name") or "").casefold(),
+        ),
+    )
 
 
 def title_icon(tool: dict) -> str:
@@ -163,38 +319,72 @@ def apply_pros_cons(tools: list[dict], entries: dict[str, dict]) -> list[dict]:
     return enriched
 
 
-def tradeoffs(tool: dict, *, inline: bool = False) -> str:
+def evidence_links(tool: dict, name: str) -> str:
+    sources = [url for value in tool.get("pros_cons_sources") or [] if (url := safe_url(value))]
+    if not sources:
+        return ""
+    links = "".join(
+        f'<a href="{escape(url)}" aria-label="Evidence source {index} for {escape(name)}">'
+        f'Source {index}<span aria-hidden="true"> ↗</span></a>'
+        for index, url in enumerate(sources, start=1)
+    )
+    return f'<p class="evidence-links"><span>Evidence:</span> {links}</p>'
+
+
+def tradeoffs(tool: dict, name: str, *, inline: bool = False) -> str:
     pro = str(tool.get("pro") or "").strip()
     con = str(tool.get("con") or "").strip()
     if not pro or not con:
         return ""
     content = f"""
   <p class="tradeoff tradeoff--pro"><strong>Pro</strong><span>{escape(pro)}</span></p>
-  <p class="tradeoff tradeoff--con"><strong>Con</strong><span>{escape(con)}</span></p>""".strip()
+  <p class="tradeoff tradeoff--con"><strong>Con</strong><span>{escape(con)}</span></p>
+  {evidence_links(tool, name)}""".strip()
     if inline:
-        return f'<div class="tradeoffs tradeoffs--inline" aria-label="Pros and cons">{content}</div>'
+        return f'<div class="tradeoffs tradeoffs--inline" aria-label="Pros and cons for {escape(name)}">{content}</div>'
     return f"""
 <details class="tradeoffs">
-  <summary>Quick pros &amp; cons</summary>
+  <summary>Quick pros &amp; cons<span class="visually-hidden"> for {escape(name)}</span></summary>
   <div class="tradeoffs__popover">{content}</div>
 </details>""".strip()
 
 
-def tool_card(tool: dict, reference_time: datetime, rank: int) -> str:
-    status = lifecycle(tool, reference_time)[1]
+def tool_card(
+    tool: dict, reference_time: datetime, rank: int, *, compare_enabled: bool = False
+) -> str:
+    activity_rank, status = lifecycle(tool, reference_time)
     name = str(tool.get("name") or "Unnamed tool")
     slug = str(tool.get("slug") or "tool")
     category = str(tool.get("category") or "Misc")
-    description = str(tool.get("best_for") or tool.get("description") or "No description available.")
+    curated_description = tool.get("best_for") or tool.get("description")
+    description = str(curated_description or tool.get("upstream_description") or "No description available.")
+    upstream_description_only = not curated_description and bool(tool.get("upstream_description"))
     stars = stars_value(tool)
-    updated = compact_date(tool.get("repo_updated_at")) or "Unknown"
-    released = compact_date(
+    updated = date_markup(tool.get("repo_updated_at"))
+    released = date_markup(
         tool.get("latest_release_published_at") or tool.get("latest_version_released_at")
-    ) or "Unknown"
+    )
     updated_iso = normalized_iso_date(tool.get("repo_updated_at"))
-    tags = " ".join(str(tag) for tag in tool.get("quality_tags") or [])
+    tags = string_values(tool, "quality_tags")
+    use_cases = string_values(tool, "use_cases")
+    ecosystems = string_values(tool, "ecosystems")
+    types = artifact_types(tool)
+    licenses = string_values(tool, "license")
+    capabilities = string_values(tool, "capabilities")
+    supported_php = string_values(tool, "supported_php")
+    catalog_status = str(tool.get("catalog_status") or "current").strip().casefold()
     search_text = " ".join(
-        (name, category_title(category), description, tags, str(tool.get("pro") or ""), str(tool.get("con") or ""))
+        (
+            name,
+            category_title(category),
+            description,
+            " ".join(tags + use_cases + ecosystems + types + licenses + capabilities),
+            str(tool.get("pro") or ""),
+            str(tool.get("con") or ""),
+            str(tool.get("delivery") or ""),
+            str(tool.get("installation") or ""),
+            str(tool.get("supported_php") or ""),
+        )
     ).casefold()
     version = latest_version(tool)
     website_unavailable = tool.get("website_status") == "unavailable"
@@ -204,34 +394,64 @@ def tool_card(tool: dict, reference_time: datetime, rank: int) -> str:
   <dl class="tool-meta">
     <div><dt><span aria-hidden="true">⭐</span> Stars</dt><dd>{stars:,}</dd></div>
     <div><dt>Latest</dt><dd title="{escape(version)}">{escape(version)}</dd></div>
-    <div><dt>Last commit</dt><dd>{escape(updated)}</dd></div>
-    <div><dt>Last release</dt><dd>{escape(released)}</dd></div>
+    <div><dt>Last commit</dt><dd>{updated}</dd></div>
+    <div><dt>Last release</dt><dd>{released}</dd></div>
   </dl>"""
         if show_repository_metadata
+        else ""
+    )
+    compare_button = (
+        f'<button class="compare-toggle" type="button" data-compare-toggle '
+        f'aria-pressed="false" aria-label="Add {escape(name)} to comparison">Compare</button>'
+        if compare_enabled
         else ""
     )
 
     return f"""
 <article class="tool-card" id="tool-{escape(slug)}"
+  data-display-name="{escape(name)}"
+  data-primary-url="{escape(primary_url(tool))}"
+  data-description-text="{escape(description)}"
   data-name="{escape(name.casefold())}"
   data-search="{escape(search_text)}"
-  data-category="{escape(category)}"
+  data-category="{escape(category_id(category))}"
   data-status="{escape(status)}"
+  data-catalog-status="{escape(catalog_status)}"
+  data-artifact-types="{escape(encoded_facet(types))}"
+  data-use-cases="{escape(encoded_facet(use_cases))}"
+  data-ecosystems="{escape(encoded_facet(ecosystems))}"
+  data-licenses="{escape(encoded_facet(licenses))}"
+  data-capabilities="{escape(encoded_facet(capabilities))}"
+  data-artifact-labels="{escape(', '.join(facet_label(value) for value in types))}"
+  data-use-case-labels="{escape(', '.join(facet_label(value) for value in use_cases))}"
+  data-ecosystem-labels="{escape(', '.join(facet_label(value) for value in ecosystems))}"
+  data-license-labels="{escape(', '.join(licenses))}"
+  data-supported-php="{escape(', '.join(supported_php))}"
+  data-pro="{escape(str(tool.get('pro') or ''))}"
+  data-con="{escape(str(tool.get('con') or ''))}"
   data-stars="{stars}"
   data-updated="{escape(updated_iso)}"
+  data-activity-rank="{activity_rank}"
   data-rank="{rank}">
   <div class="tool-card__heading">
     <div>
       <span class="eyebrow">{escape(category_title(category))}</span>
-      <h3><a href="{escape(primary_url(tool))}">{escape(name)}</a>{title_icon(tool)}</h3>
+      <h3><a href="{escape(primary_url(tool))}" aria-label="Open the {escape(name)} project page">{escape(name)}</a>{title_icon(tool)}</h3>
     </div>
-    {status_badge(tool, status)}
+    <div class="badge-group">{relevance_badge(tool)}{status_badge(tool, status)}</div>
   </div>
   <p class="tool-description">{escape(description)}</p>
+  {f'<p class="description-source">Description supplied by the upstream project.</p>' if upstream_description_only else ''}
+  {quality_tags(tool, name)}
+  {comparable_facts(tool, name)}
   {metadata}
-  {tradeoffs(tool)}
+  {tradeoffs(tool, name)}
+  {review_note(tool)}
   {f'<p class="availability-note">Official website currently unavailable</p>' if website_unavailable else ''}
-  <div class="resource-links" aria-label="Resources for {escape(name)}">{resource_links(tool)}</div>
+  <div class="tool-card__footer">
+    <div class="resource-links" aria-label="Resources for {escape(name)}">{resource_links(tool, name)}</div>
+    {compare_button}
+  </div>
 </article>""".strip()
 
 
@@ -250,14 +470,27 @@ def editor_card(tool: dict, reference_time: datetime) -> str:
     {status_badge(tool, status)}
   </div>
   <div class="editor-card__title">
-    <h3><a href="{escape(primary_url(tool))}">{escape(name)}</a>{title_icon(tool)}</h3>
+    <h3><a href="{escape(primary_url(tool))}" aria-label="Open the {escape(name)} project page">{escape(name)}</a>{title_icon(tool)}</h3>
     <span class="star-count" title="{stars:,} GitHub stars"><span aria-hidden="true">⭐</span> {stars:,}<span class="visually-hidden"> GitHub stars</span></span>
   </div>
   <p class="editor-card__audience">{escape(recommended_for)}</p>
   <p>{escape(reason)}</p>
-  {tradeoffs(tool, inline=True)}
-  <a class="text-link" href="#tool-{escape(tool.get('slug') or 'tool')}">View catalog details<span aria-hidden="true"> ↓</span></a>
+  {tradeoffs(tool, name, inline=True)}
+  <a class="text-link" href="#tool-{escape(tool.get('slug') or 'tool')}" aria-label="View catalog details for {escape(name)}">View catalog details<span aria-hidden="true"> ↓</span></a>
 </article>""".strip()
+
+
+def editor_more_markup(tools: list[dict], reference_time: datetime) -> str:
+    if not tools:
+        return ""
+    cards = "\n".join(editor_card(tool, reference_time) for tool in tools)
+    return f"""
+<details class="editor-more">
+  <summary>Show {len(tools)} more editor picks</summary>
+  <div class="editor-grid">
+    {cards}
+  </div>
+</details>""".strip()
 
 
 def category_options(tools: list[dict]) -> str:
@@ -266,14 +499,14 @@ def category_options(tools: list[dict]) -> str:
         for category in sorted(CATEGORY_ORDER, key=lambda value: category_title(value).casefold())
     }
     return "\n".join(
-        f'<option value="{escape(category)}">{escape(category_title(category))} ({counts[category]})</option>'
+        f'<option value="{escape(category_id(category))}">{escape(category_title(category))} ({counts[category]})</option>'
         for category in sorted(CATEGORY_ORDER, key=lambda value: category_title(value).casefold())
         if counts[category]
     )
 
 
 def status_options(tools: list[dict], reference_time: datetime) -> str:
-    status_order = ("Active", "Quiet", "Inactive", "Unknown")
+    status_order = ("Active", "Quiet", "Inactive", "Unmaintained", "Unknown", "Historical")
     counts = {
         status: sum(1 for tool in tools if lifecycle(tool, reference_time)[1] == status)
         for status in status_order
@@ -285,12 +518,20 @@ def status_options(tools: list[dict], reference_time: datetime) -> str:
     )
 
 
-def latest_catalog_update(tools: list[dict]) -> str:
-    values = [str(tool.get("metadata_updated_at")) for tool in tools if tool.get("metadata_updated_at")]
-    if not values:
-        return "Unknown"
-    latest = max(datetime.fromisoformat(value.replace("Z", "+00:00")) for value in values)
-    return f"{latest.strftime('%b')} {latest.day}, {latest.year}"
+def metadata_freshness(
+    tools: list[dict], reference_time: datetime, window_days: int = 7
+) -> tuple[int, int]:
+    fresh = 0
+    for tool in tools:
+        updated = parse_date(tool.get("metadata_updated_at"))
+        if not updated:
+            continue
+        if updated.tzinfo is None:
+            updated = updated.replace(tzinfo=timezone.utc)
+        age_days = max((reference_time - updated).days, 0)
+        if age_days <= window_days:
+            fresh += 1
+    return fresh, len(tools)
 
 
 def render_index(tools: list[dict], reference_time: datetime) -> str:
@@ -302,9 +543,11 @@ def render_index(tools: list[dict], reference_time: datetime) -> str:
     memorial_tools = [tool for tool in tools if is_dead(tool, reference_time)]
     catalog_tools = [tool for tool in current_tools if tool.get("category") != "SaaS"]
     hosted_tools = [tool for tool in current_tools if tool.get("category") == "SaaS"]
-    ordered_tools = sorted_for_table(catalog_tools, reference_time)
+    ordered_editor_slugs = editor_choice_order()
+    ordered_tools = recommended_tools(catalog_tools, reference_time, ordered_editor_slugs)
 
     editor_slugs = read_editor_choice_slugs()
+    editor_order = {slug: rank for rank, slug in enumerate(ordered_editor_slugs)}
     editor_tools = apply_editor_choice_copy(
         sorted(
             [
@@ -312,10 +555,24 @@ def render_index(tools: list[dict], reference_time: datetime) -> str:
                 for tool in catalog_tools
                 if tool.get("slug") in editor_slugs
             ],
-            key=lambda item: (category_rank(item.get("category")), item.get("name", "").casefold()),
+            key=lambda item: (
+                editor_order.get(str(item.get("slug") or ""), len(editor_order)),
+                category_rank(item.get("category")),
+                item.get("name", "").casefold(),
+            ),
         ),
         read_editor_choice_copy(),
     )
+    featured_editor_tools: list[dict] = []
+    featured_categories: set[str] = set()
+    for tool in editor_tools:
+        category = str(tool.get("category") or "Misc")
+        if category not in featured_categories:
+            featured_editor_tools.append(tool)
+            featured_categories.add(category)
+    remaining_editor_tools = [tool for tool in editor_tools if tool not in featured_editor_tools]
+    editor_more_section = editor_more_markup(remaining_editor_tools, reference_time)
+    fresh_count, freshness_total = metadata_freshness(tools, reference_time)
 
     replacements = {
         "{{CANONICAL_URL}}": SITE_URL,
@@ -326,12 +583,25 @@ def render_index(tools: list[dict], reference_time: datetime) -> str:
         "{{MEMORIAL_COUNT}}": str(len(memorial_tools)),
         "{{EDITOR_COUNT}}": str(len(editor_tools)),
         "{{CATEGORY_COUNT}}": str(len({tool.get("category") for tool in catalog_tools})),
-        "{{LAST_UPDATED}}": escape(latest_catalog_update(tools)),
+        "{{FRESH_COUNT}}": str(fresh_count),
+        "{{FRESH_TOTAL}}": str(freshness_total),
+        "{{AS_OF_DATE}}": reference_time.date().isoformat(),
+        "{{TOOL_PROPOSAL_URL}}": escape(TOOL_PROPOSAL_URL),
+        "{{CORRECTION_URL}}": escape(CORRECTION_URL),
         "{{CATEGORY_OPTIONS}}": category_options(catalog_tools),
         "{{STATUS_OPTIONS}}": status_options(catalog_tools, reference_time),
-        "{{EDITOR_CARDS}}": "\n".join(editor_card(tool, reference_time) for tool in editor_tools),
+        "{{USE_CASE_OPTIONS}}": facet_options(catalog_tools, "use_cases"),
+        "{{ECOSYSTEM_OPTIONS}}": facet_options(catalog_tools, "ecosystems"),
+        "{{ARTIFACT_TYPE_OPTIONS}}": facet_options(catalog_tools, "artifact_type"),
+        "{{LICENSE_OPTIONS}}": facet_options(catalog_tools, "license"),
+        "{{CAPABILITY_OPTIONS}}": facet_options(catalog_tools, "capabilities"),
+        "{{EDITOR_FEATURED_CARDS}}": "\n".join(
+            editor_card(tool, reference_time) for tool in featured_editor_tools
+        ),
+        "{{EDITOR_MORE_SECTION}}": editor_more_section,
         "{{TOOL_CARDS}}": "\n".join(
-            tool_card(tool, reference_time, rank) for rank, tool in enumerate(ordered_tools, start=1)
+            tool_card(tool, reference_time, rank, compare_enabled=True)
+            for rank, tool in enumerate(ordered_tools, start=1)
         ),
         "{{HOSTED_CARDS}}": "\n".join(
             tool_card(tool, reference_time, rank)
@@ -380,8 +650,14 @@ def validate_output(output: Path) -> None:
         output / "assets" / "site.css",
         output / "assets" / "site.js",
         output / "assets" / "favicon.svg",
+        output / "assets" / "social-preview.svg",
     )
     missing = [str(path.relative_to(output)) for path in required if not path.is_file()]
+    missing.extend(
+        f"exports/{path.name}"
+        for path in (EXPORT_SOURCE / name for name in EXPORT_FILENAMES)
+        if path.is_file() and not (output / "exports" / path.name).is_file()
+    )
     if missing:
         raise ValueError("Missing generated site files: " + ", ".join(missing))
 
@@ -419,6 +695,13 @@ def build_site(
     (output / "index.html").write_text(render_index(tools, reference_time), encoding="utf-8")
     (output / "404.html").write_text(render_not_found(base_path), encoding="utf-8")
     shutil.copytree(SITE_SOURCE / "assets", output / "assets")
+    export_files = [EXPORT_SOURCE / name for name in EXPORT_FILENAMES]
+    if any(path.is_file() for path in export_files):
+        export_output = output / "exports"
+        export_output.mkdir(exist_ok=True)
+        for path in export_files:
+            if path.is_file():
+                shutil.copy2(path, export_output / path.name)
     (output / ".nojekyll").write_text("", encoding="utf-8")
     validate_output(output)
     return output
@@ -432,12 +715,20 @@ def parse_args() -> argparse.Namespace:
         default=DEFAULT_BASE_PATH,
         help="Absolute URL path where the generated site will be served",
     )
+    parser.add_argument(
+        "--as-of",
+        help="Reproducible ISO-8601 date/timestamp (defaults to SOURCE_DATE_EPOCH or now)",
+    )
     return parser.parse_args()
 
 
 def main() -> None:
     args = parse_args()
-    output = build_site(args.output.resolve(), base_path=args.base_path)
+    output = build_site(
+        args.output.resolve(),
+        reference_time=resolve_reference_time(args.as_of),
+        base_path=args.base_path,
+    )
     print(f"Generated GitHub Pages site in {output}")
 
 

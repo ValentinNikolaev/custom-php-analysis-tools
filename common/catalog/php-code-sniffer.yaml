@@ -1,6 +1,12 @@
 slug: "php-code-sniffer"
-name: "PHP Code Sniffer"
+name: "PHP_CodeSniffer (legacy repository)"
 category: "Coding standards"
+artifact_type: "analyzer"
+use_cases:
+  - "code-style"
+ecosystems:
+  - "phpcs"
+catalog_status: "historical"
 description: "PHP_CodeSniffer tokenizes PHP files and detects violations of a defined set of coding standards."
 website: "https://github.com/squizlabs/PHP_CodeSniffer"
 public_url: "https://github.com/squizlabs/PHP_CodeSniffer"
@@ -20,9 +26,9 @@ packagist_checked_at: "2026-08-07T04:09:39Z"
 stars: 10770
 repo_updated_at: "2024-04-01T20:37:32Z"
 metadata_updated_at: "2026-08-07T04:09:39Z"
-editor_choice: true
 quality_tags:
   - "php"
   - "static-analysis"
 source: "README.md"
-notes: ""
+reviewed_at: "2026-08-08"
+notes: "Legacy Squizlabs repository; development moved to PHPCSStandards/PHP_CodeSniffer."

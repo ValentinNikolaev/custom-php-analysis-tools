@@ -1,6 +1,7 @@
 slug: "php7mar"
 name: "php7mar"
 category: "Bugs finders"
+catalog_status: "historical"
 description: "PHP 7 Migration Assistant Report (MAR)"
 website: "https://github.com/Alexia/php7mar"
 public_url: "https://github.com/Alexia/php7mar"
@@ -20,7 +21,6 @@ packagist_checked_at: "2026-08-07T04:09:39Z"
 stars: 781
 repo_updated_at: "2019-05-28T11:33:19Z"
 metadata_updated_at: "2026-08-07T04:09:39Z"
-editor_choice: false
 quality_tags:
   - "archived"
 source: "README.md"

@@ -1,6 +1,13 @@
 slug: "php-static-type-checker"
 name: "PHP Static Type Checker"
 category: "Bugs finders"
+artifact_type: "analyzer"
+use_cases:
+  - "type-analysis"
+ecosystems:
+  - "generic"
+catalog_status: "current"
+reviewed_at: "2026-08-08"
 description: "Static type checker for PHP relying on the php-ast PECL extension. Mirrored from Codeberg.org"
 website: "https://codeberg.org/Jumping-Beaver/PHP_Static_Type_Checker"
 public_url: "https://codeberg.org/Jumping-Beaver/PHP_Static_Type_Checker"
@@ -17,7 +24,6 @@ packagist_checked_at: "2026-08-07T04:09:39Z"
 stars: 0
 repo_updated_at: "2026-04-08T16:22:23Z"
 metadata_updated_at: "2026-08-07T12:30:54Z"
-editor_choice: false
 quality_tags: []
 source: "https://github.com/exakat/php-static-analysis-tools"
 notes: "Imported from Exakat's PHP static-analysis tools catalog after active-project verification."

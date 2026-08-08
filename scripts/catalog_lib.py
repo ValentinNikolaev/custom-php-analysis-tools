@@ -31,10 +31,97 @@ CATEGORY_ORDER = [
     "Misc",
     "SaaS",
 ]
+CATEGORY_IDS = {
+    "Bugs finders": "bug-finders",
+    "Coding standards": "coding-standards",
+    "Architecture rules": "architecture-rules",
+    "DIY": "libraries-building-blocks",
+    "Fixers": "fixers",
+    "Metrics": "metrics",
+    "Misc": "misc",
+    "SaaS": "hosted-services",
+}
+
+# This is the canonical serialization order for catalog entries.  Keeping the
+# allow-list beside save_tool makes schema evolution explicit: an updater must
+# never silently discard a field that was added by an editor.
+TOOL_FIELD_ORDER = [
+    "slug",
+    "name",
+    "category",
+    "artifact_type",
+    "use_cases",
+    "ecosystems",
+    "capabilities",
+    "catalog_status",
+    "product_status",
+    "description",
+    "upstream_description",
+    "best_for",
+    "delivery",
+    "installation",
+    "supported_php",
+    "license",
+    "pricing",
+    "successor_of",
+    "supersedes",
+    "reviewed_at",
+    "editor_reason",
+    "title_icon",
+    "title_icon_label",
+    "website",
+    "public_url",
+    "website_status",
+    "website_status_code",
+    "website_checked_at",
+    "website_error",
+    "repository",
+    "latest_release_name",
+    "latest_release_tag",
+    "latest_release_url",
+    "latest_release_published_at",
+    "latest_release_checked_at",
+    "packagist",
+    "latest_version",
+    "latest_version_released_at",
+    "packagist_checked_at",
+    "stars",
+    "repo_updated_at",
+    "metadata_updated_at",
+    "quality_tags",
+    "source",
+    "notes",
+]
 
 
-def now_iso() -> str:
-    return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+def parse_reference_time(value: str) -> datetime:
+    """Parse a reproducible date/timestamp and return an aware UTC datetime."""
+
+    normalized = value.strip()
+    if re.fullmatch(r"\d{4}-\d{2}-\d{2}", normalized):
+        normalized += "T00:00:00Z"
+    parsed = datetime.fromisoformat(normalized.replace("Z", "+00:00"))
+    if parsed.tzinfo is None:
+        raise ValueError("reference time must include a timezone")
+    return parsed.astimezone(timezone.utc)
+
+
+def reference_time(as_of: str | None = None) -> datetime:
+    """Resolve --as-of or SOURCE_DATE_EPOCH, falling back to the current time."""
+
+    if as_of:
+        return parse_reference_time(as_of)
+    source_date_epoch = os.environ.get("SOURCE_DATE_EPOCH")
+    if source_date_epoch:
+        try:
+            return datetime.fromtimestamp(int(source_date_epoch), timezone.utc)
+        except (TypeError, ValueError, OverflowError) as exc:
+            raise ValueError("SOURCE_DATE_EPOCH must be an integer Unix timestamp") from exc
+    return datetime.now(timezone.utc)
+
+
+def now_iso(as_of: str | None = None) -> str:
+    return reference_time(as_of).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
 
 def slugify(value: str) -> str:
@@ -121,11 +208,15 @@ def load_yaml(path: Path) -> dict[str, Any]:
                 data[current_key] = container
             if not isinstance(container, dict):
                 raise ValueError(f"Expected a mapping for {current_key!r} in {path}")
+            if sub_key in container:
+                raise ValueError(f"Duplicate key {current_key}.{sub_key} in {path}")
             container[sub_key] = parse_scalar(sub_value)
             continue
         key, value = raw_line.split(":", 1)
         key = key.strip()
         value = value.strip()
+        if key in data:
+            raise ValueError(f"Duplicate key {key} in {path}")
         if value == "":
             data[key] = []
             current_key = key
@@ -141,43 +232,16 @@ def load_catalog() -> list[dict[str, Any]]:
 
 
 def save_tool(tool: dict[str, Any]) -> None:
+    unknown_fields = sorted(set(tool) - set(TOOL_FIELD_ORDER))
+    if unknown_fields:
+        raise ValueError(
+            f"Refusing to save {tool.get('slug', '<unknown>')}: unknown fields would be lost: "
+            + ", ".join(unknown_fields)
+        )
     CATALOG_DIR.mkdir(parents=True, exist_ok=True)
     path = CATALOG_DIR / f"{tool['slug']}.yaml"
     ordered: dict[str, Any] = {}
-    for key in [
-        "slug",
-        "name",
-        "category",
-        "description",
-        "best_for",
-        "delivery",
-        "editor_reason",
-        "title_icon",
-        "title_icon_label",
-        "website",
-        "public_url",
-        "website_status",
-        "website_status_code",
-        "website_checked_at",
-        "website_error",
-        "repository",
-        "latest_release_name",
-        "latest_release_tag",
-        "latest_release_url",
-        "latest_release_published_at",
-        "latest_release_checked_at",
-        "packagist",
-        "latest_version",
-        "latest_version_released_at",
-        "packagist_checked_at",
-        "stars",
-        "repo_updated_at",
-        "metadata_updated_at",
-        "editor_choice",
-        "quality_tags",
-        "source",
-        "notes",
-    ]:
+    for key in TOOL_FIELD_ORDER:
         if key in tool:
             ordered[key] = tool[key]
     path.write_text(dump_yaml(ordered), encoding="utf-8")

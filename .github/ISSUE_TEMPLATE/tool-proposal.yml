@@ -36,14 +36,36 @@ body:
     attributes:
       label: Suggested category
       options:
-        - Bugs finders
+        - Bug finders
         - Coding standards
         - Architecture rules
-        - DIY
-        - Fixers
-        - Metrics
-        - SaaS
-        - Misc
+        - Libraries and building blocks
+        - Fixers and refactoring
+        - Metrics and architecture
+        - Hosted analysis services
+        - Specialized tools
+    validations:
+      required: true
+  - type: dropdown
+    id: artifact-type
+    attributes:
+      label: Artifact type
+      options:
+        - Standalone analyzer or linter
+        - Analyzer extension or ruleset
+        - Formatter, fixer, or refactoring tool
+        - Library or building block
+        - Orchestrator or CI workflow tool
+        - Hosted service
+        - Adjacent testing or coverage tool
+    validations:
+      required: true
+  - type: textarea
+    id: use-cases
+    attributes:
+      label: Use cases and ecosystems
+      description: List the concrete tasks it solves and any PHP framework or analyzer ecosystem it extends.
+      placeholder: "Use cases: dead code, deprecated APIs. Ecosystems: PHPStan, Symfony."
     validations:
       required: true
   - type: textarea
@@ -58,6 +80,20 @@ body:
     attributes:
       label: Maintenance evidence
       description: Link to a recent release, commit, or other evidence that the project is active.
+    validations:
+      required: true
+  - type: textarea
+    id: license-pricing
+    attributes:
+      label: License, pricing, and delivery
+      description: State the source license and whether the tool is local, self-hosted, free, or paid.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Closest catalog alternatives
+      description: Explain what is distinct from tools already listed. Popularity alone is not sufficient.
     validations:
       required: true
   - type: checkboxes

@@ -1,6 +1,7 @@
 slug: "coverage-checker"
 name: "Coverage Checker"
 category: "Misc"
+catalog_status: "historical"
 description: "Allows old code to use new standards"
 website: "https://github.com/exussum12/coverageChecker"
 public_url: "https://github.com/exussum12/coverageChecker"
@@ -20,7 +21,6 @@ packagist_checked_at: "2026-08-07T04:09:39Z"
 stars: 176
 repo_updated_at: "2024-06-25T15:13:32Z"
 metadata_updated_at: "2026-08-07T04:09:39Z"
-editor_choice: true
 quality_tags:
   - "php"
   - "phpstan"

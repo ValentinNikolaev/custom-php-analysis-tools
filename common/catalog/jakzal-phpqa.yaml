@@ -1,6 +1,13 @@
 slug: "jakzal-phpqa"
 name: "jakzal/phpqa"
 category: "Misc"
+artifact_type: "orchestrator"
+use_cases:
+  - "quality-gates"
+ecosystems:
+  - "docker"
+catalog_status: "current"
+reviewed_at: "2026-08-08"
 description: "Docker image that provides static analysis tools for PHP"
 best_for: "Running a ready-made PHP analysis toolchain in Docker"
 website: "https://hub.docker.com/r/jakzal/phpqa/"
@@ -22,7 +29,6 @@ packagist_checked_at: "2026-08-07T04:09:39Z"
 stars: 1319
 repo_updated_at: "2026-08-03T06:22:09Z"
 metadata_updated_at: "2026-08-07T18:31:46Z"
-editor_choice: false
 quality_tags:
   - "code-quality"
   - "php"

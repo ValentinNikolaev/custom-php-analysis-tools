@@ -1,7 +1,16 @@
 slug: "glayzzle-php-parser"
-name: "PHP Parser"
+name: "Glayzzle PHP Parser (Node.js)"
 category: "Misc"
-description: ":herb: NodeJS PHP Parser - extract AST or tokens"
+artifact_type: "library"
+use_cases:
+  - "parsing"
+  - "ast"
+ecosystems:
+  - "nodejs"
+  - "php"
+catalog_status: "current"
+description: "PHP parser written for Node.js that extracts tokens and an abstract syntax tree."
+best_for: "JavaScript and Node.js tooling that needs to parse PHP without running PHP."
 website: "https://php-parser.glayzzle.com/"
 public_url: "https://php-parser.glayzzle.com/"
 website_status: "available"
@@ -21,8 +30,8 @@ packagist_checked_at: "2026-08-07T04:09:39Z"
 stars: 563
 repo_updated_at: "2026-08-05T18:20:34Z"
 metadata_updated_at: "2026-08-07T18:31:46Z"
-editor_choice: false
 quality_tags:
   - "php"
 source: "https://github.com/exakat/php-static-analysis-tools"
-notes: "Imported from Exakat's PHP static-analysis tools catalog after active-project verification."
+reviewed_at: "2026-08-08"
+notes: "Name clarifies that this Node.js library is distinct from nikic/PHP-Parser."

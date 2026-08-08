@@ -1,6 +1,13 @@
 slug: "static-analysis-results-baseliner"
 name: "Static Analysis Results Baseliner"
 category: "Misc"
+artifact_type: "orchestrator"
+use_cases:
+  - "baseline-management"
+ecosystems:
+  - "generic"
+catalog_status: "current"
+reviewed_at: "2026-08-08"
 description: "Static Analysis Results Baseliner"
 website: "https://github.com/DaveLiddament/sarb"
 public_url: "https://github.com/DaveLiddament/sarb"
@@ -21,7 +28,6 @@ packagist_checked_at: "2026-08-07T04:09:39Z"
 stars: 165
 repo_updated_at: "2026-07-12T08:42:09Z"
 metadata_updated_at: "2026-08-07T18:31:46Z"
-editor_choice: false
 quality_tags: []
 source: "https://github.com/exakat/php-static-analysis-tools"
 notes: "Imported from Exakat's PHP static-analysis tools catalog after active-project verification."

@@ -1,6 +1,13 @@
 slug: "composer-normalize"
 name: "composer-normalize"
 category: "Coding standards"
+artifact_type: "fixer"
+use_cases:
+  - "manifest-style"
+ecosystems:
+  - "composer"
+catalog_status: "current"
+reviewed_at: "2026-08-08"
 description: "🎵 Provides a composer plugin for normalizing composer.json."
 website: "https://github.com/ergebnis/composer-normalize"
 public_url: "https://github.com/ergebnis/composer-normalize"
@@ -21,7 +28,6 @@ packagist_checked_at: "2026-08-07T04:09:39Z"
 stars: 1115
 repo_updated_at: "2026-08-02T22:02:48Z"
 metadata_updated_at: "2026-08-07T12:30:54Z"
-editor_choice: false
 quality_tags: []
 source: "https://github.com/exakat/php-static-analysis-tools"
 notes: "Imported from Exakat's PHP static-analysis tools catalog after active-project verification."

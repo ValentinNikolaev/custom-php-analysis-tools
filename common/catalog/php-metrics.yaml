@@ -1,6 +1,15 @@
 slug: "php-metrics"
 name: "PHP Metrics"
 category: "Metrics"
+artifact_type: "metrics"
+use_cases:
+  - "metrics"
+  - "complexity"
+  - "architecture"
+ecosystems:
+  - "generic"
+catalog_status: "current"
+reviewed_at: "2026-08-08"
 description: "Beautiful and understandable static analysis tool for PHP"
 website: "https://github.com/Halleck45/PhpMetrics"
 public_url: "https://github.com/Halleck45/PhpMetrics"
@@ -20,7 +29,6 @@ packagist_checked_at: "2026-08-07T04:09:39Z"
 stars: 2605
 repo_updated_at: "2026-08-02T14:32:36Z"
 metadata_updated_at: "2026-08-07T04:09:39Z"
-editor_choice: true
 quality_tags:
   - "php"
 source: "README.md"

@@ -104,7 +104,6 @@ def build_tool(entry: dict, repo: dict) -> dict:
         "stars": int(repo.get("stargazers_count") or 0),
         "repo_updated_at": repo.get("pushed_at") or repo.get("updated_at"),
         "metadata_updated_at": now_iso(),
-        "editor_choice": False,
         "quality_tags": tags,
         "source": SOURCE_URL,
         "notes": "Imported from Exakat's PHP static-analysis tools catalog after active-project verification.",

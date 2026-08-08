@@ -1,6 +1,12 @@
 slug: "php-parallel-lint"
-name: "PHP-Parallel-Lint"
+name: "PHP-Parallel-Lint (legacy repository)"
 category: "Bugs finders"
+artifact_type: "analyzer"
+use_cases:
+  - "syntax"
+ecosystems:
+  - "generic"
+catalog_status: "historical"
 description: "This tool check syntax of PHP files faster than serial check with fancier output."
 website: "https://github.com/JakubOnderka/PHP-Parallel-Lint"
 public_url: "https://github.com/JakubOnderka/PHP-Parallel-Lint"
@@ -20,9 +26,9 @@ packagist_checked_at: "2026-08-07T04:09:39Z"
 stars: 641
 repo_updated_at: "2021-03-13T09:57:43Z"
 metadata_updated_at: "2026-08-07T04:09:39Z"
-editor_choice: false
 quality_tags:
   - "archived"
   - "php"
 source: "README.md"
-notes: ""
+reviewed_at: "2026-08-08"
+notes: "Legacy JakubOnderka repository; development continues under php-parallel-lint/PHP-Parallel-Lint."

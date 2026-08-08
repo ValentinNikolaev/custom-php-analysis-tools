@@ -1,6 +1,13 @@
 slug: "php-magic-number-detector"
 name: "PHP Magic Number Detector"
 category: "Bugs finders"
+artifact_type: "analyzer"
+use_cases:
+  - "maintainability"
+ecosystems:
+  - "generic"
+catalog_status: "current"
+reviewed_at: "2026-08-08"
 description: "PHP Magic Number Detector"
 website: "https://github.com/povils/phpmnd"
 public_url: "https://github.com/povils/phpmnd"
@@ -21,7 +28,6 @@ packagist_checked_at: "2026-08-07T04:09:39Z"
 stars: 585
 repo_updated_at: "2026-02-25T09:06:20Z"
 metadata_updated_at: "2026-08-07T12:30:54Z"
-editor_choice: true
 quality_tags:
   - "php"
   - "static-analysis"

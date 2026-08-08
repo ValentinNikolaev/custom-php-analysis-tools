@@ -1,6 +1,14 @@
 slug: "snyk-code"
 name: "Snyk Code"
 category: "SaaS"
+artifact_type: "hosted-service"
+use_cases:
+  - "security"
+  - "sast"
+ecosystems:
+  - "generic"
+catalog_status: "current"
+reviewed_at: "2026-08-08"
 description: "A hosted security platform with static application security testing for PHP."
 best_for: "Security-focused PHP static application security testing"
 delivery: "Hosted dashboard with SCM, CLI, IDE, and CI integrations"
@@ -15,7 +23,6 @@ packagist: null
 stars: 0
 repo_updated_at: null
 metadata_updated_at: "2026-08-06T12:45:00Z"
-editor_choice: false
 quality_tags:
   - "php"
   - "security"

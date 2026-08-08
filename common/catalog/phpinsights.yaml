@@ -1,9 +1,19 @@
 slug: "phpinsights"
 name: "PHPInsights"
 category: "Metrics"
+artifact_type: "metrics"
+use_cases:
+  - "code-quality"
+  - "metrics"
+  - "architecture"
+ecosystems:
+  - "laravel"
+  - "symfony"
+  - "generic"
+catalog_status: "current"
 description: "🔰 Instant PHP quality checks from your console"
-website: "https://youtube.com/@nunomaduro?sub_confirmation=1"
-public_url: "https://youtube.com/@nunomaduro?sub_confirmation=1"
+website: "https://nunomaduro.github.io/phpinsights/"
+public_url: "https://nunomaduro.github.io/phpinsights/"
 website_status: "available"
 website_status_code: 200
 website_checked_at: "2026-08-07T10:17:11Z"
@@ -21,8 +31,8 @@ packagist_checked_at: "2026-08-07T04:09:39Z"
 stars: 5626
 repo_updated_at: "2026-08-04T15:14:22Z"
 metadata_updated_at: "2026-08-07T12:30:54Z"
-editor_choice: false
 quality_tags:
   - "php"
 source: "https://github.com/exakat/php-static-analysis-tools"
-notes: "Imported from Exakat's PHP static-analysis tools catalog after active-project verification."
+reviewed_at: "2026-08-08"
+notes: "Primary website corrected to the documentation linked from the official repository."

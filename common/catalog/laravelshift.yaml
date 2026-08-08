@@ -1,6 +1,14 @@
 slug: "laravelshift"
 name: "Laravelshift"
 category: "SaaS"
+artifact_type: "hosted-service"
+use_cases:
+  - "upgrade"
+  - "refactoring"
+ecosystems:
+  - "laravel"
+catalog_status: "current"
+reviewed_at: "2026-08-08"
 description: "the automated way to upgrade Laravel applications. Upgrade Laravel applications all the way from Laravel 4.2 to the latest version of Laravel"
 website: "https://laravelshift.com/"
 public_url: "https://laravelshift.com/"
@@ -13,7 +21,6 @@ packagist: null
 stars: 0
 repo_updated_at: null
 metadata_updated_at: "2026-07-25T18:37:17Z"
-editor_choice: false
 quality_tags: []
 source: "README.md"
 notes: ""

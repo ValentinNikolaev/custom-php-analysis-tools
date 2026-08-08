@@ -1,6 +1,14 @@
 slug: "sonarqube"
 name: "SonarQube PHP"
 category: "Bugs finders"
+artifact_type: "analyzer"
+use_cases:
+  - "code-quality"
+  - "security"
+ecosystems:
+  - "sonarqube"
+catalog_status: "current"
+successor_of: "rips"
 description: "The SonarPHP analyzer that powers PHP code-quality and security analysis in SonarQube and SonarQube for IDE."
 best_for: "PHP quality and security analysis in the SonarQube ecosystem"
 delivery: "Analyzer for SonarQube Server and SonarQube for IDE"
@@ -22,10 +30,10 @@ packagist_checked_at: "2026-08-07T09:46:41Z"
 stars: 430
 repo_updated_at: "2026-08-06T09:42:43Z"
 metadata_updated_at: "2026-08-07T09:46:41Z"
-editor_choice: false
 quality_tags:
   - "code-quality"
   - "php"
   - "static-analysis"
 source: "https://github.com/sonarsource/sonar-php"
-notes: "Canonical catalog entry for the SonarPHP analyzer; the hosted SonarQube Cloud product is listed separately."
+reviewed_at: "2026-08-08"
+notes: "Canonical catalog entry for the SonarPHP analyzer; the hosted SonarQube Cloud product is listed separately. SonarSource integrated technology acquired with RIPS."

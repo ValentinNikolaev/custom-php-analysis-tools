@@ -65,14 +65,26 @@ pros:
   static-analysis-results-baseliner: "Creates manageable baselines for existing analysis debt."
   checkmarx: "Provides deep PHP security scanning and remediation workflows."
   codacy: "Adds pull-request quality and security gates with little setup."
-  code-climate: "Centralizes hosted maintainability feedback for repositories."
+  code-climate: "Preserves the lineage of a widely used hosted maintainability service."
   deepsource: "Combines PHP analysis, coverage, and maintainability reporting."
-  insight: "Turns project quality data into hosted delivery reports."
+  insight: "Combines PHP quality, security, performance, and upgrade reports with deeper Symfony understanding."
   laravelshift: "Automates much of a Laravel version upgrade."
   qodana-php: "Runs PhpStorm-grade inspections as CI quality gates."
-  rips: "Focuses specifically on PHP vulnerability analysis."
+  rips: "Documents an influential PHP-focused security analyzer now integrated into SonarQube."
   snyk-code: "Adds security-focused PHP SAST to a hosted platform."
   sonarqube-cloud: "Provides hosted PHP quality gates and security analysis."
+  roave-backward-compatibility-check: "Turns PHP API compatibility changes into an enforceable CI check."
+  shipmonk-dead-code-detector: "Finds transitive and framework-driven dead code and can remove selected findings."
+  phpstan-dba: "Adds SQL validation and database result type inference to an existing PHPStan workflow."
+  phpstan-strict-rules: "Enables a maintained set of stricter correctness rules with little setup."
+  phpstan-deprecation-rules: "Detects deprecated APIs and supports project-defined deprecation markers."
+  phpstan-symfony: "Teaches PHPStan about Symfony containers, console commands, forms, and Messenger."
+  phpdoc-parser: "Provides a maintained PHPDoc AST with generics and advanced type syntax."
+  php-ast: "Exposes the PHP engine's native AST with low parsing overhead."
+  slevomat-coding-standard: "Offers a broad PHPCS ruleset spanning safety, cleanup, formatting, and autofix."
+  wordpress-coding-standards: "Applies the official WordPress PHP conventions through the familiar PHPCS workflow."
+  laravel-pint: "Provides Laravel-oriented formatting defaults with minimal configuration."
+  qlty: "Unifies PHP linters, formatters, security checks, metrics, and coverage in a polyglot CLI."
 cons:
   ast-metrics: "Metrics highlight risk; they do not prove defects."
   composer-dependency-analyser: "It does not replace type or behavior analysis."
@@ -137,14 +149,26 @@ cons:
   static-analysis-results-baseliner: "A baseline records debt instead of fixing it."
   checkmarx: "Commercial hosting, setup, and licensing add overhead."
   codacy: "Hosted rules and quality gates need project tuning."
-  code-climate: "Teams depend on an external service and its rule set."
+  code-climate: "The Code Climate Quality product has been superseded by Qlty."
   deepsource: "Cloud integration and vendor policy may not fit every team."
-  insight: "It requires a hosted workflow and repository integration."
+  insight: "It is a paid hosted service and its deepest analysis is Symfony-oriented."
   laravelshift: "Teams must test and review the generated upgrade."
   qodana-php: "Licensing and container setup add operational cost."
-  rips: "Teams should verify current availability and commercial terms."
+  rips: "It is no longer available as a standalone product."
   snyk-code: "SAST covers only part of application security."
   sonarqube-cloud: "Service integration and rule tuning take time."
+  roave-backward-compatibility-check: "It depends on Git history and SemVer tags and cannot detect every behavioral compatibility break."
+  shipmonk-dead-code-detector: "Dynamic framework behavior may still require configuration or custom usage providers."
+  phpstan-dba: "Database-specific inference adds configuration and does not replace runtime integration tests."
+  phpstan-strict-rules: "Opinionated rules can create substantial adoption work in an existing codebase."
+  phpstan-deprecation-rules: "It only reports deprecations that metadata, stubs, or extensions declare."
+  phpstan-symfony: "Advanced checks require generated Symfony container metadata and framework-specific setup."
+  phpdoc-parser: "It is a parser library, not a ready-to-run analyzer."
+  php-ast: "It is a native extension and consumers must build the actual analysis."
+  slevomat-coding-standard: "Its large and evolving rule catalog needs an explicitly pinned project ruleset."
+  wordpress-coding-standards: "Its conventions are specific to WordPress projects and require PHP_CodeSniffer."
+  laravel-pint: "Its opinionated defaults offer less control than configuring PHP-CS-Fixer directly."
+  qlty: "The CLI uses a Fair Source BSL license rather than an OSI-approved open-source license."
 sources:
   ast-metrics: ["https://github.com/ast-metrics/ast-metrics"]
   composer-dependency-analyser: ["https://github.com/shipmonk-rnd/composer-dependency-analyser"]
@@ -209,11 +233,23 @@ sources:
   static-analysis-results-baseliner: ["https://github.com/DaveLiddament/sarb"]
   checkmarx: ["https://checkmarx.com/glossary/php-static-code-analysis/"]
   codacy: ["https://www.codacy.com/"]
-  code-climate: ["https://codeclimate.com"]
+  code-climate: ["https://codeclimate.com/blog/code-climate-quality-is-now-qlty-software"]
   deepsource: ["https://deepsource.com/directory/php"]
-  insight: ["https://www.sensio.com/products/sensio-insight"]
+  insight: ["https://insight.symfony.com/docs/getting-started/introduction-to-insight.html"]
   laravelshift: ["https://laravelshift.com/"]
   qodana-php: ["https://www.jetbrains.com/qodana/"]
-  rips: ["https://www.ripstech.com/"]
+  rips: ["https://www.sonarsource.com/blog/sonarsource-acquires-rips-technologies/"]
   snyk-code: ["https://snyk.io/code-checker/php/"]
   sonarqube-cloud: ["https://www.sonarsource.com/products/sonarqube/cloud/"]
+  roave-backward-compatibility-check: ["https://github.com/Roave/BackwardCompatibilityCheck"]
+  shipmonk-dead-code-detector: ["https://github.com/shipmonk-rnd/dead-code-detector"]
+  phpstan-dba: ["https://github.com/staabm/phpstan-dba"]
+  phpstan-strict-rules: ["https://github.com/phpstan/phpstan-strict-rules"]
+  phpstan-deprecation-rules: ["https://github.com/phpstan/phpstan-deprecation-rules"]
+  phpstan-symfony: ["https://github.com/phpstan/phpstan-symfony"]
+  phpdoc-parser: ["https://github.com/phpstan/phpdoc-parser"]
+  php-ast: ["https://github.com/nikic/php-ast"]
+  slevomat-coding-standard: ["https://github.com/slevomat/coding-standard"]
+  wordpress-coding-standards: ["https://github.com/WordPress/WordPress-Coding-Standards"]
+  laravel-pint: ["https://github.com/laravel/pint"]
+  qlty: ["https://github.com/qltysh/qlty", "https://docs.qlty.sh/languages/php"]

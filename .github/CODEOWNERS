@@ -1,0 +1,6 @@
+# Editorial and automation changes require maintainer review.
+/common/ @ValentinNikolaev
+/EDITORIAL-POLICY.md @ValentinNikolaev
+/DATA-LICENSE.md @ValentinNikolaev
+/scripts/ @ValentinNikolaev
+/.github/workflows/ @ValentinNikolaev

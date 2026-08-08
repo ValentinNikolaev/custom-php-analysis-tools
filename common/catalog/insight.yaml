@@ -1,19 +1,35 @@
 slug: "insight"
-name: "Insight"
+name: "SymfonyInsight"
 category: "SaaS"
-description: "Sensio Insight turns project data into decision support for software quality and delivery."
-website: "https://www.sensio.com/products/sensio-insight"
-public_url: "https://www.sensio.com/products/sensio-insight"
+artifact_type: "hosted-service"
+use_cases:
+  - "code-quality"
+  - "security"
+  - "performance"
+ecosystems:
+  - "symfony"
+  - "generic"
+catalog_status: "current"
+description: "Hosted static and dynamic analysis for PHP projects, with deeper support for Symfony applications."
+best_for: "Continuous PHP and Symfony quality, security, performance, and upgrade reports."
+pricing: "Paid per-project plans; current pricing is published on the official site."
+capabilities:
+  - "static-analysis"
+  - "dynamic-analysis"
+  - "security-reports"
+  - "upgrade-reports"
+website: "https://insight.symfony.com/"
+public_url: "https://insight.symfony.com/"
 website_status: "available"
 website_status_code: 200
-website_checked_at: "2026-08-07T09:46:41Z"
+website_checked_at: "2026-08-08T00:00:00Z"
 website_error: ""
 repository: null
 packagist: null
 stars: 0
 repo_updated_at: null
 metadata_updated_at: "2026-08-06T12:31:13Z"
-editor_choice: false
 quality_tags: []
-source: "https://www.sensio.com/products/sensio-insight"
-notes: "Link and description refreshed from the official Sensio Insight product page."
+source: "https://insight.symfony.com/docs/getting-started/introduction-to-insight.html"
+reviewed_at: "2026-08-08"
+notes: "Corrected from an unrelated Sensio e-health product. SensioLabsInsight was renamed SymfonyInsight in 2018 and remains available."

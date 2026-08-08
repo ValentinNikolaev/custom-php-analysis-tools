@@ -1,6 +1,14 @@
 slug: "php-inspection"
 name: "PHP Inspections (EA Extended)"
 category: "Bugs finders"
+artifact_type: "extension"
+use_cases:
+  - "bug-detection"
+  - "code-style"
+ecosystems:
+  - "jetbrains"
+catalog_status: "current"
+reviewed_at: "2026-08-08"
 description: "An open-source PHP static code analyzer for PhpStorm and IntelliJ IDEA Ultimate."
 best_for: "Deep PHP code inspections directly in JetBrains IDEs"
 delivery: "PhpStorm and IntelliJ IDEA Ultimate plugin"
@@ -18,7 +26,6 @@ packagist_checked_at: "2026-08-07T09:46:41Z"
 stars: 1485
 repo_updated_at: "2026-07-09T06:24:09Z"
 metadata_updated_at: "2026-08-07T09:46:41Z"
-editor_choice: true
 quality_tags:
   - "php"
   - "static-analysis"

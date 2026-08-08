@@ -1,6 +1,14 @@
 slug: "aislop"
 name: "aislop"
 category: "Misc"
+artifact_type: "analyzer"
+use_cases:
+  - "ai-code-review"
+  - "maintainability"
+ecosystems:
+  - "generic"
+catalog_status: "current"
+reviewed_at: "2026-08-08"
 description: "Catch the slop AI coding agents leave in your code: narrative comments, swallowed exceptions, as-any casts, dead code, oversized functions. 50+ rules across 8 languages (TypeScript, JavaScript, Python, Go, Rust, Ruby, PHP). Sub-second, deterministic, no LLM at runtime. MIT-licensed."
 best_for: "Detecting AI-code mistakes and quality regressions before merge"
 website: "https://scanaislop.com"
@@ -22,7 +30,6 @@ packagist_checked_at: "2026-08-07T04:09:39Z"
 stars: 542
 repo_updated_at: "2026-08-06T23:54:30Z"
 metadata_updated_at: "2026-08-07T18:31:46Z"
-editor_choice: false
 quality_tags:
   - "code-quality"
   - "php"

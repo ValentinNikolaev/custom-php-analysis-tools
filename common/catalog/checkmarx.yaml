@@ -1,6 +1,14 @@
 slug: "checkmarx"
 name: "Checkmarx"
 category: "SaaS"
+artifact_type: "hosted-service"
+use_cases:
+  - "security"
+  - "sast"
+ecosystems:
+  - "generic"
+catalog_status: "current"
+reviewed_at: "2026-08-08"
 description: "Checkmarx scans PHP source code for security vulnerabilities and helps teams review and remediate findings."
 website: "https://checkmarx.com/glossary/php-static-code-analysis/"
 public_url: "https://checkmarx.com/glossary/php-static-code-analysis/"
@@ -13,7 +21,6 @@ packagist: null
 stars: 0
 repo_updated_at: null
 metadata_updated_at: "2026-08-06T12:31:12Z"
-editor_choice: false
 quality_tags: []
 source: "https://checkmarx.com/glossary/php-static-code-analysis/"
 notes: "PHP static-analysis capability verified from the official Checkmarx glossary."

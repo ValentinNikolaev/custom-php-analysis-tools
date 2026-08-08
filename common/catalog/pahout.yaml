@@ -1,6 +1,7 @@
 slug: "pahout"
 name: "Pahout"
 category: "Coding standards"
+catalog_status: "historical"
 description: "A pair programming partner for writing better PHP. Pahout means PHP mahout :elephant:"
 website: "https://github.com/wata727/pahout"
 public_url: "https://github.com/wata727/pahout"
@@ -20,7 +21,6 @@ packagist_checked_at: "2026-08-07T04:09:39Z"
 stars: 48
 repo_updated_at: "2020-06-26T11:13:16Z"
 metadata_updated_at: "2026-08-07T04:09:39Z"
-editor_choice: false
 quality_tags:
   - "php"
   - "static-analysis"

@@ -1,6 +1,7 @@
 slug: "fixtro"
 name: "Fixtro"
 category: "Misc"
+catalog_status: "historical"
 description: "A QA static analysis code, with a different approach"
 website: "https://github.com/karlosagudo/fixtro"
 public_url: "https://github.com/karlosagudo/fixtro"
@@ -20,7 +21,6 @@ packagist_checked_at: "2026-08-07T04:09:39Z"
 stars: 23
 repo_updated_at: "2019-03-02T11:30:19Z"
 metadata_updated_at: "2026-08-07T04:09:39Z"
-editor_choice: true
 quality_tags:
   - "php"
   - "static-analysis"

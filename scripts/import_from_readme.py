@@ -56,7 +56,6 @@ def parse_markdown_list(path, *, start_after_whole_list: bool) -> list[dict]:
                 "stars": 0,
                 "repo_updated_at": None,
                 "metadata_updated_at": None,
-                "editor_choice": False,
                 "quality_tags": [],
                 "source": "README.md",
                 "notes": "",
@@ -67,14 +66,16 @@ def parse_markdown_list(path, *, start_after_whole_list: bool) -> list[dict]:
 
 def main() -> None:
     whole_list = parse_markdown_list(ROOT / "README.md", start_after_whole_list=True)
-    editor_tools = parse_markdown_list(ROOT / "EDITOR-CHOISE.md", start_after_whole_list=False)
+    editor_path = ROOT / "EDITORS-CHOICE.md"
+    if not editor_path.exists():
+        editor_path = ROOT / "EDITOR-CHOISE.md"
+    editor_tools = parse_markdown_list(editor_path, start_after_whole_list=False)
     editor_slugs = {tool["slug"] for tool in editor_tools}
     seen: set[str] = set()
     for tool in whole_list:
         if tool["slug"] in seen:
             continue
         seen.add(tool["slug"])
-        tool["editor_choice"] = tool["slug"] in editor_slugs
         save_tool(tool)
     write_editor_choice_slugs(sorted(editor_slugs))
     print(f"Imported {len(seen)} tools into common/catalog")

@@ -1,25 +1,48 @@
 (() => {
+  document.documentElement.classList.add("js");
+
   const form = document.querySelector("#catalog-controls");
   const grid = document.querySelector("#tool-grid");
   const resultLabel = document.querySelector("#catalog-results");
+  const mobileResultLabel = document.querySelector("#catalog-mobile-results");
+  const filterCountLabel = document.querySelector("#catalog-filter-count");
+  const filterToggle = document.querySelector("#catalog-filter-toggle");
+  const filterPanel = document.querySelector("#catalog-filter-panel");
   const emptyState = document.querySelector("#catalog-empty");
+  const editorPicks = document.querySelector("#editors-choice");
+  const compareTray = document.querySelector("#compare-tray");
+  const compareCount = document.querySelector("#compare-count");
+  const compareSelection = document.querySelector("#compare-selection");
+  const compareStatus = document.querySelector("#compare-status");
+  const compareOpen = document.querySelector("#compare-open");
+  const compareClear = document.querySelector("#compare-clear");
+  const compareDialog = document.querySelector("#compare-dialog");
+  const compareContent = document.querySelector("#compare-content");
 
   if (!(form instanceof HTMLFormElement) || !(grid instanceof HTMLElement)) {
     return;
   }
 
   const search = form.elements.namedItem("q");
-  const category = form.elements.namedItem("category");
-  const status = form.elements.namedItem("status");
   const sort = form.elements.namedItem("sort");
+  const facets = {
+    category: form.elements.namedItem("category"),
+    status: form.elements.namedItem("status"),
+    use_case: form.elements.namedItem("use_case"),
+    ecosystem: form.elements.namedItem("ecosystem"),
+    artifact_type: form.elements.namedItem("artifact_type"),
+    license: form.elements.namedItem("license"),
+    capability: form.elements.namedItem("capability"),
+  };
   const cards = Array.from(grid.querySelectorAll(".tool-card"));
+  const selectedForComparison = new Set();
+  const mobileQuery = window.matchMedia("(max-width: 720px)");
   let pendingResetFrame = null;
 
   if (
     !(search instanceof HTMLInputElement) ||
-    !(category instanceof HTMLSelectElement) ||
-    !(status instanceof HTMLSelectElement) ||
-    !(sort instanceof HTMLSelectElement)
+    !(sort instanceof HTMLSelectElement) ||
+    Object.values(facets).some((select) => !(select instanceof HTMLSelectElement))
   ) {
     return;
   }
@@ -27,25 +50,42 @@
   const normalized = (value) => value.trim().toLocaleLowerCase();
   const numberValue = (card, key) => Number(card.dataset[key] || 0);
   const dateValue = (card) => Date.parse(card.dataset.updated || "") || 0;
+  const nameValue = (card) => card.dataset.name || "";
+  const facetMatches = (card, datasetKey, selected) =>
+    !selected || (card.dataset[datasetKey] || "").includes(`|${normalized(selected)}|`);
 
   const comparators = {
-    rank: (left, right) => numberValue(left, "rank") - numberValue(right, "rank"),
+    recommended: (left, right) => numberValue(left, "rank") - numberValue(right, "rank"),
+    activity: (left, right) =>
+      numberValue(left, "activityRank") - numberValue(right, "activityRank") ||
+      numberValue(right, "stars") - numberValue(left, "stars") ||
+      nameValue(left).localeCompare(nameValue(right)),
     stars: (left, right) =>
       numberValue(right, "stars") - numberValue(left, "stars") ||
-      (left.dataset.name || "").localeCompare(right.dataset.name || ""),
+      nameValue(left).localeCompare(nameValue(right)),
     updated: (left, right) =>
-      dateValue(right) - dateValue(left) ||
-      (left.dataset.name || "").localeCompare(right.dataset.name || ""),
-    name: (left, right) =>
-      (left.dataset.name || "").localeCompare(right.dataset.name || ""),
+      dateValue(right) - dateValue(left) || nameValue(left).localeCompare(nameValue(right)),
+    name: (left, right) => nameValue(left).localeCompare(nameValue(right)),
+  };
+
+  const selectedFacetCount = () =>
+    Object.values(facets).filter((select) => select.value).length;
+
+  const setPanelOpen = (open) => {
+    if (!(filterPanel instanceof HTMLElement) || !(filterToggle instanceof HTMLButtonElement)) {
+      return;
+    }
+    filterPanel.classList.toggle("is-open", open);
+    filterToggle.setAttribute("aria-expanded", String(open));
   };
 
   const updateAddress = () => {
     const params = new URLSearchParams();
     if (search.value.trim()) params.set("q", search.value.trim());
-    if (category.value) params.set("category", category.value);
-    if (status.value) params.set("status", status.value);
-    if (sort.value !== "rank") params.set("sort", sort.value);
+    for (const [key, select] of Object.entries(facets)) {
+      if (select.value) params.set(key, select.value);
+    }
+    if (sort.value !== "recommended") params.set("sort", sort.value);
 
     const url = new URL(window.location.href);
     url.search = params.toString();
@@ -54,33 +94,40 @@
 
   const applyFilters = ({ updateUrl = true } = {}) => {
     const query = normalized(search.value);
-    const selectedCategory = category.value;
-    const selectedStatus = status.value;
     let visibleCount = 0;
 
     for (const card of cards) {
       const matchesSearch = !query || (card.dataset.search || "").includes(query);
-      const matchesCategory = !selectedCategory || card.dataset.category === selectedCategory;
-      const matchesStatus = !selectedStatus || card.dataset.status === selectedStatus;
-      const visible = matchesSearch && matchesCategory && matchesStatus;
+      const matchesCategory =
+        !facets.category.value || card.dataset.category === facets.category.value;
+      const matchesStatus = !facets.status.value || card.dataset.status === facets.status.value;
+      const visible =
+        matchesSearch &&
+        matchesCategory &&
+        matchesStatus &&
+        facetMatches(card, "useCases", facets.use_case.value) &&
+        facetMatches(card, "ecosystems", facets.ecosystem.value) &&
+        facetMatches(card, "artifactTypes", facets.artifact_type.value) &&
+        facetMatches(card, "licenses", facets.license.value) &&
+        facetMatches(card, "capabilities", facets.capability.value);
       card.hidden = !visible;
       if (visible) visibleCount += 1;
     }
 
-    const comparator = comparators[sort.value] || comparators.rank;
+    const comparator = comparators[sort.value] || comparators.recommended;
     for (const card of [...cards].sort(comparator)) {
       grid.append(card);
     }
 
-    if (resultLabel) {
-      resultLabel.textContent = `Showing ${visibleCount} ${visibleCount === 1 ? "tool" : "tools"}`;
+    const resultText = `${visibleCount} ${visibleCount === 1 ? "tool" : "tools"}`;
+    if (resultLabel) resultLabel.textContent = `Showing ${resultText}`;
+    if (mobileResultLabel) mobileResultLabel.textContent = resultText;
+    if (filterCountLabel) filterCountLabel.textContent = String(selectedFacetCount());
+    if (emptyState) emptyState.hidden = visibleCount !== 0;
+    if (editorPicks instanceof HTMLElement) {
+      editorPicks.hidden = Boolean(query || selectedFacetCount());
     }
-    if (emptyState) {
-      emptyState.hidden = visibleCount !== 0;
-    }
-    if (updateUrl) {
-      updateAddress();
-    }
+    if (updateUrl) updateAddress();
   };
 
   const selectHasValue = (select, value) =>
@@ -89,20 +136,18 @@
   const restoreFromAddress = () => {
     const params = new URLSearchParams(window.location.search);
     search.value = params.get("q") || "";
-
-    const requestedCategory = params.get("category") || "";
-    if (selectHasValue(category, requestedCategory)) category.value = requestedCategory;
-
-    const requestedStatus = params.get("status") || "";
-    if (selectHasValue(status, requestedStatus)) status.value = requestedStatus;
-
-    const requestedSort = params.get("sort") || "rank";
+    for (const [key, select] of Object.entries(facets)) {
+      const requested = params.get(key) || "";
+      if (selectHasValue(select, requested)) select.value = requested;
+    }
+    const requestedSort = params.get("sort") || "recommended";
     if (selectHasValue(sort, requestedSort)) sort.value = requestedSort;
   };
 
   form.addEventListener("submit", (event) => event.preventDefault());
   form.addEventListener("input", () => applyFilters());
   form.addEventListener("change", () => applyFilters());
+
   const applyResetNow = () => {
     if (pendingResetFrame !== null) {
       window.cancelAnimationFrame(pendingResetFrame);
@@ -125,6 +170,170 @@
     });
   });
 
+  const selectedCards = () =>
+    cards.filter((card) => selectedForComparison.has(card.id));
+
+  const updateComparisonTray = () => {
+    const selected = selectedCards();
+    if (compareTray instanceof HTMLElement) compareTray.hidden = selected.length === 0;
+    if (compareCount) compareCount.textContent = String(selected.length);
+    if (compareOpen instanceof HTMLButtonElement) compareOpen.disabled = selected.length < 2;
+
+    for (const card of cards) {
+      const button = card.querySelector("[data-compare-toggle]");
+      if (!(button instanceof HTMLButtonElement)) continue;
+      const isSelected = selectedForComparison.has(card.id);
+      const name = card.dataset.displayName || "tool";
+      button.setAttribute("aria-pressed", String(isSelected));
+      button.setAttribute(
+        "aria-label",
+        `${isSelected ? "Remove" : "Add"} ${name} ${isSelected ? "from" : "to"} comparison`,
+      );
+      button.textContent = isSelected ? "Selected" : "Compare";
+    }
+
+    if (compareSelection) {
+      compareSelection.replaceChildren();
+      for (const card of selected) {
+        const item = document.createElement("li");
+        const button = document.createElement("button");
+        const name = card.dataset.displayName || "Tool";
+        button.type = "button";
+        button.textContent = `${name} ×`;
+        button.setAttribute("aria-label", `Remove ${name} from comparison`);
+        button.addEventListener("click", () => {
+          selectedForComparison.delete(card.id);
+          updateComparisonTray();
+          const cardButton = card.querySelector("[data-compare-toggle]");
+          if (cardButton instanceof HTMLButtonElement) cardButton.focus();
+        });
+        item.append(button);
+        compareSelection.append(item);
+      }
+    }
+  };
+
+  const toggleComparison = (card) => {
+    if (selectedForComparison.has(card.id)) {
+      selectedForComparison.delete(card.id);
+      if (compareStatus) compareStatus.textContent = `${card.dataset.displayName || "Tool"} removed.`;
+    } else if (selectedForComparison.size >= 4) {
+      if (compareStatus) compareStatus.textContent = "You can compare up to four tools.";
+      return;
+    } else {
+      selectedForComparison.add(card.id);
+      if (compareStatus) compareStatus.textContent = `${card.dataset.displayName || "Tool"} selected.`;
+    }
+    updateComparisonTray();
+  };
+
+  const buildComparisonTable = () => {
+    if (!(compareContent instanceof HTMLElement)) return;
+    const selected = selectedCards();
+    const fields = [
+      ["Type", "artifactLabels"],
+      ["Best for", "descriptionText"],
+      ["Use cases", "useCaseLabels"],
+      ["Ecosystems", "ecosystemLabels"],
+      ["License", "licenseLabels"],
+      ["Supported PHP", "supportedPhp"],
+      ["Pro", "pro"],
+      ["Con", "con"],
+    ];
+    const table = document.createElement("table");
+    table.className = "comparison-table";
+    const caption = document.createElement("caption");
+    caption.className = "visually-hidden";
+    caption.textContent = "Side-by-side comparison of selected PHP analysis tools";
+    table.append(caption);
+
+    const head = table.createTHead();
+    const headRow = head.insertRow();
+    const fieldHeading = document.createElement("th");
+    fieldHeading.scope = "col";
+    fieldHeading.textContent = "Field";
+    headRow.append(fieldHeading);
+    for (const card of selected) {
+      const heading = document.createElement("th");
+      const link = document.createElement("a");
+      heading.scope = "col";
+      link.href = card.dataset.primaryUrl || "#";
+      link.textContent = card.dataset.displayName || "Tool";
+      heading.append(link);
+      headRow.append(heading);
+    }
+
+    const body = table.createTBody();
+    for (const [label, key] of fields) {
+      const row = body.insertRow();
+      const heading = document.createElement("th");
+      heading.scope = "row";
+      heading.textContent = label;
+      row.append(heading);
+      for (const card of selected) {
+        const cell = row.insertCell();
+        cell.textContent = card.dataset[key] || "Not recorded";
+      }
+    }
+    compareContent.replaceChildren(table);
+  };
+
+  grid.addEventListener("click", (event) => {
+    const target = event.target;
+    if (!(target instanceof Element)) return;
+    const button = target.closest("[data-compare-toggle]");
+    const card = button?.closest(".tool-card");
+    if (button instanceof HTMLButtonElement && card instanceof HTMLElement) {
+      toggleComparison(card);
+    }
+  });
+
+  if (compareClear instanceof HTMLButtonElement) {
+    compareClear.addEventListener("click", () => {
+      selectedForComparison.clear();
+      updateComparisonTray();
+      if (
+        compareDialog instanceof HTMLElement &&
+        compareDialog.hasAttribute("open") &&
+        typeof compareDialog.close === "function"
+      ) {
+        compareDialog.close();
+      }
+      search.focus();
+    });
+  }
+
+  if (compareOpen instanceof HTMLButtonElement && compareDialog instanceof HTMLElement) {
+    compareOpen.addEventListener("click", () => {
+      if (selectedForComparison.size < 2) return;
+      buildComparisonTable();
+      if (typeof compareDialog.showModal === "function") {
+        compareDialog.showModal();
+      } else {
+        compareDialog.setAttribute("open", "");
+      }
+    });
+  }
+
+  if (filterToggle instanceof HTMLButtonElement) {
+    filterToggle.addEventListener("click", () => {
+      const open = filterToggle.getAttribute("aria-expanded") !== "true";
+      setPanelOpen(open);
+      if (open) facets.category.focus();
+    });
+  }
+
+  if (filterPanel instanceof HTMLElement) {
+    filterPanel.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && mobileQuery.matches) {
+        setPanelOpen(false);
+        if (filterToggle instanceof HTMLButtonElement) filterToggle.focus();
+      }
+    });
+  }
+
+  mobileQuery.addEventListener("change", (event) => setPanelOpen(!event.matches));
+
   document.querySelectorAll('a[href^="#tool-"]').forEach((link) => {
     link.addEventListener("click", (event) => {
       const fragment = link.getAttribute("href");
@@ -144,5 +353,6 @@
   });
 
   restoreFromAddress();
+  setPanelOpen(!mobileQuery.matches);
   applyFilters({ updateUrl: false });
 })();
