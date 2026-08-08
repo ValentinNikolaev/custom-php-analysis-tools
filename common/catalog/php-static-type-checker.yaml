@@ -7,20 +7,20 @@ use_cases:
 ecosystems:
   - "generic"
 catalog_status: "current"
-reviewed_at: "2026-08-08"
 description: "Static type checker for PHP relying on the php-ast PECL extension. Mirrored from Codeberg.org"
+reviewed_at: "2026-08-08"
 website: "https://codeberg.org/Jumping-Beaver/PHP_Static_Type_Checker"
 public_url: "https://codeberg.org/Jumping-Beaver/PHP_Static_Type_Checker"
-website_status: "unavailable"
+website_status: "temporarily_unreachable"
 website_status_code: 0
-website_checked_at: "2026-08-07T10:17:11Z"
+website_checked_at: "2026-08-08T16:46:47Z"
 website_error: "[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1082)"
 repository: "https://github.com/Jumping-Beaver/PHP_Static_Type_Checker"
 latest_release_checked_at: "2026-08-07T12:30:54Z"
 packagist: null
 latest_version: ""
 latest_version_released_at: null
-packagist_checked_at: "2026-08-07T04:09:39Z"
+packagist_checked_at: "2026-08-08T16:46:47Z"
 stars: 0
 repo_updated_at: "2026-04-08T16:22:23Z"
 metadata_updated_at: "2026-08-07T12:30:54Z"

@@ -9,14 +9,14 @@ use_cases:
 ecosystems:
   - "generic"
 catalog_status: "current"
-reviewed_at: "2026-08-08"
 description: "Open source local-first PR scanner that finds dead code, security bugs, secrets, quality regressions, and AI-code mistakes before merge. For first timers refer to https://duriantaco.github.io/skylos/repo-map/"
 best_for: "Local pull-request scanning for dead code and security issues"
+reviewed_at: "2026-08-08"
 website: "https://skylos.dev/"
 public_url: "https://skylos.dev/"
 website_status: "available"
 website_status_code: 200
-website_checked_at: "2026-08-07T10:17:11Z"
+website_checked_at: "2026-08-08T16:46:47Z"
 website_error: ""
 repository: "https://github.com/duriantaco/skylos"
 latest_release_name: "v4.33.1"
@@ -27,7 +27,7 @@ latest_release_checked_at: "2026-08-07T18:31:46Z"
 packagist: null
 latest_version: ""
 latest_version_released_at: null
-packagist_checked_at: "2026-08-07T04:09:39Z"
+packagist_checked_at: "2026-08-08T16:46:47Z"
 stars: 488
 repo_updated_at: "2026-08-07T02:06:09Z"
 metadata_updated_at: "2026-08-07T18:31:46Z"

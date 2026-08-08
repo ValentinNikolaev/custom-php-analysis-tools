@@ -9,21 +9,22 @@ use_cases:
 ecosystems:
   - "symfony"
   - "generic"
-catalog_status: "current"
-description: "Hosted static and dynamic analysis for PHP projects, with deeper support for Symfony applications."
-best_for: "Continuous PHP and Symfony quality, security, performance, and upgrade reports."
-pricing: "Paid per-project plans; current pricing is published on the official site."
 capabilities:
   - "static-analysis"
   - "dynamic-analysis"
   - "security-reports"
   - "upgrade-reports"
+catalog_status: "current"
+description: "Hosted static and dynamic analysis for PHP projects, with deeper support for Symfony applications."
+best_for: "Continuous PHP and Symfony quality, security, performance, and upgrade reports."
+pricing: "Paid per-project plans; current pricing is published on the official site."
+reviewed_at: "2026-08-08"
 website: "https://insight.symfony.com/"
 public_url: "https://insight.symfony.com/"
-website_status: "available"
-website_status_code: 200
-website_checked_at: "2026-08-08T00:00:00Z"
-website_error: ""
+website_status: "temporarily_unreachable"
+website_status_code: 0
+website_checked_at: "2026-08-08T16:46:47Z"
+website_error: "[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1082)"
 repository: null
 packagist: null
 stars: 0
@@ -31,5 +32,4 @@ repo_updated_at: null
 metadata_updated_at: "2026-08-06T12:31:13Z"
 quality_tags: []
 source: "https://insight.symfony.com/docs/getting-started/introduction-to-insight.html"
-reviewed_at: "2026-08-08"
 notes: "Corrected from an unrelated Sensio e-health product. SensioLabsInsight was renamed SymfonyInsight in 2018 and remains available."

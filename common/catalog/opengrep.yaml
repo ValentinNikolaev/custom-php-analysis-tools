@@ -8,13 +8,13 @@ use_cases:
 ecosystems:
   - "generic"
 catalog_status: "current"
-reviewed_at: "2026-08-08"
 description: "🔎 Static code analysis engine to find security issues in code."
+reviewed_at: "2026-08-08"
 website: "https://github.com/opengrep/opengrep"
 public_url: "https://github.com/opengrep/opengrep"
 website_status: "available"
 website_status_code: 200
-website_checked_at: "2026-08-07T10:17:11Z"
+website_checked_at: "2026-08-08T16:46:47Z"
 website_error: ""
 repository: "https://github.com/opengrep/opengrep"
 latest_release_name: "Opengrep 1.26.0"
@@ -25,7 +25,7 @@ latest_release_checked_at: "2026-08-07T18:31:46Z"
 packagist: null
 latest_version: ""
 latest_version_released_at: null
-packagist_checked_at: "2026-08-07T04:09:39Z"
+packagist_checked_at: "2026-08-08T16:46:47Z"
 stars: 2886
 repo_updated_at: "2026-08-07T16:03:08Z"
 metadata_updated_at: "2026-08-07T18:31:46Z"

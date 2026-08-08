@@ -9,13 +9,14 @@ ecosystems:
   - "generic"
 catalog_status: "historical"
 description: "Historical PHP security analyzer acquired by SonarSource in 2020 and integrated into SonarQube."
+reviewed_at: "2026-08-08"
 title_icon: "assets/tool-icons/sonar.png"
 title_icon_label: "SonarSource service"
 website: "https://www.sonarsource.com/blog/sonarsource-acquires-rips-technologies/"
 public_url: "https://www.sonarsource.com/blog/sonarsource-acquires-rips-technologies/"
 website_status: "available"
 website_status_code: 200
-website_checked_at: "2026-08-07T04:09:39Z"
+website_checked_at: "2026-08-08T16:46:47Z"
 website_error: ""
 repository: null
 packagist: null
@@ -24,5 +25,4 @@ repo_updated_at: null
 metadata_updated_at: "2026-07-25T18:37:18Z"
 quality_tags: []
 source: "https://www.sonarsource.com/blog/sonarsource-acquires-rips-technologies/"
-reviewed_at: "2026-08-08"
 notes: "Retired as a standalone product after the SonarSource acquisition; use SonarQube PHP or SonarQube Cloud."

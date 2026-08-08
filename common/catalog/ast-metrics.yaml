@@ -10,11 +10,12 @@ ecosystems:
 catalog_status: "current"
 description: "See the   invisible structure of your code. Multi-language code quality and architecture analyzer (Go,   PHP, Python, Rust...)"
 best_for: "Multi-language architecture, dependency, complexity, and code-structure metrics."
+reviewed_at: "2026-08-08"
 website: "http://ast-metrics.dev"
 public_url: "http://ast-metrics.dev"
 website_status: "available"
 website_status_code: 200
-website_checked_at: "2026-08-07T10:17:11Z"
+website_checked_at: "2026-08-08T16:46:47Z"
 website_error: ""
 repository: "https://github.com/ast-metrics/ast-metrics"
 latest_release_name: "v0.40.3"
@@ -25,7 +26,7 @@ latest_release_checked_at: "2026-08-07T12:30:54Z"
 packagist: null
 latest_version: ""
 latest_version_released_at: null
-packagist_checked_at: "2026-08-07T04:09:39Z"
+packagist_checked_at: "2026-08-08T16:46:47Z"
 stars: 151
 repo_updated_at: "2026-07-29T20:14:38Z"
 metadata_updated_at: "2026-08-07T12:30:54Z"
@@ -33,5 +34,4 @@ quality_tags:
   - "code-quality"
   - "static-analysis"
 source: "https://github.com/exakat/php-static-analysis-tools"
-reviewed_at: "2026-08-08"
 notes: "Reclassified from bug finding to metrics."

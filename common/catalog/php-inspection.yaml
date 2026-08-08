@@ -8,21 +8,21 @@ use_cases:
 ecosystems:
   - "jetbrains"
 catalog_status: "current"
-reviewed_at: "2026-08-08"
 description: "An open-source PHP static code analyzer for PhpStorm and IntelliJ IDEA Ultimate."
 best_for: "Deep PHP code inspections directly in JetBrains IDEs"
 delivery: "PhpStorm and IntelliJ IDEA Ultimate plugin"
+reviewed_at: "2026-08-08"
 title_icon: "assets/tool-icons/phpstorm.png"
 title_icon_label: "JetBrains IDE plugin"
 website: "https://plugins.jetbrains.com/plugin/7622?pr=phpStorm"
 public_url: "https://plugins.jetbrains.com/plugin/7622?pr=phpStorm"
 website_status: "available"
 website_status_code: 200
-website_checked_at: "2026-08-07T04:09:39Z"
+website_checked_at: "2026-08-08T16:46:47Z"
 website_error: ""
 repository: "https://github.com/kalessil/phpinspectionsea"
 packagist: null
-packagist_checked_at: "2026-08-07T09:46:41Z"
+packagist_checked_at: "2026-08-08T16:46:47Z"
 stars: 1485
 repo_updated_at: "2026-07-09T06:24:09Z"
 metadata_updated_at: "2026-08-07T09:46:41Z"

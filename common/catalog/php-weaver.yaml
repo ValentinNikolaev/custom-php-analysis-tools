@@ -8,17 +8,17 @@ use_cases:
 ecosystems:
   - "generic"
 catalog_status: "current"
-reviewed_at: "2026-08-08"
 description: "A combined runtime/static code-analysis tool, that can trace parameter types"
+reviewed_at: "2026-08-08"
 website: "https://github.com/troelskn/phpweaver"
 public_url: "https://github.com/troelskn/phpweaver"
 website_status: "available"
 website_status_code: 200
-website_checked_at: "2026-08-07T04:09:39Z"
+website_checked_at: "2026-08-08T16:46:47Z"
 website_error: ""
 repository: "https://github.com/troelskn/phpweaver"
 packagist: null
-packagist_checked_at: "2026-08-07T04:09:39Z"
+packagist_checked_at: "2026-08-08T16:46:47Z"
 stars: 85
 repo_updated_at: "2026-01-28T01:01:37Z"
 metadata_updated_at: "2026-08-07T04:09:39Z"

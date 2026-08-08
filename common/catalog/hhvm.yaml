@@ -6,17 +6,18 @@ use_cases:
   - "historical-reference"
 ecosystems:
   - "hack"
+capabilities:
+  - "historical-static-analysis"
 catalog_status: "historical"
 description: "A virtual machine for executing programs written in Hack."
 best_for: "Historical reference: HHVM included static code analysis through version 3.3.8; newer versions do not."
 supported_php: "No current PHP support; HHVM ended PHP support after version 3.30."
-capabilities:
-  - "historical-static-analysis"
+reviewed_at: "2026-08-08"
 website: "https://hhvm.com/"
 public_url: "https://hhvm.com/"
 website_status: "available"
 website_status_code: 200
-website_checked_at: "2026-08-07T18:31:46Z"
+website_checked_at: "2026-08-08T16:46:47Z"
 website_error: ""
 repository: "https://github.com/facebook/hhvm"
 latest_release_name: "HHVM-3.15.0"
@@ -25,7 +26,7 @@ latest_release_url: "https://github.com/facebook/hhvm/releases/tag/HHVM-3.15.0"
 latest_release_published_at: "2016-09-28T21:01:13Z"
 latest_release_checked_at: "2026-08-07T18:31:46Z"
 packagist: null
-packagist_checked_at: "2026-08-07T18:31:46Z"
+packagist_checked_at: "2026-08-08T16:46:47Z"
 stars: 18653
 repo_updated_at: "2026-08-06T03:58:40Z"
 metadata_updated_at: "2026-08-07T18:31:46Z"
@@ -33,5 +34,4 @@ quality_tags:
   - "historical-analysis-only"
   - "php"
 source: "README.md"
-reviewed_at: "2026-08-08"
 notes: "Historical only: HHVM ended PHP support after version 3.30; repository activity reflects Hack runtime development."

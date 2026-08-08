@@ -8,11 +8,12 @@ ecosystems:
   - "phpcs"
 catalog_status: "historical"
 description: "PHP_CodeSniffer tokenizes PHP files and detects violations of a defined set of coding standards."
+reviewed_at: "2026-08-08"
 website: "https://github.com/squizlabs/PHP_CodeSniffer"
 public_url: "https://github.com/squizlabs/PHP_CodeSniffer"
 website_status: "available"
 website_status_code: 200
-website_checked_at: "2026-08-07T04:09:39Z"
+website_checked_at: "2026-08-08T16:46:47Z"
 website_error: ""
 repository: "https://github.com/squizlabs/PHP_CodeSniffer"
 latest_release_name: "3.7.2"
@@ -22,7 +23,7 @@ latest_release_published_at: "2023-02-22T23:13:42Z"
 packagist: null
 latest_version: ""
 latest_version_released_at: null
-packagist_checked_at: "2026-08-07T04:09:39Z"
+packagist_checked_at: "2026-08-08T16:46:47Z"
 stars: 10770
 repo_updated_at: "2024-04-01T20:37:32Z"
 metadata_updated_at: "2026-08-07T04:09:39Z"
@@ -30,5 +31,4 @@ quality_tags:
   - "php"
   - "static-analysis"
 source: "README.md"
-reviewed_at: "2026-08-08"
 notes: "Legacy Squizlabs repository; development moved to PHPCSStandards/PHP_CodeSniffer."

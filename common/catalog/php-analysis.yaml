@@ -7,13 +7,13 @@ use_cases:
 ecosystems:
   - "rascal"
 catalog_status: "current"
-reviewed_at: "2026-08-08"
 description: "PHP language analyses in Rascal"
+reviewed_at: "2026-08-08"
 website: "https://github.com/cwi-swat/php-analysis"
 public_url: "https://github.com/cwi-swat/php-analysis"
 website_status: "available"
 website_status_code: 200
-website_checked_at: "2026-08-07T10:17:11Z"
+website_checked_at: "2026-08-08T16:46:47Z"
 website_error: ""
 repository: "https://github.com/cwi-swat/php-analysis"
 latest_release_name: "PHP 7.1 Support"
@@ -22,7 +22,7 @@ latest_release_url: "https://github.com/cwi-swat/php-analysis/releases/tag/v1.1.
 latest_release_published_at: "2017-12-23T19:58:45Z"
 latest_release_checked_at: "2026-08-07T12:30:54Z"
 packagist: null
-packagist_checked_at: "2026-08-07T04:09:39Z"
+packagist_checked_at: "2026-08-08T16:46:47Z"
 stars: 29
 repo_updated_at: "2026-05-13T14:03:04Z"
 metadata_updated_at: "2026-08-07T12:30:54Z"

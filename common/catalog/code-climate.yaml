@@ -10,11 +10,12 @@ ecosystems:
 catalog_status: "historical"
 description: "Historical Code Climate Quality service, succeeded by Qlty Software and the Qlty CLI."
 best_for: "Historical reference for the service now continued as Qlty."
+reviewed_at: "2026-08-08"
 website: "https://codeclimate.com/blog/code-climate-quality-is-now-qlty-software"
 public_url: "https://codeclimate.com/blog/code-climate-quality-is-now-qlty-software"
 website_status: "available"
 website_status_code: 200
-website_checked_at: "2026-08-07T04:09:39Z"
+website_checked_at: "2026-08-08T16:46:47Z"
 website_error: ""
 repository: null
 packagist: null
@@ -23,5 +24,4 @@ repo_updated_at: null
 metadata_updated_at: "2026-07-25T18:37:16Z"
 quality_tags: []
 source: "https://codeclimate.com/blog/code-climate-quality-is-now-qlty-software"
-reviewed_at: "2026-08-08"
 notes: "Code Climate Quality was renamed Qlty Software; the current successor is cataloged separately."
