@@ -478,6 +478,35 @@ class GenerateSiteTests(unittest.TestCase):
         self.assertIn("Text supplied upstream", card)
         self.assertIn("Description supplied by the upstream project.", card)
 
+    def test_tool_cards_do_not_repeat_matching_relevance_and_activity_badges(self) -> None:
+        historical_card = tool_card(
+            {
+                "slug": "historical",
+                "name": "Historical tool",
+                "catalog_status": "historical",
+                "category": "Misc",
+            },
+            self.REFERENCE_TIME,
+            1,
+        )
+        adjacent_card = tool_card(
+            {
+                "slug": "adjacent",
+                "name": "Adjacent tool",
+                "catalog_status": "adjacent",
+                "category": "Misc",
+                "repo_updated_at": "2026-08-05T00:00:00Z",
+            },
+            self.REFERENCE_TIME,
+            1,
+        )
+
+        self.assertNotIn('class="relevance relevance--historical"', historical_card)
+        self.assertEqual(historical_card.count(">Historical</span>"), 1)
+        self.assertIn('class="status status--historical"', historical_card)
+        self.assertIn('class="relevance relevance--adjacent"', adjacent_card)
+        self.assertIn('class="status status--active"', adjacent_card)
+
     def test_recommended_order_prioritizes_relevance_before_activity(self) -> None:
         tools = [
             {

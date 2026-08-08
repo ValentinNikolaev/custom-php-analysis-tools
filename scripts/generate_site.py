@@ -229,9 +229,9 @@ def review_note(tool: dict) -> str:
     return f'<p class="review-note">Editorially reviewed {date_markup(reviewed_at)}</p>'
 
 
-def relevance_badge(tool: dict) -> str:
+def relevance_badge(tool: dict, activity_status: str = "") -> str:
     status = str(tool.get("catalog_status") or "current").strip().casefold()
-    if status == "current":
+    if status == "current" or facet_label(status).casefold() == activity_status.strip().casefold():
         return ""
     return f'<span class="relevance relevance--{escape(status)}">{escape(facet_label(status))}</span>'
 
@@ -438,7 +438,7 @@ def tool_card(
       <span class="eyebrow">{escape(category_title(category))}</span>
       <h3><a href="{escape(primary_url(tool))}" aria-label="Open the {escape(name)} project page">{escape(name)}</a>{title_icon(tool)}</h3>
     </div>
-    <div class="badge-group">{relevance_badge(tool)}{status_badge(tool, status)}</div>
+    <div class="badge-group">{relevance_badge(tool, status)}{status_badge(tool, status)}</div>
   </div>
   <p class="tool-description">{escape(description)}</p>
   {f'<p class="description-source">Description supplied by the upstream project.</p>' if upstream_description_only else ''}
