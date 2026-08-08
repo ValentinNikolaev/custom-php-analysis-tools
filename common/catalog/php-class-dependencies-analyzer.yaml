@@ -6,8 +6,8 @@ website: "https://php-quality-tools.com/class-dependencies-analyzer/"
 public_url: "https://php-quality-tools.com/class-dependencies-analyzer/"
 website_status: "unavailable"
 website_status_code: 0
-website_checked_at: "2026-08-07T10:17:11Z"
-website_error: "[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate is not valid for 'php-quality-tools.com'. (_ssl.c:1082)"
+website_checked_at: "2026-08-08T06:28:05Z"
+website_error: "[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate is not valid for 'php-quality-tools.com'. (_ssl.c:1010)"
 repository: "https://github.com/DeGraciaMathieu/php-class-dependencies-analyzer"
 latest_release_checked_at: "2026-08-07T12:30:54Z"
 packagist: null

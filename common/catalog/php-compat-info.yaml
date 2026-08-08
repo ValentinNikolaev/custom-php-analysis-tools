@@ -6,7 +6,7 @@ website: "https://llaville.github.io/php-compatinfo/7.2/"
 public_url: "https://llaville.github.io/php-compatinfo/7.2/"
 website_status: "available"
 website_status_code: 200
-website_checked_at: "2026-08-07T10:17:11Z"
+website_checked_at: "2026-08-08T06:28:05Z"
 website_error: ""
 repository: "https://github.com/llaville/php-compatinfo"
 latest_release_name: "7.2.6"

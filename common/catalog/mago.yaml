@@ -13,13 +13,14 @@ latest_release_name: "Mago 1.46.0"
 latest_release_tag: "1.46.0"
 latest_release_url: "https://github.com/carthage-software/mago/releases/tag/1.46.0"
 latest_release_published_at: "2026-08-05T22:32:17Z"
+latest_release_checked_at: "2026-08-08T06:28:05Z"
 packagist: "https://packagist.org/packages/carthage-software/mago"
 latest_version: "1.46.0"
 latest_version_released_at: "2026-08-05T22:31:08+00:00"
 packagist_checked_at: "2026-08-08T00:32:17Z"
-stars: 3368
-repo_updated_at: "2026-08-06T16:22:40Z"
-metadata_updated_at: "2026-08-07T04:09:39Z"
+stars: 3369
+repo_updated_at: "2026-08-08T06:12:16Z"
+metadata_updated_at: "2026-08-08T06:28:05Z"
 editor_choice: false
 quality_tags:
   - "php"

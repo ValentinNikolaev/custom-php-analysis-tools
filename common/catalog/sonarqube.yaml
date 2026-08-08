@@ -18,7 +18,7 @@ latest_release_tag: "3.60.0.16641"
 latest_release_url: "https://github.com/SonarSource/sonar-php/releases/tag/3.60.0.16641"
 latest_release_published_at: "2026-08-03T13:53:35Z"
 packagist: null
-packagist_checked_at: "2026-08-07T09:46:41Z"
+packagist_checked_at: "2026-08-08T06:28:05Z"
 stars: 430
 repo_updated_at: "2026-08-06T09:42:43Z"
 metadata_updated_at: "2026-08-07T09:46:41Z"

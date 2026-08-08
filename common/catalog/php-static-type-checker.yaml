@@ -4,10 +4,10 @@ category: "Bugs finders"
 description: "Static type checker for PHP relying on the php-ast PECL extension. Mirrored from Codeberg.org"
 website: "https://codeberg.org/Jumping-Beaver/PHP_Static_Type_Checker"
 public_url: "https://codeberg.org/Jumping-Beaver/PHP_Static_Type_Checker"
-website_status: "unavailable"
-website_status_code: 0
-website_checked_at: "2026-08-07T10:17:11Z"
-website_error: "[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1082)"
+website_status: "available"
+website_status_code: 200
+website_checked_at: "2026-08-08T06:28:05Z"
+website_error: ""
 repository: "https://github.com/Jumping-Beaver/PHP_Static_Type_Checker"
 latest_release_checked_at: "2026-08-07T12:30:54Z"
 packagist: null

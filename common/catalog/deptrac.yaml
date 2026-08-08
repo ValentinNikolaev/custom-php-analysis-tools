@@ -13,13 +13,14 @@ latest_release_name: "4.7.1"
 latest_release_tag: "4.7.1"
 latest_release_url: "https://github.com/deptrac/deptrac/releases/tag/4.7.1"
 latest_release_published_at: "2026-07-23T20:51:18Z"
+latest_release_checked_at: "2026-08-08T06:28:05Z"
 packagist: "https://packagist.org/packages/deptrac/deptrac"
 latest_version: "4.7.1"
 latest_version_released_at: "2026-07-23T20:41:37+00:00"
 packagist_checked_at: "2026-08-08T00:32:17Z"
 stars: 2988
 repo_updated_at: "2026-07-23T20:51:34Z"
-metadata_updated_at: "2026-08-07T04:09:39Z"
+metadata_updated_at: "2026-08-08T06:28:05Z"
 editor_choice: false
 quality_tags:
   - "php"
